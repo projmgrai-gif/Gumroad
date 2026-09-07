@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Complete BA Toolkit</title>
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg: #f7f5f1;
+    --bg-alt: #ffffff;
+    --bg-raised: #ffffff;
+    --ink: #1c1a17;
+    --ink-soft: #55504a;
+    --ink-faint: #837c72;
+    --line: #e4ded3;
+    --accent: #b5502e;
+    --accent-ink: #ffffff;
+    --accent-soft: #f2e2d8;
+    --accent-2: #2c5f52;
+    --accent-2-soft: #e2ede9;
+    --paper-1: #eee7da;
+    --paper-2: #e3d8c4;
+    --paper-3: #d9cbb0;
+    --shadow: 0 20px 45px -20px rgba(28,26,23,0.35);
+    --shadow-sm: 0 8px 20px -12px rgba(28,26,23,0.3);
+    --focus: #1c6ee0;
+    --radius: 16px;
+  }
+  :root[data-theme="dark"]{
+    --bg: #16140f;
+    --bg-alt: #1d1a15;
+    --bg-raised: #24201a;
+    --ink: #f3ede2;
+    --ink-soft: #cabfae;
+    --ink-faint: #8f8575;
+    --line: #38332a;
+    --accent: #e2794f;
+    --accent-ink: #1c1108;
+    --accent-soft: #3a2a20;
+    --accent-2: #6db6a1;
+    --accent-2-soft: #223a34;
+    --paper-1: #2a251d;
+    --paper-2: #332c22;
+    --paper-3: #3c3327;
+    --shadow: 0 20px 45px -18px rgba(0,0,0,0.6);
+    --shadow-sm: 0 8px 20px -12px rgba(0,0,0,0.55);
+    --focus: #7cb4f8;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #16140f;
+      --bg-alt: #1d1a15;
+      --bg-raised: #24201a;
+      --ink: #f3ede2;
+      --ink-soft: #cabfae;
+      --ink-faint: #8f8575;
+      --line: #38332a;
+      --accent: #e2794f;
+      --accent-ink: #1c1108;
+      --accent-soft: #3a2a20;
+      --accent-2: #6db6a1;
+      --accent-2-soft: #223a34;
+      --paper-1: #2a251d;
+      --paper-2: #332c22;
+      --paper-3: #3c3327;
+      --shadow: 0 20px 45px -18px rgba(0,0,0,0.6);
+      --shadow-sm: 0 8px 20px -12px rgba(0,0,0,0.55);
+      --focus: #7cb4f8;
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{
+    font-family: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    font-weight:700;
+    line-height:1.15;
+    margin:0 0 0.5em;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0 0 1em;}
+  a{color:var(--accent);}
+  img,svg{display:block;max-width:100%;}
+  .sans{font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+  .visually-hidden{
+    position:absolute !important;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  a.skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--accent);color:var(--accent-ink);
+    padding:10px 16px;border-radius:8px;z-index:200;transition:top .2s ease;font-family:inherit;
+  }
+  a.skip-link:focus{top:12px;}
+
+  :focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky;top:0;z-index:100;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding:14px 24px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family: ui-sans-serif, system-ui, sans-serif; font-weight:800; letter-spacing:-0.02em; color:var(--ink); text-decoration:none; font-size:1.05rem;}
+  .brand svg{width:30px;height:30px;flex:none;}
+  nav.primary{display:flex;align-items:center;gap:22px;}
+  nav.primary a{
+    color:var(--ink-soft);text-decoration:none;font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:0.92rem;font-weight:600;
+  }
+  nav.primary a:hover{color:var(--ink);}
+  .header-actions{display:flex;align-items:center;gap:10px;}
+  .theme-toggle{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:38px;height:38px;border-radius:999px;border:1px solid var(--line);
+    background:var(--bg-alt);color:var(--ink);cursor:pointer;flex:none;
+  }
+  .theme-toggle svg{width:18px;height:18px;}
+  .theme-toggle .icon-moon{display:none;}
+  :root[data-theme="dark"] .theme-toggle .icon-sun{display:none;}
+  :root[data-theme="dark"] .theme-toggle .icon-moon{display:block;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .theme-toggle .icon-sun{display:none;}
+    :root:not([data-theme="light"]) .theme-toggle .icon-moon{display:block;}
+  }
+
+  .btn{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 22px;border-radius:999px;font-weight:700;font-size:0.95rem;
+    text-decoration:none;cursor:pointer;border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    line-height:1.2;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn:active{transform:translateY(0);}
+  .btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow-sm);}
+  .btn-primary:hover{box-shadow:var(--shadow);}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  .btn-ghost:hover{background:var(--bg-alt);}
+  .btn-lg{padding:17px 30px;font-size:1.05rem;}
+  .btn-block{width:100%;}
+  .header-actions .btn{padding:10px 18px;font-size:0.88rem;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:64px 0 40px;position:relative;overflow:hidden;}
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;
+  }
+  .eyebrow{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    text-transform:uppercase;letter-spacing:0.14em;font-size:0.76rem;font-weight:800;
+    color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;
+  }
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--accent);display:inline-block;}
+  .hero h1{font-size:clamp(2.1rem, 4.2vw, 3.1rem);color:var(--ink);}
+  .hero h1 .hl{color:var(--accent);}
+  .product-name{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:0.95rem;font-weight:700;color:var(--ink-soft);
+    padding-top:2px;margin-bottom:18px;
+  }
+  .hero-sub{font-size:1.1rem;color:var(--ink-soft);max-width:52ch;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:26px 0 18px;}
+  .price-tag{font-family: ui-sans-serif, system-ui, sans-serif;font-weight:800;font-size:1.05rem;}
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:18px;font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:0.85rem;color:var(--ink-faint);align-items:center;
+  }
+  .hero-meta span{display:inline-flex;align-items:center;gap:6px;}
+  .hero-meta svg{width:15px;height:15px;flex:none;color:var(--accent-2);}
+  .rating-row{
+    display:flex;align-items:center;gap:8px;font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:0.88rem;color:var(--ink-soft);margin-top:10px;
+  }
+  .stars{color:var(--accent);letter-spacing:2px;font-size:0.95rem;}
+
+  /* Hero visual: paper stack + orbiting technique chips */
+  .hero-visual{position:relative;display:flex;align-items:center;justify-content:center;min-height:380px;}
+  .paper-stack{position:relative;width:280px;height:360px;}
+  .paper{
+    position:absolute;inset:0;border-radius:14px;border:1px solid var(--line);
+    box-shadow:var(--shadow-sm);
+  }
+  .paper.p3{background:var(--paper-3);transform:rotate(-9deg) translate(-10px,10px);}
+  .paper.p2{background:var(--paper-2);transform:rotate(6deg) translate(8px,4px);}
+  .paper.p1{
+    background:var(--bg-raised);transform:rotate(-2deg);
+    padding:26px 22px;display:flex;flex-direction:column;gap:10px;
+    animation:floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{transform:rotate(-2deg) translateY(0);}
+    50%{transform:rotate(-2deg) translateY(-10px);}
+  }
+  .paper.p1 .doc-title{font-family: ui-sans-serif, system-ui, sans-serif;font-weight:800;font-size:0.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;}
+  .paper.p1 .doc-line{height:8px;border-radius:4px;background:var(--line);}
+  .paper.p1 .doc-line.w60{width:60%;}
+  .paper.p1 .doc-line.w80{width:80%;}
+  .paper.p1 .doc-line.w40{width:40%;}
+  .paper.p1 .doc-chip{
+    margin-top:10px;font-family: ui-sans-serif, system-ui, sans-serif;font-size:0.72rem;font-weight:700;
+    background:var(--accent-2-soft);color:var(--accent-2);padding:8px 10px;border-radius:8px;
+  }
+  .float-badge{
+    position:absolute;background:var(--bg-raised);border:1px solid var(--line);
+    box-shadow:var(--shadow-sm);border-radius:12px;padding:10px 12px;
+    font-family: ui-sans-serif, system-ui, sans-serif;font-size:0.76rem;font-weight:700;
+    display:flex;align-items:center;gap:8px;color:var(--ink);
+  }
+  .float-badge svg{width:16px;height:16px;color:var(--accent);flex:none;}
+  .badge-a{top:6%;right:-4%;animation:drift1 7s ease-in-out infinite;}
+  .badge-b{bottom:10%;left:-8%;animation:drift2 8s ease-in-out infinite;}
+  .badge-c{bottom:-2%;right:12%;animation:drift1 9s ease-in-out infinite reverse;}
+  @keyframes drift1{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  @keyframes drift2{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
+
+  /* ---------- Sections ---------- */
+  section{padding:76px 0;}
+  .section-alt{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .section-head{max-width:640px;margin:0 auto 48px;text-align:center;}
+  .section-head .eyebrow{justify-content:center;}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.3rem);}
+  .section-head p{color:var(--ink-soft);font-size:1.05rem;}
+
+  .reveal{transition:opacity .7s ease, transform .7s ease;}
+  html.js .reveal{opacity:0;transform:translateY(22px);}
+  html.js .reveal.in-view{opacity:1;transform:translateY(0);}
+
+  /* Pain point */
+  .pain{
+    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+  }
+  .pain blockquote{
+    font-size:1.4rem;font-style:italic;color:var(--ink);margin:0;padding-left:22px;
+    border-left:3px solid var(--accent);
+  }
+  .pain-answer{color:var(--ink-soft);font-size:1.05rem;}
+  .pain-answer strong{color:var(--ink);}
+
+  /* Feature grid */
+  .feature-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;
+  }
+  .feature-card{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .feature-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm);}
+  .feature-icon{
+    width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  }
+  .feature-icon svg{width:22px;height:22px;}
+  .feature-card h3{font-size:1.08rem;font-family: ui-sans-serif, system-ui, sans-serif;}
+  .feature-card p{color:var(--ink-soft);font-size:0.95rem;margin-bottom:0;}
+
+  /* Stats */
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--radius);
+    padding:32px 20px;box-shadow:var(--shadow-sm);
+  }
+  .stat{text-align:center;}
+  .stat-num{
+    font-family: ui-sans-serif, system-ui, sans-serif;font-weight:800;
+    font-size:clamp(1.6rem,3vw,2.2rem);color:var(--accent);
+  }
+  .stat-label{font-family: ui-sans-serif, system-ui, sans-serif;font-size:0.82rem;color:var(--ink-faint);margin-top:4px;}
+
+  /* Framework */
+  .framework{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;}
+  .framework::before{
+    content:"";position:absolute;top:34px;left:8%;right:8%;height:2px;
+    background:repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 14px);
+    z-index:0;
+  }
+  .fw-step{position:relative;z-index:1;text-align:center;}
+  .fw-num{
+    width:68px;height:68px;border-radius:50%;background:var(--bg-raised);border:2px solid var(--accent);
+    color:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+    font-family: ui-sans-serif, system-ui, sans-serif;font-weight:800;font-size:1.5rem;
+    transition:transform .4s ease, background .4s ease;
+  }
+  .fw-step.in-view .fw-num{transform:scale(1.08);background:var(--accent);color:var(--accent-ink);}
+  .fw-step h4{font-family: ui-sans-serif, system-ui, sans-serif;font-size:1rem;}
+  .fw-step p{font-size:0.9rem;color:var(--ink-soft);margin-bottom:0;}
+
+  /* Sample technique tabs */
+  .sample-card{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .sample-head{
+    padding:22px 26px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+  .sample-head h3{margin:0;font-size:1.2rem;}
+  .sample-head .tag{
+    font-family: ui-sans-serif, system-ui, sans-serif;font-size:0.75rem;font-weight:700;
+    background:var(--accent-2-soft);color:var(--accent-2);padding:6px 12px;border-radius:999px;
+  }
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;padding:14px 26px 0;font-family: ui-sans-serif, system-ui, sans-serif;}
+  .tab-btn{
+    background:transparent;border:1px solid var(--line);color:var(--ink-soft);
+    padding:9px 16px;border-radius:999px;font-size:0.85rem;font-weight:700;cursor:pointer;
+  }
+  .tab-btn[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
+  .tab-panels{padding:22px 26px 30px;}
+  .tab-panel{display:none;color:var(--ink-soft);font-size:0.98rem;}
+  .tab-panel.active{display:block;animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .tab-panel h4{color:var(--ink);font-family: ui-sans-serif, system-ui, sans-serif;font-size:0.95rem;margin-bottom:8px;}
+  .prompt-box{
+    background:var(--paper-1);border:1px dashed var(--accent);border-radius:12px;
+    padding:16px 18px;font-family: ui-sans-serif, system-ui, monospace;font-size:0.86rem;
+    color:var(--ink);white-space:pre-wrap;margin-top:6px;
+  }
+  .prompt-box b{color:var(--accent);}
+
+  /* Personas */
+  .persona-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;}
+  .persona-card{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;
+  }
+  .persona-card .p-icon{
+    width:48px;height:48px;border-radius:50%;background:var(--accent-2-soft);color:var(--accent-2);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  }
+  .persona-card .p-icon svg{width:24px;height:24px;}
+  .persona-card h3{font-family: ui-sans-serif, system-ui, sans-serif;font-size:1.05rem;}
+  .persona-card p{color:var(--ink-soft);font-size:0.94rem;margin-bottom:0;}
+
+  /* Format */
+  .format-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .format-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;}
+  .format-list li{display:flex;gap:12px;align-items:flex-start;color:var(--ink-soft);}
+  .format-list svg{width:20px;height:20px;color:var(--accent-2);flex:none;margin-top:2px;}
+  .format-list strong{color:var(--ink);}
+
+  /* Author */
+  .author-card{
+    display:flex;gap:26px;align-items:center;background:var(--bg-raised);
+    border:1px solid var(--line);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow-sm);
+  }
+  .avatar{
+    width:84px;height:84px;border-radius:50%;flex:none;
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-family: ui-sans-serif, system-ui, sans-serif;font-weight:800;font-size:1.6rem;
+  }
+  .author-card h3{font-family: ui-sans-serif, system-ui, sans-serif;font-size:1.15rem;margin-bottom:4px;}
+  .author-card .role{color:var(--accent);font-family: ui-sans-serif, system-ui, sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:10px;}
+  .author-card p{color:var(--ink-soft);font-size:0.95rem;margin-bottom:0;}
+
+  /* Description disclosure */
+  .full-desc-toggle{
+    font-family: ui-sans-serif, system-ui, sans-serif;font-weight:700;color:var(--accent);
+    background:none;border:none;cursor:pointer;font-size:0.92rem;padding:0;display:inline-flex;gap:6px;align-items:center;
+  }
+  .full-desc{
+    margin-top:18px;color:var(--ink-soft);font-size:0.95rem;max-height:0;overflow:hidden;transition:max-height .4s ease;
+  }
+  .full-desc.open{max-height:4000px;}
+  .full-desc p{margin:0 0 1em;}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item summary{
+    padding:20px 4px;cursor:pointer;font-family: ui-sans-serif, system-ui, sans-serif;
+    font-weight:700;font-size:1rem;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"+";font-size:1.4rem;color:var(--accent);flex:none;line-height:1;transition:transform .2s ease;
+  }
+  .faq-item[open] summary::after{transform:rotate(45deg);}
+  .faq-item .faq-a{padding:0 4px 20px;color:var(--ink-soft);}
+
+  /* Final CTA */
+  .final-cta{
+    background:linear-gradient(135deg, var(--accent-soft), var(--accent-2-soft));
+    border-radius:24px;padding:56px 40px;text-align:center;
+  }
+  .final-cta h2{font-size:clamp(1.6rem,3vw,2.1rem);}
+  .final-cta p{color:var(--ink-soft);max-width:52ch;margin-left:auto;margin-right:auto;}
+  .guarantee{
+    display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:0.85rem;color:var(--ink-faint);
+  }
+  .guarantee svg{width:16px;height:16px;color:var(--accent-2);}
+
+  /* Footer */
+  footer{padding:40px 0 100px;text-align:center;font-family: ui-sans-serif, system-ui, sans-serif;color:var(--ink-faint);font-size:0.85rem;}
+  footer a{color:var(--ink-faint);text-decoration:underline;}
+
+  /* Sticky mobile buy bar */
+  .sticky-buy{
+    position:fixed;left:0;right:0;bottom:0;z-index:120;
+    background:var(--bg-raised);border-top:1px solid var(--line);
+    padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    transform:translateY(110%);transition:transform .3s ease;box-shadow:0 -10px 30px -18px rgba(0,0,0,0.4);
+  }
+  .sticky-buy.show{transform:translateY(0);}
+  .sticky-buy .info{font-family: ui-sans-serif, system-ui, sans-serif;}
+  .sticky-buy .info .nm{font-weight:800;font-size:0.85rem;color:var(--ink);display:block;max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .sticky-buy .info .pr{font-size:0.8rem;color:var(--ink-faint);}
+
+  @media (max-width:920px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{order:-1;min-height:300px;}
+    .pain{grid-template-columns:1fr;}
+    .format-grid{grid-template-columns:1fr;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .framework{grid-template-columns:repeat(2,1fr);row-gap:32px;}
+    .framework::before{display:none;}
+    nav.primary{display:none;}
+  }
+  @media (max-width:560px){
+    .stats{grid-template-columns:1fr 1fr;}
+    .author-card{flex-direction:column;text-align:center;}
+    .hero-ctas{flex-direction:column;align-items:stretch;}
+    .hero-ctas .btn{width:100%;}
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js");</script>
+<a href="#main" class="skip-link sans">Skip to content</a>
+
+<header class="site">
+  <div class="header-inner wrap">
+    <a class="brand" href="#main">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="4" y="4" width="32" height="32" rx="9" fill="var(--accent)"/>
+        <path d="M13 20.5l4.5 4.5L27 15" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>BA&nbsp;Toolkit</span>
+    </a>
+    <nav class="primary" aria-label="Primary">
+      <a href="#inside">What&#8217;s Inside</a>
+      <a href="#sample">Sample</a>
+      <a href="#who">Who It&#8217;s For</a>
+      <a href="#author">Author</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z" stroke-linejoin="round"/></svg>
+      </button>
+      <a class="btn btn-primary" href="#buy" data-gumroad-action="buy">Get the Guide</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">BABOK&reg; v3 &middot; 50 Techniques &middot; AI Prompt Library</p>
+        <h1>Stop Staring at a Technique Name. Start Producing the <span class="hl">Deliverable.</span></h1>
+        <p class="product-name sans" data-gumroad-field="name">The Complete BA Toolkit: All 50 BABOK Techniques + Ready-to-Use AI Prompts</p>
+        <p class="hero-sub">A 44&#8209;page reference covering every technique in the BABOK&reg; Guide v3 &mdash; each with a plain&#8209;language explainer, a worked example, and a ready&#8209;to&#8209;use Role&#47;Context&#47;Constraints&#47;Task AI prompt that drafts the real artifact, not another generic listicle.</p>
+
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-lg" href="#buy" data-gumroad-action="buy">
+            Get the Toolkit &mdash; <span class="price-tag" data-gumroad-field="price">$29</span>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#sample">See a Sample Technique</a>
+        </div>
+
+        <div class="rating-row" role="img" aria-label="Product rating">
+          <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <span data-gumroad-field="rating">Not yet rated</span>
+          <span aria-hidden="true">&middot;</span>
+          <span data-gumroad-field="review-count">Be the first to review</span>
+        </div>
+
+        <div class="hero-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4.5 4.5L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>Instant digital download</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4.5 4.5L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>Editable .docx, 44 pages</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4.5 4.5L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>One-time payment</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="paper-stack">
+          <div class="paper p3"></div>
+          <div class="paper p2"></div>
+          <div class="paper p1">
+            <span class="doc-title">Technique 24 &middot; Decision Modelling</span>
+            <span class="doc-line w80"></span>
+            <span class="doc-line w60"></span>
+            <span class="doc-line w40"></span>
+            <span class="doc-line w80"></span>
+            <span class="doc-line w60"></span>
+            <span class="doc-chip">AI Prompt: Role &#47; Context &#47; Constraints &#47; Task</span>
+          </div>
+          <div class="float-badge badge-a">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M14 4v5h5"/></svg>
+            50 / 50 techniques
+          </div>
+          <div class="float-badge badge-b">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+            Worked examples
+          </div>
+          <div class="float-badge badge-c">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>
+            Ready-to-run prompts
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIN POINT -->
+  <section class="section-alt">
+    <div class="wrap pain">
+      <div class="reveal">
+        <blockquote>&#8220;I know what a use case <em>is</em>. I don&#8217;t have 20 minutes to figure out how to turn that into something my stakeholders can actually sign off on.&#8221;</blockquote>
+      </div>
+      <div class="reveal pain-answer">
+        <p><strong>That gap &mdash; between knowing a technique&#8217;s definition and producing a stakeholder-ready artifact &mdash; is what this guide closes.</strong></p>
+        <p>Every one of the 50 BABOK&reg; v3 techniques gets a plain-language description, the elements that make it up, when (and when not) to use it, a worked example, and an AI prompt built to draft the real deliverable in minutes &mdash; acceptance criteria, a RACI matrix, a risk register, user stories, a decision table, and more.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section>
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="stat-num" data-count="50">0</div>
+          <div class="stat-label">BABOK&reg; techniques covered</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-count="44">0</div>
+          <div class="stat-label">Pages, US Letter</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-count="6">0</div>
+          <div class="stat-label">Knowledge areas mapped</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-count="1">0</div>
+          <div class="stat-label">Prompt framework you can reuse forever</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section id="inside" class="section-alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">What&#8217;s Inside</p>
+        <h2>Not a 500-Prompts Pack. A Technique-by-Technique Field Guide.</h2>
+        <p>Every prompt is built around a real BA deliverable, grounded in what the technique is actually for &mdash; with guardrails so the AI flags gaps instead of quietly inventing facts.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+          <h3>All 50 techniques, verified</h3>
+          <p>Name-for-name against IIBA&#8217;s official BABOK&reg; v3 table of contents &mdash; not pieced together from memory.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.35-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.65-7 10-7 10z"/></svg></div>
+          <h3>Plain-language explainers</h3>
+          <p>What the technique is, why it matters, and the key elements that make it up &mdash; no jargon left unpacked.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l-5-5 5-5M15 6l5 5-5 5"/></svg></div>
+          <h3>When to use it (and when not to)</h3>
+          <p>Skip the trial and error &mdash; know exactly which situations call for the tool, and which ones don&#8217;t.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 13h6M9 17h4"/></svg></div>
+          <h3>A worked example per technique</h3>
+          <p>See the technique applied to a real scenario before you try it on your own project.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
+          <h3>A ready-to-use AI prompt</h3>
+          <p>Structured as Role&#47;Context&#47;Constraints&#47;Task, so you draft the actual artifact instead of starting from a blank page.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></div>
+          <h3>Quick-reference technique map</h3>
+          <p>All 50 techniques mapped to their primary BABOK&reg; knowledge area, for fast lookup under deadline pressure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMEWORK -->
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">The Prompt Framework</p>
+        <h2>Role &#47; Context &#47; Constraints &#47; Task</h2>
+        <p>Learn the framework once and you can write a strong AI prompt for anything this guide doesn&#8217;t cover.</p>
+      </div>
+      <div class="framework">
+        <div class="fw-step reveal">
+          <div class="fw-num">R</div>
+          <h4>Role</h4>
+          <p>Tell the AI what expert it&#8217;s acting as.</p>
+        </div>
+        <div class="fw-step reveal">
+          <div class="fw-num">C</div>
+          <h4>Context</h4>
+          <p>Give it the project facts it needs, and nothing it should assume.</p>
+        </div>
+        <div class="fw-step reveal">
+          <div class="fw-num">C</div>
+          <h4>Constraints</h4>
+          <p>Set the guardrails that stop it from inventing requirements.</p>
+        </div>
+        <div class="fw-step reveal">
+          <div class="fw-num">T</div>
+          <h4>Task</h4>
+          <p>Name the exact deliverable you want back.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLE TECHNIQUE -->
+  <section id="sample" class="section-alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">See It In Action</p>
+        <h2>One Technique, Fully Broken Down</h2>
+        <p>This is the exact structure used for all 50 techniques in the guide.</p>
+      </div>
+
+      <div class="sample-card reveal">
+        <div class="sample-head">
+          <h3>Technique 24: Decision Modelling</h3>
+          <span class="tag">Knowledge Area: Strategy Analysis</span>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Decision Modelling breakdown">
+          <button class="tab-btn" role="tab" id="tab-def" aria-controls="panel-def" aria-selected="true">Definition</button>
+          <button class="tab-btn" role="tab" id="tab-use" aria-controls="panel-use" aria-selected="false" tabindex="-1">When to Use</button>
+          <button class="tab-btn" role="tab" id="tab-ex" aria-controls="panel-ex" aria-selected="false" tabindex="-1">Worked Example</button>
+          <button class="tab-btn" role="tab" id="tab-prompt" aria-controls="panel-prompt" aria-selected="false" tabindex="-1">AI Prompt</button>
+        </div>
+        <div class="tab-panels">
+          <div class="tab-panel active" role="tabpanel" id="panel-def" aria-labelledby="tab-def">
+            <h4>What it is</h4>
+            <p>A technique for describing repeatable business decisions by breaking them into the questions being asked, the logic that answers them, and the underlying business rules &mdash; visualized as a decision table or diagram so multiple decision paths are easy to compare.</p>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="panel-use" aria-labelledby="tab-use" hidden>
+            <h4>When to reach for it</h4>
+            <p>Use it when a decision recurs often enough to standardize, involves several conditions or business rules, or needs to be handed to developers or automation as unambiguous logic. Skip it for one-off, judgment-heavy calls with no repeatable pattern.</p>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="panel-ex" aria-labelledby="tab-ex" hidden>
+            <h4>Worked example</h4>
+            <p>A subscription service needs to decide refund eligibility. Decision Modelling turns &#8220;it depends&#8221; into a table of conditions (days since purchase, usage level, prior refunds) mapped to a clear outcome for every combination &mdash; ready to hand to engineering.</p>
+          </div>
+          <div class="tab-panel" role="tabpanel" id="panel-prompt" aria-labelledby="tab-prompt" hidden>
+            <h4>Ready-to-use AI prompt</h4>
+            <div class="prompt-box">
+<b>Role:</b> You are a senior business analyst experienced in Decision Modelling (DMN-style).
+<b>Context:</b> [Paste the business decision, the conditions it depends on, and any known business rules.]
+<b>Constraints:</b> Do not invent conditions or outcomes I haven&#8217;t provided. List any missing information as open questions instead of guessing.
+<b>Task:</b> Produce a decision table with every condition combination mapped to an outcome, plus a one-paragraph summary of the underlying business rule.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section id="who">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Who This Is For</p>
+        <h2>Built for BAs at Every Stage</h2>
+      </div>
+      <div class="persona-grid">
+        <div class="persona-card reveal">
+          <div class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg></div>
+          <h3>ECBA &#47; CCBA &#47; CBAP candidates</h3>
+          <p>A faster way to internalize the full technique list than flipping between the BABOK&reg; guide and your own notes.</p>
+        </div>
+        <div class="persona-card reveal">
+          <div class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l6-9 6 9-6 9-6-9z"/><path d="M15 12l6-9v18l-6-9z"/></svg></div>
+          <h3>Working BAs &amp; product owners</h3>
+          <p>You already know BABOK&reg;. This is the shortcut from &#8220;I know what this technique is&#8221; to &#8220;here&#8217;s a drafted artifact.&#8221;</p>
+        </div>
+        <div class="persona-card reveal">
+          <div class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div>
+          <h3>PMs &amp; BAs experimenting with AI</h3>
+          <p>Prompts built to resist hallucinated requirements &mdash; not generic one-liners you have to rewrite from scratch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMAT -->
+  <section class="section-alt">
+    <div class="wrap format-grid">
+      <div class="reveal">
+        <p class="eyebrow">Format &amp; Delivery</p>
+        <h2>Editable, Print-Ready, Yours to Adapt</h2>
+        <ul class="format-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
+            <span><strong>44-page Word document (.docx)</strong>, US Letter &mdash; open it in Word, Google Docs, or Pages.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0 4-4m-4 4-4-4M4 21h16"/></svg>
+            <span><strong>Instant digital download</strong> right after checkout &mdash; no waiting, no shipping.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+            <span><strong>Fully editable</strong> &mdash; adapt every prompt to your own house style or project vocabulary.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <span><strong>One-time payment</strong> &mdash; no subscription, yours to keep.</span>
+          </li>
+        </ul>
+        <button class="full-desc-toggle sans" id="descToggle" type="button" aria-expanded="false" aria-controls="fullDesc">
+          Read the full product description
+          <svg id="descChevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="transition:transform .2s ease;"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="full-desc" id="fullDesc" data-gumroad-field="description">
+          <p>Stuck staring at a BABOK technique name with no idea how to turn it into an actual deliverable? You know what a use case is. You&#8217;ve heard of Decision Modelling. But knowing the definition and producing a stakeholder-ready artifact in the next 20 minutes are two different problems. This guide closes that gap.</p>
+        </div>
+      </div>
+      <div class="reveal" aria-hidden="true">
+        <div class="paper-stack" style="width:100%;max-width:320px;height:340px;margin:0 auto;">
+          <div class="paper p3"></div>
+          <div class="paper p2"></div>
+          <div class="paper p1">
+            <span class="doc-title">Quick-Reference Map</span>
+            <span class="doc-line w80"></span>
+            <span class="doc-line w60"></span>
+            <span class="doc-line w80"></span>
+            <span class="doc-line w40"></span>
+            <span class="doc-line w60"></span>
+            <span class="doc-chip">50 techniques &rarr; 6 knowledge areas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTHOR -->
+  <section id="author">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">About the Author</p>
+        <h2>Written From the Field, Not the Textbook</h2>
+      </div>
+      <div class="author-card reveal">
+        <div class="avatar" aria-hidden="true">TD</div>
+        <div>
+          <h3>Thomas Dickie, PMP, CSM</h3>
+          <p class="role">25+ years in project management &middot; 10+ years in healthcare-related PM work</p>
+          <p>Currently Manager and Scrum Master, PPD Delivery Services at CVS Health. This guide was built to close the exact gap he kept seeing on real projects: analysts who know the BABOK&reg; techniques by name, but need a faster path from concept to finished artifact.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section-alt">
+    <div class="wrap" style="max-width:760px;">
+      <div class="section-head reveal">
+        <p class="eyebrow">FAQ</p>
+        <h2>Before You Buy</h2>
+      </div>
+      <div class="reveal">
+        <details class="faq-item">
+          <summary>Is this official IIBA&#174; or BABOK&reg; material?</summary>
+          <div class="faq-a">No. This is an independent study and reference guide that uses BABOK&reg; Guide v3 terminology, verified name-for-name against IIBA&#8217;s published table of contents. It is not published, endorsed, or reviewed by IIBA.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What file do I actually receive?</summary>
+          <div class="faq-a">A single 44-page, US Letter, fully editable Word (.docx) document, delivered as an instant digital download after checkout.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need a specific AI tool to use the prompts?</summary>
+          <div class="faq-a">No. Every prompt is written in plain text using the Role&#47;Context&#47;Constraints&#47;Task framework, so it works with Claude, ChatGPT, or any other AI assistant you already use.</div>
+        </details>
+        <details class="faq-item">
+          <summary>I&#8217;m studying for ECBA&#47;CCBA&#47;CBAP &mdash; will this help?</summary>
+          <div class="faq-a">Yes. It&#8217;s built as a fast way to internalize all 50 techniques with plain-language explainers and worked examples, alongside your official study material.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What if it isn&#8217;t useful for me?</summary>
+          <div class="faq-a">Reach out through Gumroad&#8217;s standard buyer support flow on your receipt &mdash; refunds are handled per the policy shown at checkout.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="buy">
+    <div class="wrap">
+      <div class="final-cta reveal">
+        <h2>Turn 50 Technique Names Into 50 Finished Deliverables</h2>
+        <p>44 pages. Every BABOK&reg; v3 technique. A worked example and a ready-to-use AI prompt for each one.</p>
+        <div class="hero-ctas" style="justify-content:center;">
+          <a class="btn btn-primary btn-lg" href="#buy" data-gumroad-action="buy">
+            Get the Toolkit &mdash; <span class="price-tag" data-gumroad-field="price">$29</span>
+          </a>
+        </div>
+        <div class="guarantee">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 5-3.4 7.7-7 9-3.6-1.3-7-4-7-9V7l7-4z"/><path d="M9.5 12l2 2 3-3.5"/></svg>
+          Secure checkout via Gumroad &middot; instant download
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>The Complete BA Toolkit is an independent publication and is not affiliated with or endorsed by IIBA&#174;. BABOK&reg; is a registered trademark of the International Institute of Business Analysis.</p>
+    <p>&copy; <span id="year"></span> Thomas Dickie. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="sticky-buy sans" id="stickyBuy" aria-hidden="true">
+  <div class="info">
+    <span class="nm">The Complete BA Toolkit</span>
+    <span class="pr">One-time payment &middot; <span data-gumroad-field="price">$29</span></span>
+  </div>
+  <a class="btn btn-primary" href="#buy" data-gumroad-action="buy">Buy now</a>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Theme toggle: light / dark / system, persisted */
+  var root = document.documentElement;
+  var toggle = document.getElementById("themeToggle");
+  var STORAGE_KEY = "ba-toolkit-theme";
+
+  function applyStoredTheme(){
+    var stored = null;
+    try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    if (stored === "light" || stored === "dark") {
+      root.setAttribute("data-theme", stored);
+    }
+  }
+  applyStoredTheme();
+
+  toggle.addEventListener("click", function(){
+    var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var current = root.getAttribute("data-theme") || (prefersDark ? "dark" : "light");
+    var next = current === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(STORAGE_KEY, next); } catch (e) {}
+  });
+
+  /* Scroll reveal */
+  var revealEls = document.querySelectorAll(".reveal, .fw-step");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el){ io.observe(el); });
+    /* Safety net: guarantee content is visible even if an element never intersects */
+    setTimeout(function(){
+      revealEls.forEach(function(el){ el.classList.add("in-view"); });
+    }, 4000);
+  } else {
+    revealEls.forEach(function(el){ el.classList.add("in-view"); });
+  }
+
+  /* Count-up stats */
+  var counters = document.querySelectorAll(".stat-num");
+  function animateCount(el){
+    var target = parseInt(el.getAttribute("data-count"), 10) || 0;
+    var start = 0;
+    var duration = 900;
+    var startTime = null;
+    function step(ts){
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      el.textContent = Math.floor(progress * (target - start) + start);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+  if ("IntersectionObserver" in window && counters.length) {
+    var ioCount = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          ioCount.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function(el){ ioCount.observe(el); });
+    /* Safety net: guarantee the real numbers show even if an element never intersects */
+    setTimeout(function(){
+      counters.forEach(function(el){
+        if (el.textContent === "0") el.textContent = el.getAttribute("data-count");
+      });
+    }, 4000);
+  } else {
+    counters.forEach(function(el){ el.textContent = el.getAttribute("data-count"); });
+  }
+
+  /* Accessible tabs */
+  var tabList = document.querySelector('[role="tablist"]');
+  if (tabList) {
+    var tabs = Array.prototype.slice.call(tabList.querySelectorAll('[role="tab"]'));
+    function selectTab(tab){
+      tabs.forEach(function(t){
+        var panel = document.getElementById(t.getAttribute("aria-controls"));
+        var isSelected = t === tab;
+        t.setAttribute("aria-selected", isSelected ? "true" : "false");
+        t.tabIndex = isSelected ? 0 : -1;
+        if (panel) {
+          panel.classList.toggle("active", isSelected);
+          if (isSelected) panel.removeAttribute("hidden");
+          else panel.setAttribute("hidden", "");
+        }
+      });
+      tab.focus();
+    }
+    tabs.forEach(function(tab, i){
+      tab.addEventListener("click", function(){ selectTab(tab); });
+      tab.addEventListener("keydown", function(e){
+        var idx = tabs.indexOf(tab);
+        if (e.key === "ArrowRight") { e.preventDefault(); selectTab(tabs[(idx + 1) % tabs.length]); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); selectTab(tabs[(idx - 1 + tabs.length) % tabs.length]); }
+        else if (e.key === "Home") { e.preventDefault(); selectTab(tabs[0]); }
+        else if (e.key === "End") { e.preventDefault(); selectTab(tabs[tabs.length - 1]); }
+      });
+    });
+  }
+
+  /* Full description disclosure */
+  var descToggle = document.getElementById("descToggle");
+  var fullDesc = document.getElementById("fullDesc");
+  var descChevron = document.getElementById("descChevron");
+  if (descToggle && fullDesc) {
+    descToggle.addEventListener("click", function(){
+      var isOpen = fullDesc.classList.toggle("open");
+      descToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      descToggle.firstChild.textContent = isOpen ? "Hide the full product description " : "Read the full product description ";
+      if (descChevron) descChevron.style.transform = isOpen ? "rotate(180deg)" : "rotate(0deg)";
+    });
+  }
+
+  /* Sticky mobile buy bar, shown once hero CTA is scrolled past */
+  var stickyBuy = document.getElementById("stickyBuy");
+  var heroCta = document.querySelector(".hero-ctas");
+  var finalCta = document.getElementById("buy");
+  if (stickyBuy && heroCta && "IntersectionObserver" in window) {
+    var heroGone = false, finalVisible = false;
+    function updateSticky(){
+      if (heroGone && !finalVisible) {
+        stickyBuy.classList.add("show");
+        stickyBuy.removeAttribute("aria-hidden");
+      } else {
+        stickyBuy.classList.remove("show");
+        stickyBuy.setAttribute("aria-hidden", "true");
+      }
+    }
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ heroGone = !entry.isIntersecting && entry.boundingClientRect.top < 0; updateSticky(); });
+    }, { threshold: 0 }).observe(heroCta);
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ finalVisible = entry.isIntersecting; updateSticky(); });
+    }, { threshold: 0.1 }).observe(finalCta);
+  }
+
+  var yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
