@@ -1,0 +1,590 @@
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Sora', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          body: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif; }
+  h1, h2, h3, .font-display { font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+
+  .gradient-text {
+    background: linear-gradient(90deg, #f59e0b, #fbbf24 45%, #f59e0b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(-1deg); }
+  }
+  .float-card { animation: float 6s ease-in-out infinite; }
+
+  @keyframes pulseRing {
+    0% { box-shadow: 0 0 0 0 rgba(217,119,6,.35); }
+    70% { box-shadow: 0 0 0 12px rgba(217,119,6,0); }
+    100% { box-shadow: 0 0 0 0 rgba(217,119,6,0); }
+  }
+  .pulse-ring { animation: pulseRing 2.4s ease-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .float-card, .pulse-ring { animation: none !important; }
+    html { scroll-behavior: auto !important; }
+  }
+
+  .price-chip { transition: transform .15s ease, box-shadow .15s ease; }
+  .price-chip:hover { transform: translateY(-2px); }
+  .price-chip:active { transform: translateY(0); }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .faq-chevron { transform: rotate(180deg); }
+
+  :focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+</style>
+
+<div class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-indigo-700 focus:px-4 focus:py-2 focus:text-white">
+  Skip to content
+</a>
+
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/85">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5">
+    <a href="#top" class="flex items-center gap-2 font-display text-base font-bold tracking-tight">
+      <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-700 text-white dark:bg-indigo-500">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" class="h-4.5 w-4.5" style="width:18px;height:18px"><path d="M9 12.5l2 2 4-4.5M12 3l7 3.2v5.4c0 4.6-3 8.8-7 9.4-4-.6-7-4.8-7-9.4V6.2L12 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span>PM Exam Edge</span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden items-center gap-7 text-sm font-semibold text-slate-600 dark:text-slate-300 md:flex">
+      <a class="transition hover:text-indigo-700 dark:hover:text-amber-400" href="#inside">What's inside</a>
+      <a class="transition hover:text-indigo-700 dark:hover:text-amber-400" href="#demo">Try a question</a>
+      <a class="transition hover:text-indigo-700 dark:hover:text-amber-400" href="#reviews">Reviews</a>
+      <a class="transition hover:text-indigo-700 dark:hover:text-amber-400" href="#faq">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <button id="theme-toggle" type="button" aria-label="Toggle dark mode"
+        class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+        <svg id="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" class="hidden h-5 w-5"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 2v2m0 16v2M4.2 4.2l1.4 1.4m12.8 12.8l1.4 1.4M2 12h2m16 0h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+        <svg id="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" class="hidden h-5 w-5"><path stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+      </button>
+      <a href="#pricing" class="hidden rounded-full bg-indigo-700 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-indigo-800 sm:inline-block dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400">
+        Get the guide
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section id="top" class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_85%_0%,rgba(79,70,229,0.12),transparent),radial-gradient(50%_40%_at_0%_100%,rgba(217,119,6,0.10),transparent)] dark:bg-[radial-gradient(60%_50%_at_85%_0%,rgba(129,140,248,0.16),transparent),radial-gradient(50%_40%_at_0%_100%,rgba(251,191,36,0.10),transparent)]"></div>
+
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-12 md:grid-cols-2 md:pb-24 md:pt-16">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
+          Domain III · Task 4 · July 2026 ECO Aligned
+        </p>
+
+        <h1 class="mt-4 font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl">
+          Stop losing PMP points on <span class="gradient-text">impediments &amp; issues</span>.
+        </h1>
+
+        <p class="mt-5 max-w-xl text-lg text-slate-600 dark:text-slate-300">
+          Business Environment questions about blockers, escalation, and issue management trip up even well-prepared candidates. This guide drills the one ECO task that generic question banks barely touch — until it's mastered.
+        </p>
+
+        <p class="sr-only">
+          Full product title: <span data-gumroad-field="name">PMP Exam Prep: Remove Impediments &amp; Manage Issues (Domain III Task 4) – July 2026 ECO Aligned</span>
+        </p>
+
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <div class="flex text-amber-500 dark:text-amber-400" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4.5 w-4.5" style="width:18px;height:18px"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4.5 w-4.5" style="width:18px;height:18px"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4.5 w-4.5" style="width:18px;height:18px"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4.5 w-4.5" style="width:18px;height:18px"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4.5 w-4.5" style="width:18px;height:18px"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+          </div>
+          <p class="text-sm font-semibold text-slate-600 dark:text-slate-300">
+            <span data-gumroad-field="rating">New guide</span>
+            <span class="text-slate-400 dark:text-slate-500">·</span>
+            <span data-gumroad-field="review-count">Be the first to review</span>
+          </p>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#pricing" data-gumroad-action="buy"
+            class="pulse-ring inline-flex items-center gap-2 rounded-full bg-indigo-700 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-indigo-700/20 transition hover:bg-indigo-800 dark:bg-amber-500 dark:text-slate-950 dark:shadow-amber-500/20 dark:hover:bg-amber-400">
+            Get instant access
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" class="h-4 w-4"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 10h12m0 0l-5-5m5 5l-5 5"/></svg>
+          </a>
+          <a href="#demo" class="inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3.5 text-base font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">
+            Try a sample question
+          </a>
+        </div>
+
+        <dl class="mt-9 grid max-w-md grid-cols-3 gap-3 text-center">
+          <div class="rounded-xl border border-slate-200 bg-white/60 py-3 dark:border-slate-800 dark:bg-slate-900/50">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Questions</dt>
+            <dd class="font-display text-xl font-bold">47</dd>
+          </div>
+          <div class="rounded-xl border border-slate-200 bg-white/60 py-3 dark:border-slate-800 dark:bg-slate-900/50">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Pages</dt>
+            <dd class="font-display text-xl font-bold">21</dd>
+          </div>
+          <div class="rounded-xl border border-slate-200 bg-white/60 py-3 dark:border-slate-800 dark:bg-slate-900/50">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Delivery</dt>
+            <dd class="font-display text-xl font-bold">Instant</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-sm">
+        <div class="float-card relative rounded-3xl bg-white p-3 shadow-2xl ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10">
+          <img
+            src="https://public-files.gumroad.com/fakfzy4xmo853asglb1xztet9sgg"
+            alt="Cover artwork for the PMP Exam Prep guide: Remove Impediments and Manage Issues, Domain III Task 4"
+            width="670" height="670"
+            class="w-full rounded-2xl object-cover"
+            loading="eager"
+          />
+        </div>
+
+        <div class="absolute -left-5 top-8 hidden rotate-[-6deg] rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:block">
+          ✅ Answer key included
+        </div>
+        <div class="absolute -right-4 bottom-10 hidden rotate-[5deg] rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:block">
+          📄 PDF · 2 MB
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROBLEM ================= -->
+  <section class="border-y border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900/40">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="reveal mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Task 4 questions feel like a trap. That's on purpose.</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">PMI writes Business Environment scenarios to test judgment, not memorization. Here's what usually goes wrong on exam day.</p>
+      </div>
+
+      <div class="mt-12 grid gap-6 sm:grid-cols-3">
+        <div class="reveal rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+          <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" class="h-5 w-5"><path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 9v4m0 3.5h.01M10.3 3.9L2.7 17a2 2 0 001.7 3h15.2a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold">Risk, impediment, or issue?</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">The exam blurs the line on purpose. Pick the wrong category and you'll pick the wrong action.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900" style="transition-delay:.08s">
+          <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-950 dark:text-amber-400">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" class="h-5 w-5"><path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold">When do you escalate?</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Escalate too soon and you look incapable. Wait too long and the project stalls. There's a defensible answer — if you know the framework.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900" style="transition-delay:.16s">
+          <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" class="h-5 w-5"><path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V4H6.5A2.5 2.5 0 004 6.5v13z"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold">Question banks skim it</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Most full-exam simulators give Task 4 a handful of questions buried in hundreds. This guide gives it 47, and nothing else.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WHAT'S INSIDE ================= -->
+  <section id="inside" class="py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="reveal mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Everything inside the guide</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">Built directly from the July 2026 PMP Examination Content Outline, covering all six Task 4 enablers.</p>
+      </div>
+
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- feature cards -->
+        <div class="reveal rounded-2xl border border-slate-200 p-6 transition hover:shadow-lg dark:border-slate-800">
+          <div class="mb-3 text-2xl">📝</div>
+          <h3 class="font-display font-bold">47 original practice questions</h3>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">Written specifically for Task 4 — not repurposed from a generic bank.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-slate-200 p-6 transition hover:shadow-lg dark:border-slate-800" style="transition-delay:.05s">
+          <div class="mb-3 text-2xl">🧭</div>
+          <h3 class="font-display font-bold">Scenario-based exercises</h3>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">Realistic project situations that mirror how PMI actually phrases exam items.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-slate-200 p-6 transition hover:shadow-lg dark:border-slate-800" style="transition-delay:.1s">
+          <div class="mb-3 text-2xl">☑️</div>
+          <h3 class="font-display font-bold">Multiple-choice &amp; multiple-response</h3>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">Practice both formats you'll actually see on exam day.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-slate-200 p-6 transition hover:shadow-lg dark:border-slate-800" style="transition-delay:.15s">
+          <div class="mb-3 text-2xl">📚</div>
+          <h3 class="font-display font-bold">Integrated case study</h3>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">One running scenario ties concepts together instead of testing them in isolation.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-slate-200 p-6 transition hover:shadow-lg dark:border-slate-800" style="transition-delay:.2s">
+          <div class="mb-3 text-2xl">🔑</div>
+          <h3 class="font-display font-bold">Detailed answer key with rationale</h3>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">Every answer explains <em>why</em> — including why the other options are traps.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-slate-200 p-6 transition hover:shadow-lg dark:border-slate-800" style="transition-delay:.25s">
+          <div class="mb-3 text-2xl">🛠️</div>
+          <h3 class="font-display font-bold">Five supporting techniques</h3>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">5 Whys root cause analysis, issue logs, escalation paths, RACI ownership, and visual impediment tracking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DEMO ================= -->
+  <section id="demo" class="border-y border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900/40 sm:py-24">
+    <div class="mx-auto max-w-3xl px-5">
+      <div class="reveal text-center">
+        <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Try one of the 47 questions</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">This is exactly the style of scenario reasoning used throughout the guide.</p>
+      </div>
+
+      <form id="demo-quiz" class="reveal mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+        <fieldset>
+          <legend class="font-display text-lg font-bold leading-snug">
+            A recurring blocker has delayed three consecutive tasks and stakeholders are growing frustrated. What is the <u>best</u> next step?
+          </legend>
+
+          <div class="mt-5 space-y-3">
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3.5 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800">
+              <input type="radio" name="demo-answer" value="a" class="mt-1 h-4 w-4 accent-indigo-700 dark:accent-amber-500">
+              <span class="text-sm">Log the issue and keep monitoring it without escalating.</span>
+            </label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3.5 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800">
+              <input type="radio" name="demo-answer" value="b" class="mt-1 h-4 w-4 accent-indigo-700 dark:accent-amber-500">
+              <span class="text-sm">Run a root cause analysis with the team, log findings, and escalate per the agreed path if it stays unresolved.</span>
+            </label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3.5 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800">
+              <input type="radio" name="demo-answer" value="c" class="mt-1 h-4 w-4 accent-indigo-700 dark:accent-amber-500">
+              <span class="text-sm">Reassign the task to a different team member without investigating.</span>
+            </label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3.5 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800">
+              <input type="radio" name="demo-answer" value="d" class="mt-1 h-4 w-4 accent-indigo-700 dark:accent-amber-500">
+              <span class="text-sm">Wait until the retrospective to raise it.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <button type="submit" class="rounded-full bg-indigo-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-indigo-800 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400">
+            Check my answer
+          </button>
+          <button type="button" id="demo-reset" class="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+            Try again
+          </button>
+          <p id="demo-hint" class="text-sm text-slate-500 dark:text-slate-400" role="status">Select an option, then check your answer.</p>
+        </div>
+
+        <div id="demo-result" class="mt-5 hidden rounded-xl border p-4 text-sm" role="alert" aria-live="polite"></div>
+      </form>
+
+      <p class="reveal mt-6 text-center text-sm text-slate-500 dark:text-slate-400">That's 1 of 47. The guide walks through every option like this — including why the wrong answers feel tempting.</p>
+    </div>
+  </section>
+
+  <!-- ================= AUDIENCE ================= -->
+  <section id="audience" class="py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="reveal mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Built for anyone facing Domain III</h2>
+      </div>
+      <div class="reveal mt-10 flex flex-wrap justify-center gap-3">
+        <span class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-slate-700">PMP certification candidates</span>
+        <span class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-slate-700">Project managers</span>
+        <span class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-slate-700">Scrum masters</span>
+        <span class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-slate-700">Agile coaches</span>
+        <span class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-slate-700">Program managers</span>
+        <span class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-slate-700">Business analysts</span>
+        <span class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold dark:border-slate-700">PMO professionals</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REVIEWS / TRUST ================= -->
+  <section id="reviews" class="border-y border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900/40 sm:py-24">
+    <div class="mx-auto max-w-4xl px-5 text-center">
+      <div class="reveal flex justify-center text-amber-500 dark:text-amber-400" aria-hidden="true">
+        <svg viewBox="0 0 20 20" fill="currentColor" class="h-7 w-7"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor" class="h-7 w-7"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor" class="h-7 w-7"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor" class="h-7 w-7"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+        <svg viewBox="0 0 20 20" fill="currentColor" class="h-7 w-7"><path d="M10 1.5l2.6 5.4 5.9.9-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.9L10 1.5z"/></svg>
+      </div>
+      <p class="reveal mt-3 font-display text-xl font-bold">
+        <span data-gumroad-field="rating">Fresh off the press</span>
+        <span class="text-slate-400"> · </span>
+        <span data-gumroad-field="review-count">Be the first to review</span>
+      </p>
+      <p class="reveal mt-4 text-slate-600 dark:text-slate-300">Bought a copy? Your review helps the next candidate decide — and it takes less time than one practice question.</p>
+
+      <div class="reveal mt-10 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="font-display text-lg font-bold">Instant delivery</p>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">PDF lands in your inbox right after checkout.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="font-display text-lg font-bold">Secure checkout</p>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Processed by Gumroad — your standard buyer protections apply.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <p class="font-display text-lg font-bold">Study at your pace</p>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Self-paced PDF — keep it and revisit before exam day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRICING ================= -->
+  <section id="pricing" class="py-16 sm:py-24">
+    <div class="mx-auto max-w-3xl px-5">
+      <div class="reveal text-center">
+        <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Name your price</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">
+          This guide is pay-what-you-want. Listed at
+          <span class="font-semibold" data-gumroad-field="price">$0+</span>
+          — choose a suggested amount or set your own.
+        </p>
+      </div>
+
+      <div class="reveal mt-10 rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+        <p class="text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Suggested amounts</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-3">
+          <button type="button" data-gumroad-action="buy" data-gumroad-price="5.00"
+            class="price-chip rounded-2xl border-2 border-slate-200 p-4 text-center transition hover:border-indigo-400 dark:border-slate-700 dark:hover:border-amber-400">
+            <span class="block font-display text-2xl font-extrabold">$5</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">Fair start</span>
+          </button>
+          <button type="button" data-gumroad-action="buy" data-gumroad-price="9.00"
+            class="price-chip relative rounded-2xl border-2 border-indigo-600 bg-indigo-50 p-4 text-center transition dark:border-amber-400 dark:bg-amber-500/10">
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-700 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white dark:bg-amber-500 dark:text-slate-950">Most chosen</span>
+            <span class="block font-display text-2xl font-extrabold">$9</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">Covers the work</span>
+          </button>
+          <button type="button" data-gumroad-action="buy" data-gumroad-price="15.00"
+            class="price-chip rounded-2xl border-2 border-slate-200 p-4 text-center transition hover:border-indigo-400 dark:border-slate-700 dark:hover:border-amber-400">
+            <span class="block font-display text-2xl font-extrabold">$15</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">Support future guides</span>
+          </button>
+        </div>
+
+        <div class="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
+          <label for="gr-price" class="block text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Or enter your own amount (USD)</label>
+          <div class="mt-3 flex flex-col gap-3 sm:flex-row">
+            <div class="relative flex-1">
+              <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">$</span>
+              <input id="gr-price" type="number" min="0" step="0.01" placeholder="9.00"
+                class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-8 pr-4 text-base focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950" />
+            </div>
+            <button id="gr-buy" type="button"
+              class="rounded-xl bg-indigo-700 px-6 py-3 text-base font-bold text-white transition hover:bg-indigo-800 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400">
+              I want this
+            </button>
+          </div>
+          <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">Leave the amount blank to enter your price during checkout instead. Minimum $0 — pay what feels fair.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq" class="border-t border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900/40 sm:py-24">
+    <div class="mx-auto max-w-3xl px-5">
+      <h2 class="reveal text-center font-display text-3xl font-extrabold sm:text-4xl">Questions before you buy</h2>
+
+      <div class="mt-10 space-y-3">
+        <details class="reveal group rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <summary class="flex items-center justify-between gap-4 font-display font-bold">
+            What format is this delivered in?
+            <svg class="faq-chevron h-5 w-5 shrink-0 transition-transform" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 7.5l5 5 5-5"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">A 21-page PDF, delivered instantly after checkout. No app or account required — open it anywhere you read PDFs.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <summary class="flex items-center justify-between gap-4 font-display font-bold">
+            Is this aligned to the current exam outline?
+            <svg class="faq-chevron h-5 w-5 shrink-0 transition-transform" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 7.5l5 5 5-5"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Yes — it's built from the July 2026 PMP Examination Content Outline and covers all six enablers of Domain III, Task 4.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <summary class="flex items-center justify-between gap-4 font-display font-bold">
+            Do I still need a full PMP prep course?
+            <svg class="faq-chevron h-5 w-5 shrink-0 transition-transform" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 7.5l5 5 5-5"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Yes — this is a focused deep-dive on one high-yield task, meant to complement your broader study plan, not replace it.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <summary class="flex items-center justify-between gap-4 font-display font-bold">
+            Can I really pay what I want?
+            <svg class="faq-chevron h-5 w-5 shrink-0 transition-transform" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 7.5l5 5 5-5"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Yes. Pick a suggested amount above, enter your own, or leave the amount blank and set it during checkout.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <summary class="flex items-center justify-between gap-4 font-display font-bold">
+            What if it's not right for me?
+            <svg class="faq-chevron h-5 w-5 shrink-0 transition-transform" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 7.5l5 5 5-5"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Your purchase is covered by this seller's standard Gumroad refund policy.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA ================= -->
+  <section class="py-16 sm:py-24">
+    <div class="reveal mx-auto max-w-3xl rounded-3xl bg-indigo-700 px-6 py-12 text-center text-white shadow-2xl dark:bg-amber-500 dark:text-slate-950 sm:px-12">
+      <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Master Task 4 before it costs you the exam.</h2>
+      <p class="mt-4 text-indigo-100 dark:text-slate-900/80">47 scenario questions. Full rationale. One focused PDF. Name your price.</p>
+      <a href="#pricing" data-gumroad-action="buy"
+        class="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-base font-bold text-indigo-700 shadow-lg transition hover:bg-indigo-50 dark:bg-slate-950 dark:text-amber-400 dark:hover:bg-slate-900">
+        Get instant access
+        <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" class="h-4 w-4"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 10h12m0 0l-5-5m5 5l-5 5"/></svg>
+      </a>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-slate-200 py-10 dark:border-slate-800">
+  <div class="mx-auto flex max-w-6xl flex-col items-center gap-3 px-5 text-center text-sm text-slate-500 dark:text-slate-400">
+    <p><span data-gumroad-field="name">PMP Exam Prep: Remove Impediments &amp; Manage Issues (Domain III Task 4)</span></p>
+    <p>Instant PDF download · Pay what you want · Backed by Gumroad's standard refund policy</p>
+    <a href="https://projmgmtai.gumroad.com" class="font-semibold text-indigo-700 hover:underline dark:text-amber-400">Browse more PMP study guides</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = stored ? stored === 'dark' : prefersDark;
+    root.classList.toggle('dark', isDark);
+
+    function syncIcons() {
+      var dark = root.classList.contains('dark');
+      var sun = document.getElementById('icon-sun');
+      var moon = document.getElementById('icon-moon');
+      if (sun && moon) {
+        sun.classList.toggle('hidden', !dark);
+        moon.classList.toggle('hidden', dark);
+      }
+    }
+    syncIcons();
+
+    var toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        var dark = !root.classList.contains('dark');
+        root.classList.toggle('dark', dark);
+        try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+        syncIcons();
+      });
+    }
+  })();
+
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  (function () {
+    var form = document.getElementById('demo-quiz');
+    var result = document.getElementById('demo-result');
+    var hint = document.getElementById('demo-hint');
+    var resetBtn = document.getElementById('demo-reset');
+    var correct = 'b';
+    var rationale = {
+      a: 'Not quite — monitoring without escalation lets a repeat blocker keep eating the schedule.',
+      b: 'Correct! Root cause analysis plus a logged, escalated issue is exactly the enabler sequence PMI tests for Task 4.',
+      c: 'Not quite — reassigning without investigating skips root cause analysis entirely.',
+      d: 'Not quite — waiting for the retrospective delays action stakeholders are already escalating about.'
+    };
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var selected = form.querySelector('input[name="demo-answer"]:checked');
+        if (!selected) {
+          hint.textContent = 'Pick an option first, then check your answer.';
+          return;
+        }
+        var isCorrect = selected.value === correct;
+        result.classList.remove('hidden');
+        result.className = 'mt-5 rounded-xl border p-4 text-sm ' + (isCorrect
+          ? 'border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+          : 'border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300');
+        result.textContent = rationale[selected.value];
+        hint.textContent = isCorrect ? 'Nice work.' : 'Here\'s the reasoning:';
+      });
+    }
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        form.reset();
+        result.classList.add('hidden');
+        hint.textContent = 'Select an option, then check your answer.';
+      });
+    }
+  })();
+
+  document.getElementById('gr-buy').addEventListener('click', function () {
+    var v = (document.getElementById('gr-price').value || '').trim(), params = {};
+    if (v !== '') {
+      var n = parseFloat(v);
+      if (!isNaN(n) && n >= 0) params.price = String(n);
+    }
+    parent.postMessage({ type: 'gumroad:checkout', params: params }, '*');
+  });
+</script>
+
+</div>
