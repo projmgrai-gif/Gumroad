@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agentic PM — 8 Ready-to-Deploy AI Agents for Project Managers</title>
+<meta name="description" content="Stop re-explaining your project to ChatGPT every week. 8 copy-paste AI agent setups for the recurring work PMs actually do — status reports, RAID logs, retros, and closeout." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0a101e',
+          panel: '#111a2e',
+          panel2: '#161f36',
+          line: '#26314e',
+          cyan: '#38d9e8',
+          amber: '#fbbf24',
+        },
+        fontFamily: {
+          sans: ['-apple-system','BlinkMacSystemFont','Segoe UI','Inter','Roboto','Helvetica Neue','Arial','sans-serif'],
+        },
+        boxShadow: {
+          glow: '0 0 0 1px rgba(56,217,232,0.25), 0 8px 30px -8px rgba(56,217,232,0.35)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { color-scheme: light dark; }
+  body { background-color: #f6f7fb; }
+  html.dark body { background-color: #0a101e; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    html { scroll-behavior: auto !important; }
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(148,163,184,0.09) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148,163,184,0.09) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+  html.dark .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px);
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(70px);
+    pointer-events: none;
+  }
+
+  .num-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2rem; height: 2rem; border-radius: .6rem; font-weight: 800; font-size: .85rem;
+  }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .faq-chevron { transform: rotate(180deg); }
+
+  .skip-link:focus {
+    clip: auto !important; width: auto !important; height: auto !important;
+    padding: .5rem 1rem; position: fixed; top: .5rem; left: .5rem; z-index: 100;
+  }
+
+  #sticky-bar { transform: translateY(120%); transition: transform .35s ease; }
+  #sticky-bar.show { transform: translateY(0); }
+
+  #lightbox { transition: opacity .2s ease; }
+
+  ::selection { background: rgba(56,217,232,0.35); }
+</style>
+</head>
+<body class="font-sans text-slate-800 dark:text-slate-100 antialiased">
+
+<a href="#main" class="skip-link absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 bg-cyan text-ink rounded-md">Skip to content</a>
+
+<!-- ============ NAV ============ -->
+<header class="sticky top-0 z-40 border-b border-slate-200/70 dark:border-line/70 bg-white/80 dark:bg-ink/80 backdrop-blur">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="https://projmgmtai.gumroad.com" class="flex items-center gap-2 font-extrabold tracking-tight">
+      <span class="inline-block h-2.5 w-2.5 rounded-full bg-cyan"></span>
+      <span>AGENTIC<span class="text-cyan">PM</span></span>
+    </a>
+    <div class="flex items-center gap-3">
+      <button id="theme-toggle" type="button" aria-label="Toggle dark mode" class="grid place-items-center h-9 w-9 rounded-full border border-slate-300 dark:border-line text-slate-600 dark:text-slate-300 hover:border-cyan hover:text-cyan transition">
+        <svg id="icon-sun" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg id="icon-moon" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+      </button>
+      <button type="button" data-gumroad-action="buy" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-cyan px-4 py-2 text-sm font-bold text-ink hover:brightness-105 active:scale-[.98] transition">
+        Get it — <span data-gumroad-field="price">$29</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden bg-grid">
+    <div class="glow-orb h-[420px] w-[420px] bg-cyan/20 -top-40 -left-32"></div>
+    <div class="glow-orb h-[380px] w-[420px] bg-amber/10 top-10 right-[-140px]"></div>
+
+    <div class="relative mx-auto max-w-6xl px-5 sm:px-8 pt-14 pb-16 sm:pt-20 sm:pb-24 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full border border-cyan/40 bg-cyan/10 px-3 py-1 text-xs font-bold tracking-wide text-cyan">
+          AI PROJMGMT GUIDE · 27-PAGE PDF
+        </span>
+
+        <h1 class="mt-5 text-4xl sm:text-5xl font-extrabold leading-[1.05] tracking-tight text-slate-900 dark:text-white">
+          Stop re-explaining your project to ChatGPT
+          <span class="text-cyan">every single week.</span>
+        </h1>
+
+        <p class="mt-5 text-lg text-slate-600 dark:text-slate-300 max-w-xl">
+          <span data-gumroad-field="name" class="sr-only">Agentic PM — 8 Ready-to-Deploy AI Agents for Project Managers</span>
+          8 ready-to-paste AI agent setups for the recurring work PMs actually spend their time on — status reports, RAID logs, meeting follow-ups, retros, and closeout. Brief the AI once. Reuse it every week.
+        </p>
+
+        <div class="mt-6 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+          <span data-gumroad-field="rating" class="text-amber tracking-tight">☆☆☆☆☆</span>
+          <span data-gumroad-field="review-count">Be the first to review</span>
+        </div>
+
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <button type="button" data-gumroad-action="buy"
+            class="inline-flex items-center gap-2 rounded-xl bg-cyan px-6 py-3.5 text-base font-extrabold text-ink shadow-glow hover:brightness-105 active:scale-[.98] transition">
+            I want this — <span data-gumroad-field="price">$29</span>
+          </button>
+          <a href="#agents" class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-cyan transition underline underline-offset-4 decoration-slate-300 dark:decoration-line">
+            See all 8 agents ↓
+          </a>
+        </div>
+
+        <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
+          <li class="flex items-center gap-1.5"><svg class="h-4 w-4 text-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Instant PDF download</li>
+          <li class="flex items-center gap-1.5"><svg class="h-4 w-4 text-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Works with Claude, ChatGPT &amp; Gemini</li>
+          <li class="flex items-center gap-1.5"><svg class="h-4 w-4 text-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>30-day refund</li>
+        </ul>
+      </div>
+
+      <div class="reveal">
+        <div class="relative mx-auto max-w-sm">
+          <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-cyan/25 to-amber/10 blur-2xl"></div>
+          <img
+            src="https://public-files.gumroad.com/p9m3ubt6y5minztdwzyykbwiix56"
+            alt="Agentic PM cover — 8 Ready-to-Deploy AI Agents for Project Managers, 27-page PDF"
+            width="600" height="600"
+            class="relative rounded-3xl border border-slate-200 dark:border-line shadow-2xl w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAIN / RELATABLE ============ -->
+  <section class="border-y border-slate-200 dark:border-line bg-white dark:bg-panel">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8 py-14 sm:py-16">
+      <div class="reveal grid md:grid-cols-3 gap-8 text-center md:text-left">
+        <div>
+          <p class="text-3xl">🔁</p>
+          <h3 class="mt-3 font-bold text-lg">Same report, every Monday</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">You paste the charter, the RAID log, and last week's report into the AI again — from scratch — every single time.</p>
+        </div>
+        <div>
+          <p class="text-3xl">✂️</p>
+          <h3 class="mt-3 font-bold text-lg">You're still the assembler</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Prompt packs give you one good instruction. You're still the one running each step in order and stitching the outputs together.</p>
+        </div>
+        <div>
+          <p class="text-3xl">🤷</p>
+          <h3 class="mt-3 font-bold text-lg">Or it just guesses</h3>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Ask a generic assistant for a status and it'll happily invent an owner or a RAG color instead of saying "not in the input."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FRAMEWORK ============ -->
+  <section class="mx-auto max-w-6xl px-5 sm:px-8 py-16 sm:py-24">
+    <div class="reveal grid lg:grid-cols-2 gap-12 items-center">
+      <div class="order-2 lg:order-1">
+        <span class="inline-flex items-center gap-2 rounded-full border border-cyan/40 bg-cyan/10 px-3 py-1 text-xs font-bold tracking-wide text-cyan">
+          EVERY MODULE INCLUDES
+        </span>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight">One setup. Six parts. Reused forever.</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">
+          Each agent is briefed once — like onboarding a new coordinator — with the same six blocks. After that, you just paste in raw input and get back a finished draft.
+        </p>
+
+        <ol class="mt-8 space-y-3">
+          <li class="flex gap-4 rounded-xl border border-slate-200 dark:border-line bg-slate-50 dark:bg-panel2 p-4">
+            <span class="num-chip border border-cyan text-cyan shrink-0">1</span>
+            <div><p class="font-bold">Role</p><p class="text-sm text-slate-500 dark:text-slate-400">Who the AI acts as for this workflow</p></div>
+          </li>
+          <li class="flex gap-4 rounded-xl border border-slate-200 dark:border-line bg-slate-50 dark:bg-panel2 p-4">
+            <span class="num-chip border border-cyan text-cyan shrink-0">2</span>
+            <div><p class="font-bold">Persistent Context</p><p class="text-sm text-slate-500 dark:text-slate-400">The reference docs it holds onto across the whole session</p></div>
+          </li>
+          <li class="flex gap-4 rounded-xl border border-slate-200 dark:border-line bg-slate-50 dark:bg-panel2 p-4">
+            <span class="num-chip border border-cyan text-cyan shrink-0">3</span>
+            <div><p class="font-bold">Trigger</p><p class="text-sm text-slate-500 dark:text-slate-400">The exact prompt you paste in, written out in full — not brackets to fill in</p></div>
+          </li>
+          <li class="flex gap-4 rounded-xl border border-slate-200 dark:border-line bg-slate-50 dark:bg-panel2 p-4">
+            <span class="num-chip border border-cyan text-cyan shrink-0">4</span>
+            <div><p class="font-bold">Multi-Step Process</p><p class="text-sm text-slate-500 dark:text-slate-400">The method and checks it applies, in order, every time</p></div>
+          </li>
+          <li class="flex gap-4 rounded-xl border border-slate-200 dark:border-line bg-slate-50 dark:bg-panel2 p-4">
+            <span class="num-chip border border-cyan text-cyan shrink-0">5</span>
+            <div><p class="font-bold">Output Format</p><p class="text-sm text-slate-500 dark:text-slate-400">Exactly what you get back — with a real sample shown</p></div>
+          </li>
+          <li class="flex gap-4 rounded-xl border border-slate-200 dark:border-line bg-slate-50 dark:bg-panel2 p-4">
+            <span class="num-chip border border-cyan text-cyan shrink-0">6</span>
+            <div><p class="font-bold">Guardrails</p><p class="text-sm text-slate-500 dark:text-slate-400">What it must never do — most often "never guess when the input doesn't say"</p></div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="order-1 lg:order-2">
+        <button type="button" data-lightbox="https://public-files.gumroad.com/6c85ppjyhu4vodn7m0s75a2prhsm" data-lightbox-alt="One Setup, Six Parts — Role, Context, Trigger, Process, Output, Guardrails"
+          class="block mx-auto max-w-sm w-full group focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan/50 rounded-3xl">
+          <img
+            src="https://public-files.gumroad.com/6c85ppjyhu4vodn7m0s75a2prhsm"
+            alt="Diagram: One Setup, Six Parts — Role, Context, Trigger, Process, Output, Guardrails"
+            width="600" height="600"
+            class="rounded-3xl border border-slate-200 dark:border-line shadow-xl w-full group-hover:-translate-y-1 transition"
+          />
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 8 AGENTS ============ -->
+  <section id="agents" class="border-y border-slate-200 dark:border-line bg-white dark:bg-panel">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8 py-16 sm:py-24">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 rounded-full border border-cyan/40 bg-cyan/10 px-3 py-1 text-xs font-bold tracking-wide text-cyan">
+          WHAT'S INSIDE
+        </span>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight">8 agents, ready to deploy</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">Start with whichever row matches the task eating the most of your week.</p>
+      </div>
+
+      <div class="reveal mt-12 grid md:grid-cols-2 gap-4">
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">1</span>
+          <div><p class="font-bold">Weekly Status Report Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Turns scattered updates into an exec version and a team version in one pass.</p></div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">2</span>
+          <div><p class="font-bold">RAID Log Maintenance Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Classifies risks vs. issues correctly and outputs a diff, not a rewrite.</p></div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">3</span>
+          <div><p class="font-bold">Meeting Notes → Action Items Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Extracts owners and dates, drafts the follow-up email for you.</p></div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">4</span>
+          <div><p class="font-bold">Stakeholder Communications Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">One update, rewritten in the right tone for sponsor, team, and vendor.</p></div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">5</span>
+          <div><p class="font-bold">Change Request Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Drafts the change request and an assumption-honest impact analysis.</p></div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">6</span>
+          <div><p class="font-bold">Requirements Elicitation Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">BABOK-aligned candidate requirements straight from workshop notes.</p></div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">7</span>
+          <div><p class="font-bold">Retrospective Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Clusters feedback and flags recurring themes — with citations, not vibes.</p></div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-5 flex gap-4 hover:border-cyan/60 transition">
+          <span class="num-chip bg-cyan/10 text-cyan shrink-0">8</span>
+          <div><p class="font-bold">Closeout &amp; Lessons Learned Agent</p><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Builds the lessons-learned doc from your actual RAID log and retro history.</p></div>
+        </div>
+      </div>
+
+      <div class="reveal mt-10 flex justify-center">
+        <button type="button" data-lightbox="https://public-files.gumroad.com/maojbua6cbr93wu8azyw1wqi18i3" data-lightbox-alt="8 Agents, Ready to Deploy — full list"
+          class="text-sm font-semibold text-cyan hover:underline underline-offset-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan/50 rounded-lg px-2 py-1">
+          View as a single image ↗
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SAMPLE OUTPUT ============ -->
+  <section class="mx-auto max-w-6xl px-5 sm:px-8 py-16 sm:py-24">
+    <div class="reveal grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <button type="button" data-lightbox="https://public-files.gumroad.com/4ehawbevvnuolbw9icrxxbtcetff" data-lightbox-alt="Sample output — RAID Log Maintenance Agent"
+          class="block mx-auto max-w-sm w-full group focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan/50 rounded-3xl">
+          <img
+            src="https://public-files.gumroad.com/4ehawbevvnuolbw9icrxxbtcetff"
+            alt="Sample output card from the RAID Log Maintenance Agent, showing a new issue and a recommended closure"
+            width="600" height="600"
+            class="rounded-3xl border border-slate-200 dark:border-line shadow-xl w-full group-hover:-translate-y-1 transition"
+          />
+        </button>
+      </div>
+
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full border border-amber/40 bg-amber/10 px-3 py-1 text-xs font-bold tracking-wide text-amber">
+          SAMPLE OUTPUT
+        </span>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight">Real output. Not a mockup.</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">
+          Every one of the 8 modules ships with a worked example against one running project — the Meridian CRM Rollout, a fictional 6-month Salesforce-to-Meridian migration — so you see exactly what a finished draft looks like before you paste in your own data.
+        </p>
+        <ul class="mt-6 space-y-3 text-sm">
+          <li class="flex gap-3"><svg class="h-5 w-5 text-cyan shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Classifies a risk vs. an issue correctly instead of filing one as the other</span></li>
+          <li class="flex gap-3"><svg class="h-5 w-5 text-cyan shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Flags "not yet assessed" instead of inventing a schedule impact</span></li>
+          <li class="flex gap-3"><svg class="h-5 w-5 text-cyan shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Outputs a diff — New / Updated / Recommend closing — not a full rewrite</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SETUP / TOOLS ============ -->
+  <section class="border-y border-slate-200 dark:border-line bg-white dark:bg-panel">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8 py-16 sm:py-24">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 rounded-full border border-cyan/40 bg-cyan/10 px-3 py-1 text-xs font-bold tracking-wide text-cyan">
+          NO CODE, NO API KEYS
+        </span>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight">Set up once, in whatever tool you already use</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">Appendix B walks through setup for each; Appendix C collects every Role, Context, and Trigger from all 8 agents back-to-back for fast copying.</p>
+      </div>
+
+      <div class="reveal mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-6">
+          <p class="font-bold">Claude Projects</p>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Persistent knowledge + instructions</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-6">
+          <p class="font-bold">Custom GPTs</p>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">ChatGPT's persistent-context builder</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-6">
+          <p class="font-bold">Gemini Gems</p>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Google's saved-instruction assistants</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-line p-6">
+          <p class="font-bold">Copilot Studio</p>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Or any tool with no persistent memory</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AUTHOR ============ -->
+  <section class="mx-auto max-w-4xl px-5 sm:px-8 py-16 sm:py-20">
+    <div class="reveal rounded-3xl border border-slate-200 dark:border-line bg-slate-50 dark:bg-panel2 p-8 sm:p-10 flex flex-col sm:flex-row gap-6 items-start">
+      <img src="https://public-files.gumroad.com/rg8lniy526kt9v3uwkvqp8ghumhc" alt="Thomas J Dickie, author" width="64" height="64" class="h-16 w-16 rounded-full border border-slate-200 dark:border-line object-cover shrink-0" />
+      <div>
+        <p class="font-bold">Written by Thomas J Dickie, PMP® · CSM®</p>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+          25+ years running enterprise projects, including a decade in healthcare PM. Author of the Agentic PM series and several PMBOK®/BABOK®-aligned exam-prep and AI-prompting guides for project managers and business analysts.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="border-t border-slate-200 dark:border-line bg-white dark:bg-panel">
+    <div class="mx-auto max-w-3xl px-5 sm:px-8 py-16 sm:py-24">
+      <h2 class="reveal text-3xl font-extrabold tracking-tight text-center">Questions</h2>
+
+      <div class="mt-10 space-y-3">
+        <details class="reveal group rounded-2xl border border-slate-200 dark:border-line p-5 open:bg-slate-50 dark:open:bg-panel2">
+          <summary class="flex items-center justify-between gap-4 font-semibold">
+            Do I need to know how to code, or use the API?
+            <svg class="faq-chevron h-5 w-5 shrink-0 text-cyan transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">No. Every setup is plain-language instructions you paste into a chat interface — Claude Projects, a Custom GPT, Gemini Gems, or Copilot Studio. No code, no API keys.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 dark:border-line p-5 open:bg-slate-50 dark:open:bg-panel2">
+          <summary class="flex items-center justify-between gap-4 font-semibold">
+            Will these agents connect to my systems and take action on their own?
+            <svg class="faq-chevron h-5 w-5 shrink-0 text-cyan transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">No — every agent here is a persistent-context drafting assistant. You paste input in, it drafts, you review and enter it into your actual systems. Nothing logs in, sends messages, or updates a record on its own.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 dark:border-line p-5 open:bg-slate-50 dark:open:bg-panel2">
+          <summary class="flex items-center justify-between gap-4 font-semibold">
+            I'm a business analyst, not a PM — is this still useful?
+            <svg class="faq-chevron h-5 w-5 shrink-0 text-cyan transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">Module 6 is a BABOK-aligned Requirements Elicitation Agent built specifically for the PM/BA crossover — turning workshop notes into structured, traceable candidate requirements.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 dark:border-line p-5 open:bg-slate-50 dark:open:bg-panel2">
+          <summary class="flex items-center justify-between gap-4 font-semibold">
+            What format is this, and how do I get it?
+            <svg class="faq-chevron h-5 w-5 shrink-0 text-cyan transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">A 27-page PDF, delivered as an instant download right after checkout — no account or app required.</p>
+        </details>
+
+        <details class="reveal group rounded-2xl border border-slate-200 dark:border-line p-5 open:bg-slate-50 dark:open:bg-panel2">
+          <summary class="flex items-center justify-between gap-4 font-semibold">
+            What if it's not for me?
+            <svg class="faq-chevron h-5 w-5 shrink-0 text-cyan transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">30-day, no-questions refund.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FULL DESCRIPTION (live-synced) ============ -->
+  <section class="mx-auto max-w-3xl px-5 sm:px-8 py-10">
+    <details class="reveal rounded-2xl border border-slate-200 dark:border-line p-5">
+      <summary class="flex items-center justify-between gap-4 font-semibold text-sm text-slate-600 dark:text-slate-400">
+        Full product description
+        <svg class="faq-chevron h-4 w-4 shrink-0 text-cyan transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </summary>
+      <div data-gumroad-field="description" class="prose prose-sm dark:prose-invert max-w-none mt-4 text-slate-600 dark:text-slate-400">
+        A copy-paste system for turning ChatGPT, Claude, or Gemini into 8 standing project-management assistants. 27-page PDF, instant download.
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="relative overflow-hidden bg-ink text-white">
+    <div class="glow-orb h-[420px] w-[420px] bg-cyan/25 -bottom-40 left-1/2 -translate-x-1/2"></div>
+    <div class="relative mx-auto max-w-3xl px-5 sm:px-8 py-20 sm:py-28 text-center">
+      <h2 class="reveal text-3xl sm:text-4xl font-extrabold tracking-tight">Brief it once. Reuse it every week.</h2>
+      <p class="reveal mt-4 text-slate-300 max-w-xl mx-auto">8 agents, 27 pages, one running example carried through every module — <span data-gumroad-field="name">Agentic PM</span> is ready the moment you download it.</p>
+      <div class="reveal mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <button type="button" data-gumroad-action="buy"
+          class="inline-flex items-center gap-2 rounded-xl bg-cyan px-7 py-4 text-base font-extrabold text-ink shadow-glow hover:brightness-105 active:scale-[.98] transition">
+          I want this — <span data-gumroad-field="price">$29</span>
+        </button>
+        <span class="text-sm text-slate-400">Instant download · 30-day refund</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-white dark:bg-panel border-t border-slate-200 dark:border-line">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8 py-10 flex flex-col sm:flex-row gap-4 items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+    <p>© Thomas J Dickie. Not affiliated with PMI®, IIBA®, Anthropic, or OpenAI.</p>
+    <a href="https://projmgmtai.gumroad.com" class="hover:text-cyan transition font-semibold">More guides at Project Management AI →</a>
+  </div>
+</footer>
+
+<!-- ============ STICKY BUY BAR ============ -->
+<div id="sticky-bar" class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 dark:border-line bg-white/95 dark:bg-ink/95 backdrop-blur">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8 py-3 flex items-center justify-between gap-4">
+    <div class="min-w-0">
+      <p class="font-bold truncate"><span data-gumroad-field="name">Agentic PM</span></p>
+      <p class="text-xs text-slate-500 dark:text-slate-400">27-page PDF · instant download</p>
+    </div>
+    <button type="button" data-gumroad-action="buy"
+      class="shrink-0 inline-flex items-center gap-2 rounded-lg bg-cyan px-4 py-2.5 text-sm font-extrabold text-ink hover:brightness-105 active:scale-[.98] transition">
+      Get it — <span data-gumroad-field="price">$29</span>
+    </button>
+  </div>
+</div>
+
+<!-- ============ LIGHTBOX ============ -->
+<div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/90 p-6" role="dialog" aria-modal="true" aria-label="Image preview">
+  <button id="lightbox-close" type="button" aria-label="Close image preview" class="absolute top-5 right-5 h-10 w-10 grid place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-2xl shadow-2xl" />
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- Theme ----------
+  var root = document.documentElement;
+  var sun = document.getElementById("icon-sun");
+  var moon = document.getElementById("icon-moon");
+
+  function applyTheme(t) {
+    if (t === "dark") { root.classList.add("dark"); sun.classList.remove("hidden"); moon.classList.add("hidden"); }
+    else { root.classList.remove("dark"); sun.classList.add("hidden"); moon.classList.remove("hidden"); }
+  }
+  var stored = null;
+  try { stored = localStorage.getItem("agenticpm-theme"); } catch (e) {}
+  var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(stored || (prefersDark ? "dark" : "light"));
+
+  document.getElementById("theme-toggle").addEventListener("click", function () {
+    var next = root.classList.contains("dark") ? "light" : "dark";
+    applyTheme(next);
+    try { localStorage.setItem("agenticpm-theme", next); } catch (e) {}
+  });
+
+  // ---------- Scroll reveal ----------
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var items = document.querySelectorAll(".reveal");
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    items.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add("in"); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  // ---------- Sticky buy bar ----------
+  var bar = document.getElementById("sticky-bar");
+  var hero = document.querySelector("header");
+  var footer = document.querySelector("footer");
+  function onScroll() {
+    var past = window.scrollY > 640;
+    var footerRect = footer.getBoundingClientRect();
+    var nearFooter = footerRect.top < window.innerHeight - 40;
+    if (past && !nearFooter) bar.classList.add("show");
+    else bar.classList.remove("show");
+  }
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // ---------- Lightbox ----------
+  var lb = document.getElementById("lightbox");
+  var lbImg = document.getElementById("lightbox-img");
+  var lastFocused = null;
+
+  function openLightbox(src, alt) {
+    lastFocused = document.activeElement;
+    lbImg.src = src;
+    lbImg.alt = alt || "";
+    lb.classList.remove("hidden");
+    lb.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    document.getElementById("lightbox-close").focus();
+  }
+  function closeLightbox() {
+    lb.classList.add("hidden");
+    lb.classList.remove("flex");
+    lbImg.src = "";
+    document.body.style.overflow = "";
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  document.querySelectorAll("[data-lightbox]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      openLightbox(btn.getAttribute("data-lightbox"), btn.getAttribute("data-lightbox-alt"));
+    });
+  });
+  document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+  lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !lb.classList.contains("hidden")) closeLightbox();
+  });
+})();
+</script>
+
+</body>
+</html>
