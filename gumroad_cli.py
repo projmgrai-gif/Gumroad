@@ -122,6 +122,16 @@ class GumroadClient:
         result = self._request("POST", "/files/complete", data=complete_data)
         return result["file_url"]
 
+    def set_custom_page(self, product_id: str, html: str) -> dict:
+        """Replace a product's entire page with custom HTML (a "landing page").
+        Returns the full response, including sanitization_report (what the
+        server stripped) and, if present, a warning (e.g. no buy element)."""
+        return self._request("PUT", f"/products/{product_id}", data={"custom_html": html})
+
+    def clear_custom_page(self, product_id: str) -> dict:
+        """Remove a custom page and restore the default product page."""
+        return self._request("PUT", f"/products/{product_id}", data={"custom_html": ""})
+
     def set_thumbnail(self, product_id: str, local_path: str, filename: str | None = None) -> dict:
         """Upload a local image and set it as a product's cover thumbnail via
         Gumroad's direct-upload (ActiveStorage) flow."""
@@ -281,6 +291,16 @@ def build_parser() -> argparse.ArgumentParser:
     thumbnail_set.add_argument("product_id")
     thumbnail_set.add_argument("local_path")
 
+    page_set = sub.add_parser(
+        "page-set", help="Replace a product's page with custom HTML (a landing page)"
+    )
+    page_set.add_argument("product_id")
+    page_set.add_argument("html_path")
+
+    sub.add_parser("page-clear", help="Remove a custom page, restoring the default product page").add_argument(
+        "product_id"
+    )
+
     sales = sub.add_parser("sales", help="List sales")
     sales.add_argument("--after")
     sales.add_argument("--before")
@@ -367,6 +387,12 @@ def main(argv: list[str] | None = None) -> int:
             _print(client.update_product(args.product_id, files=[{"url": file_url}]))
         elif args.command == "thumbnail-set":
             _print(client.set_thumbnail(args.product_id, args.local_path))
+        elif args.command == "page-set":
+            with open(args.html_path) as fh:
+                html = fh.read()
+            _print(client.set_custom_page(args.product_id, html))
+        elif args.command == "page-clear":
+            _print(client.clear_custom_page(args.product_id))
         elif args.command == "sales":
             _print(
                 client.list_sales(

@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PMP Exam Prep: Remove Impediments &amp; Manage Issues (Domain III Task 4) – July 2026 ECO Aligned</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          accent: {
+            50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af',
+            400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c',
+            800: '#9f1239', 900: '#881337'
+          },
+          ink: { 50:'#f6f7f9',100:'#eceef2',200:'#d7dbe3',300:'#b3bac8',400:'#8993a8',
+                 500:'#69738c',600:'#525c73',700:'#3f475c',800:'#262b3a',900:'#14161f',950:'#0b0c12' }
+        },
+        fontFamily: { serif: ['Georgia','Cambria','"Times New Roman"','serif'], sans: ['ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
+        boxShadow: { glow: '0 0 60px -15px var(--tw-shadow-color)' }
+      }
+    }
+  }
+</script>
+<style>
+  :root { color-scheme: light dark; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { background: #fff; }
+  html.dark body { background: #0b0c12; }
+
+  @keyframes floaty { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } }
+  @keyframes pulseGlow { 0%,100%{ opacity:.55 } 50%{ opacity:1 } }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(18px) } to { opacity:1; transform: translateY(0) } }
+
+  .float-slow { animation: floaty 6s ease-in-out infinite; }
+  .glow-pulse { animation: pulseGlow 4s ease-in-out infinite; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-slow, .glow-pulse { animation: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, currentColor 1px, transparent 1px),
+      linear-gradient(to bottom, currentColor 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+
+  .accent-gradient { background-image: linear-gradient(135deg, var(--acc-from), var(--acc-to)); }
+
+  details.faq > summary { cursor: pointer; list-style: none; }
+  details.faq > summary::-webkit-details-marker { display: none; }
+  details.faq[open] .chev { transform: rotate(180deg); }
+
+  .skip-link:focus { transform: translateY(0); }
+</style>
+</head>
+<body class="font-sans text-ink-900 dark:text-ink-100 selection:bg-accent-300 selection:text-ink-900"
+      style="--acc-from:#f43f5e; --acc-to:#be123c;">
+
+<a href="#main" class="skip-link fixed -translate-y-20 focus:translate-y-0 top-2 left-2 z-[100] bg-accent-600 text-white px-4 py-2 rounded-md transition-transform">Skip to content</a>
+
+<!-- Theme + buy bar -->
+<header class="sticky top-0 z-50 backdrop-blur bg-white/85 dark:bg-ink-950/85 border-b border-ink-200/70 dark:border-ink-800/70">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2 min-w-0">
+      <div class="h-8 w-8 rounded-lg accent-gradient flex items-center justify-center text-white font-bold text-sm shrink-0" aria-hidden="true">P</div>
+      <span class="font-semibold tracking-tight truncate text-sm sm:text-base">PMP Exam Prep Series</span>
+    </div>
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <button id="theme-toggle" type="button" aria-label="Toggle dark mode"
+        class="h-9 w-9 rounded-full border border-ink-200 dark:border-ink-700 flex items-center justify-center hover:bg-ink-100 dark:hover:bg-ink-800 transition-colors">
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a data-gumroad-action="buy" href="#buy"
+         class="hidden sm:inline-flex items-center gap-2 accent-gradient text-white text-sm font-semibold px-4 py-2 rounded-full shadow hover:brightness-110 active:brightness-95 transition">
+        <span data-gumroad-field="price">$17.99</span><span>&middot; I want this!</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 text-accent-200 dark:text-accent-900/40 bg-grid opacity-[0.35] dark:opacity-[0.15]" aria-hidden="true"></div>
+  <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full accent-gradient opacity-20 blur-3xl float-slow -z-10" aria-hidden="true"></div>
+  <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full accent-gradient opacity-10 blur-3xl float-slow -z-10" style="animation-delay:-3s" aria-hidden="true"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-16 sm:pt-20 sm:pb-24 grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+    <div class="reveal">
+      <p class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-accent-700 dark:text-accent-300 bg-accent-50 dark:bg-accent-900/30 border border-accent-200 dark:border-accent-800 px-3 py-1.5 rounded-full">
+        <span class="h-1.5 w-1.5 rounded-full accent-gradient"></span>
+        Domain III &middot; Task 4 &middot; July 2026 ECO
+      </p>
+
+      <h1 class="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.12] font-serif font-bold tracking-tight">
+        Turn impediments and issues from a weak spot into your strongest domain.
+      </h1>
+
+      <p class="mt-5 text-base sm:text-lg text-ink-600 dark:text-ink-300 max-w-xl">
+        47 scenario-based questions on recognizing, prioritizing, and resolving the blockers and issues that stall real projects.
+      </p>
+
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <div class="flex items-center gap-1.5" data-gumroad-field="rating" aria-label="Rating">
+          <span class="flex text-accent-500" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+          </span>
+          <span class="text-ink-500 dark:text-ink-400" data-gumroad-field="review-count">Be the first to review</span>
+        </div>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">47 practice questions</span>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">6 ECO enablers covered</span>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a data-gumroad-action="buy" href="#buy"
+           class="inline-flex items-center gap-2 accent-gradient text-white font-semibold px-6 py-3.5 rounded-full shadow-lg shadow-accent-600/20 hover:brightness-110 active:scale-[0.98] transition">
+          Get instant access &mdash; <span data-gumroad-field="price">$17.99</span>
+        </a>
+        <a href="#inside" class="inline-flex items-center gap-1.5 font-semibold text-ink-700 dark:text-ink-200 hover:text-accent-700 dark:hover:text-accent-300 transition">
+          See what's inside
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd"/></svg>
+        </a>
+      </div>
+
+      <p class="mt-6 text-xs text-ink-500 dark:text-ink-400 flex items-center gap-1.5">
+        <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/></svg>
+        Instant PDF download &middot; Lifetime access &middot; Secure checkout via Gumroad
+      </p>
+    </div>
+
+    <div class="reveal relative" style="transition-delay:.1s">
+      <div class="absolute inset-0 accent-gradient rounded-[2rem] blur-2xl opacity-25 glow-pulse -z-10" aria-hidden="true"></div>
+      <div class="float-slow mx-auto max-w-sm rounded-[1.75rem] border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 shadow-2xl shadow-ink-900/10 dark:shadow-black/40 p-3">
+        <img src="https://public-files.gumroad.com/y8ai8xeh1aqzqkh20fjaq041uqeg" alt="PMP Exam Prep: Remove Impediments &amp; Manage Issues (Domain III Task 4) – July 2026 ECO Aligned cover" class="w-full aspect-square object-cover rounded-2xl" width="600" height="600" loading="eager">
+        <div class="mt-3 flex items-center justify-between px-1 pb-1">
+          <div class="text-sm">
+            <p class="font-semibold" data-gumroad-field="name">PMP Exam Prep: Remove Impediments &amp; Manage Issues (Domain III Task 4) – July 2026 ECO Aligned</p>
+            <p class="text-ink-500 dark:text-ink-400">PDF &middot; 47 questions</p>
+          </div>
+          <p class="text-lg font-bold text-accent-700 dark:text-accent-300" data-gumroad-field="price">$17.99</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="border-y border-ink-200 dark:border-ink-800 bg-ink-50/70 dark:bg-ink-900/40">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+    <div class="reveal">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">47</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Original practice questions</p>
+    </div>
+    <div class="reveal" style="transition-delay:.05s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">6</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">ECO enablers, fully mapped</p>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">1</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Integrated case study</p>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">26%</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">of the exam is Business Environment</p>
+    </div>
+  </div>
+</section>
+
+<!-- ENABLERS -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="max-w-2xl reveal">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">What you'll master</h2>
+    <p class="mt-3 text-ink-600 dark:text-ink-300">Every question in this guide is written against a named enabler from PMI's July 2026 Examination Content Outline &mdash; so you always know exactly what you're being tested on.</p>
+  </div>
+  <ul class="mt-10 grid sm:grid-cols-2 gap-4">
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">Evaluate the impact of impediments</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">Prioritize and highlight impediments</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">Determine and apply an intervention strategy</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">Reassess continually</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">Recognize when a risk becomes an issue</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">Collaborate with stakeholders to resolve issues</span>
+    </li>
+  </ul>
+</section>
+
+<!-- INSIDE / STRUCTURE -->
+<section id="inside" class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <div class="max-w-2xl reveal">
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Inside the guide</h2>
+      <p class="mt-3 text-ink-600 dark:text-ink-300">A clear, scenario-driven path from foundational concepts to an integrated case study &mdash; then a fully explained answer key.</p>
+    </div>
+
+    <ol class="mt-10 relative border-s-2 border-accent-200 dark:border-accent-900 ms-3 space-y-8">
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">1</span>
+        <p class="font-semibold">Evaluating and Prioritizing Impediments</p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Size the impact, then make the right blockers visible to the right people.</p>
+      </li>
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">2</span>
+        <p class="font-semibold">Applying Intervention Strategies and Continual Reassessment</p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Act on a blocker — then keep checking that it actually worked.</p>
+      </li>
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">3</span>
+        <p class="font-semibold">Recognizing and Resolving Issues</p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Know when a risk has become a current problem, and collaborate to fix it.</p>
+      </li>
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">4</span>
+        <p class="font-semibold">Integrated Case Study</p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">A vendor-outage risk that materializes right through a contingency plan.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- TECHNIQUES -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="max-w-2xl reveal">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Supporting techniques you'll practice</h2>
+    <p class="mt-3 text-ink-600 dark:text-ink-300">Common, widely used tools taught alongside the ECO enablers they support.</p>
+  </div>
+  <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="reveal rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-5">
+      <div class="h-9 w-9 rounded-lg bg-accent-100 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 flex items-center justify-center" aria-hidden="true">
+        <svg class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a.75.75 0 01.75.75v.518a6.5 6.5 0 015.73 5.73h.52a.75.75 0 010 1.5h-.52a6.5 6.5 0 01-5.73 5.73v.52a.75.75 0 01-1.5 0v-.52a6.5 6.5 0 01-5.73-5.73h-.52a.75.75 0 010-1.5h.52a6.5 6.5 0 015.73-5.73V2.75A.75.75 0 0110 2zm0 3.5A4.5 4.5 0 1010 14.5 4.5 4.5 0 0010 5.5z"/></svg>
+      </div>
+      <p class="mt-3 font-semibold text-sm">Root cause analysis (5 Whys)</p>
+      <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">Drill past symptoms to the actual underlying cause.</p>
+    </div>
+    <div class="reveal rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-5">
+      <div class="h-9 w-9 rounded-lg bg-accent-100 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 flex items-center justify-center" aria-hidden="true">
+        <svg class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a.75.75 0 01.75.75v.518a6.5 6.5 0 015.73 5.73h.52a.75.75 0 010 1.5h-.52a6.5 6.5 0 01-5.73 5.73v.52a.75.75 0 01-1.5 0v-.52a6.5 6.5 0 01-5.73-5.73h-.52a.75.75 0 010-1.5h.52a6.5 6.5 0 015.73-5.73V2.75A.75.75 0 0110 2zm0 3.5A4.5 4.5 0 1010 14.5 4.5 4.5 0 0010 5.5z"/></svg>
+      </div>
+      <p class="mt-3 font-semibold text-sm">Issue logs</p>
+      <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">Give resolution work visibility and accountability.</p>
+    </div>
+    <div class="reveal rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-5">
+      <div class="h-9 w-9 rounded-lg bg-accent-100 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 flex items-center justify-center" aria-hidden="true">
+        <svg class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a.75.75 0 01.75.75v.518a6.5 6.5 0 015.73 5.73h.52a.75.75 0 010 1.5h-.52a6.5 6.5 0 01-5.73 5.73v.52a.75.75 0 01-1.5 0v-.52a6.5 6.5 0 01-5.73-5.73h-.52a.75.75 0 010-1.5h.52a6.5 6.5 0 015.73-5.73V2.75A.75.75 0 0110 2zm0 3.5A4.5 4.5 0 1010 14.5 4.5 4.5 0 0010 5.5z"/></svg>
+      </div>
+      <p class="mt-3 font-semibold text-sm">Escalation paths</p>
+      <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">Match resolution authority to the real scope of the impediment.</p>
+    </div>
+    <div class="reveal rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-5">
+      <div class="h-9 w-9 rounded-lg bg-accent-100 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 flex items-center justify-center" aria-hidden="true">
+        <svg class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a.75.75 0 01.75.75v.518a6.5 6.5 0 015.73 5.73h.52a.75.75 0 010 1.5h-.52a6.5 6.5 0 01-5.73 5.73v.52a.75.75 0 01-1.5 0v-.52a6.5 6.5 0 01-5.73-5.73h-.52a.75.75 0 010-1.5h.52a6.5 6.5 0 015.73-5.73V2.75A.75.75 0 0110 2zm0 3.5A4.5 4.5 0 1010 14.5 4.5 4.5 0 0010 5.5z"/></svg>
+      </div>
+      <p class="mt-3 font-semibold text-sm">RACI-style ownership</p>
+      <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">Clarify who's actually responsible before ambiguity stalls the team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <div class="reveal rounded-3xl accent-gradient p-[1.5px]">
+      <div class="rounded-3xl bg-white dark:bg-ink-950 p-8 sm:p-10 grid lg:grid-cols-[auto_1fr] gap-6 items-start">
+        <div class="h-12 w-12 rounded-xl accent-gradient flex items-center justify-center text-white shrink-0" aria-hidden="true">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+        <div>
+          <p class="text-xs font-bold tracking-widest uppercase text-accent-700 dark:text-accent-300">Integrated case study</p>
+          <p class="mt-2 text-lg sm:text-xl font-serif font-semibold leading-snug">A vendor-outage risk materializes right through a contingency plan that only partly holds — what's still exposed, and who owns closing the gap?</p>
+          <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">Real project work rarely respects domain boundaries &mdash; this scenario is built to test judgment the way the exam does, drawing on more than one task at once.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="reveal grid sm:grid-cols-[auto_1fr] gap-6 items-center max-w-3xl mx-auto text-center sm:text-left">
+    <div class="mx-auto sm:mx-0 h-16 w-16 rounded-full accent-gradient flex items-center justify-center text-white font-serif font-bold text-xl shrink-0">TD</div>
+    <div>
+      <p class="font-semibold">Thomas J. Dickie, PMP&reg;, CSM&reg;</p>
+      <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">25+ years in project management, including over a decade leading healthcare projects. Builds AI-assisted study materials mapped directly to PMI's current Examination Content Outline.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-center reveal">Questions, answered</h2>
+    <div class="mt-10 space-y-3 reveal">
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          What format is the guide delivered in?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">A downloadable PDF you can read on any device, with a full answer key and rationale for every question.</p>
+      </details>
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          Is this official PMI material?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">No &mdash; this is an independent study guide, not sponsored, endorsed by, or affiliated with the Project Management Institute (PMI). It's written directly against PMI's published July 2026 Examination Content Outline for study alignment.</p>
+      </details>
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          Do I need the rest of the series?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">No &mdash; this guide is fully self-contained for Task 4. It's part of a larger series covering every domain and task on the current ECO, so it also works well alongside the others.</p>
+      </details>
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          What if it's not right for me?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">Reach out through Gumroad and we'll sort it out.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="buy" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+  <div class="reveal relative overflow-hidden rounded-[2rem] accent-gradient px-6 sm:px-14 py-14 sm:py-16 text-center text-white">
+    <div class="absolute inset-0 bg-grid opacity-[0.12]" aria-hidden="true"></div>
+    <p class="relative text-xs font-bold tracking-widest uppercase text-white/80">Domain III &middot; Task 4</p>
+    <h2 class="relative mt-4 text-2xl sm:text-4xl font-serif font-bold leading-tight max-w-2xl mx-auto">
+      Walk into impediment &amp; issue questions already knowing how PMI thinks.
+    </h2>
+    <p class="relative mt-4 text-white/85 max-w-xl mx-auto">47 scenario-based questions, a full answer key, and an integrated case study &mdash; built from the current July 2026 ECO.</p>
+    <div class="relative mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a data-gumroad-action="buy" href="#"
+         class="inline-flex items-center gap-2 bg-white text-ink-900 font-bold px-7 py-4 rounded-full shadow-xl hover:bg-ink-50 active:scale-[0.98] transition text-base">
+        Get instant access &mdash; <span data-gumroad-field="price">$17.99</span>
+      </a>
+      <p class="text-xs text-white/75">Secure checkout via Gumroad &middot; Instant download</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 text-xs text-ink-500 dark:text-ink-400 space-y-3">
+    <p><a href="https://projmgmtai.gumroad.com" class="font-semibold text-ink-700 dark:text-ink-200 hover:text-accent-700 dark:hover:text-accent-300">More PMP Exam Prep guides &rarr;</a></p>
+    <p>This is an independent study guide and is not sponsored, endorsed by, or affiliated with the Project Management Institute (PMI). &quot;PMI,&quot; &quot;PMP,&quot; and other referenced marks are marks of Project Management Institute, Inc.</p>
+  </div>
+</footer>
+
+<!-- Mobile sticky buy bar -->
+<div class="fixed bottom-0 inset-x-0 z-50 sm:hidden bg-white/95 dark:bg-ink-950/95 backdrop-blur border-t border-ink-200 dark:border-ink-800 px-4 py-3 flex items-center justify-between gap-3">
+  <div class="text-sm">
+    <p class="text-ink-500 dark:text-ink-400 leading-none">Price</p>
+    <p class="font-bold text-base leading-tight" data-gumroad-field="price">$17.99</p>
+  </div>
+  <a data-gumroad-action="buy" href="#buy"
+     class="flex-1 text-center accent-gradient text-white font-semibold px-4 py-2.5 rounded-full">
+    I want this!
+  </a>
+</div>
+<div class="h-16 sm:hidden" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var toggle = document.getElementById('theme-toggle');
+  var stored = null;
+  try { stored = localStorage.getItem('gr-theme'); } catch (e) {}
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(mode) {
+    if (mode === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+  }
+  apply(stored ? stored : (prefersDark ? 'dark' : 'light'));
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      var isDark = root.classList.contains('dark');
+      var next = isDark ? 'light' : 'dark';
+      apply(next);
+      try { localStorage.setItem('gr-theme', next); } catch (e) {}
+    });
+  }
+
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add('in'); });
+  }
+})();
+</script>
+
+</body>
+</html>
