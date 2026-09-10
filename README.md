@@ -19,6 +19,11 @@ variable (or passed per-command with `--token`).
 python3 gumroad_cli.py user
 python3 gumroad_cli.py products
 python3 gumroad_cli.py product <product_id> [--action get|enable|disable]
+python3 gumroad_cli.py product-create <name> <price_cents> [--description TEXT] [--publish]
+python3 gumroad_cli.py product-update <product_id> [--name NAME] [--description TEXT] [--price-cents N] [--tag TAG ...]
+python3 gumroad_cli.py product-delete <product_id>
+python3 gumroad_cli.py file-upload <product_id> <local_path>       # attach a downloadable file
+python3 gumroad_cli.py thumbnail-set <product_id> <local_path>     # set the product's cover thumbnail
 python3 gumroad_cli.py sales [--after DATE] [--before DATE] [--email EMAIL] [--product-id ID]
 python3 gumroad_cli.py sale <sale_id>
 python3 gumroad_cli.py subscribers <product_id> [--email EMAIL]

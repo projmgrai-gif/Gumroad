@@ -8,6 +8,8 @@ the full list of commands.
 from __future__ import annotations
 
 import argparse
+import base64
+import hashlib
 import json
 import os
 import sys
@@ -36,6 +38,8 @@ class GumroadClient:
         data = kwargs.pop("data", {}) or {}
         if method.upper() == "GET":
             params["access_token"] = self.token
+        elif isinstance(data, list):
+            data.append(("access_token", self.token))
         else:
             data["access_token"] = self.token
 
@@ -69,6 +73,87 @@ class GumroadClient:
 
     def disable_product(self, product_id: str) -> dict:
         return self._request("PUT", f"/products/{product_id}/disable")
+
+    def create_product(self, name: str, price_cents: int, description: str | None = None,
+                        published: bool = False) -> dict:
+        data = {"name": name, "price": price_cents, "published": str(published).lower()}
+        if description is not None:
+            data["description"] = description
+        return self._request("POST", "/products", data=data)
+
+    def update_product(self, product_id: str, **fields: Any) -> dict:
+        data: list[tuple[str, Any]] = []
+        for key, value in fields.items():
+            if isinstance(value, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        data.extend((f"{key}[][{subkey}]", subvalue) for subkey, subvalue in item.items())
+                    else:
+                        data.append((f"{key}[]", item))
+            else:
+                data.append((key, value))
+        return self._request("PUT", f"/products/{product_id}", data=data)
+
+    def delete_product(self, product_id: str) -> dict:
+        return self._request("DELETE", f"/products/{product_id}")
+
+    def upload_file(self, local_path: str, filename: str | None = None) -> str:
+        """Upload a local file (e.g. a product's downloadable content) to Gumroad's
+        storage via the presign -> S3 PUT -> complete flow, returning its file_url.
+        Attach it to a product afterwards with update_product(files=[url])."""
+        filename = filename or os.path.basename(local_path)
+        size = os.path.getsize(local_path)
+        presign = self._request(
+            "POST", "/files/presign", data={"filename": filename, "file_size": size}
+        )
+        with open(local_path, "rb") as fh:
+            content = fh.read()
+        part = presign["parts"][0]
+        put_resp = self.session.put(part["presigned_url"], data=content)
+        put_resp.raise_for_status()
+        etag = put_resp.headers["ETag"].strip('"')
+
+        complete_data = [
+            ("upload_id", presign["upload_id"]),
+            ("key", presign["key"]),
+            ("parts[][part_number]", part["part_number"]),
+            ("parts[][etag]", etag),
+        ]
+        result = self._request("POST", "/files/complete", data=complete_data)
+        return result["file_url"]
+
+    def set_thumbnail(self, product_id: str, local_path: str, filename: str | None = None) -> dict:
+        """Upload a local image and set it as a product's cover thumbnail via
+        Gumroad's direct-upload (ActiveStorage) flow."""
+        filename = filename or os.path.basename(local_path)
+        with open(local_path, "rb") as fh:
+            content = fh.read()
+        checksum = base64.b64encode(hashlib.md5(content).digest()).decode()
+        content_type = "image/png" if filename.lower().endswith(".png") else "image/jpeg"
+
+        resp = self.session.post(
+            f"{API_BASE}/direct_uploads",
+            params={"access_token": self.token},
+            json={"blob": {
+                "filename": filename,
+                "content_type": content_type,
+                "byte_size": len(content),
+                "checksum": checksum,
+            }},
+        )
+        resp.raise_for_status()
+        direct_upload = resp.json()
+
+        upload = direct_upload["direct_upload"]
+        put_resp = self.session.put(upload["url"], data=content, headers=upload["headers"])
+        put_resp.raise_for_status()
+
+        result = self._request(
+            "POST",
+            f"/products/{product_id}/thumbnail",
+            data={"signed_blob_id": direct_upload["signed_id"]},
+        )
+        return result["thumbnail"]
 
     # -- Sales ------------------------------------------------------------
     def list_sales(self, after: str | None = None, before: str | None = None,
@@ -164,6 +249,38 @@ def build_parser() -> argparse.ArgumentParser:
         "--action", choices=["get", "enable", "disable"], default="get"
     )
 
+    product_create = sub.add_parser("product-create", help="Create a new product")
+    product_create.add_argument("name")
+    product_create.add_argument("price_cents", type=int, help="Price in cents, e.g. 1799 for $17.99")
+    product_create.add_argument("--description")
+    product_create.add_argument(
+        "--publish", action="store_true", help="Publish immediately (default: create as draft)"
+    )
+
+    product_update = sub.add_parser(
+        "product-update", help="Update a product's name/description/price/tags"
+    )
+    product_update.add_argument("product_id")
+    product_update.add_argument("--name")
+    product_update.add_argument("--description")
+    product_update.add_argument("--price-cents", type=int)
+    product_update.add_argument("--tag", dest="tags", action="append", help="Repeatable")
+
+    product_delete = sub.add_parser("product-delete", help="Delete a product")
+    product_delete.add_argument("product_id")
+
+    file_upload = sub.add_parser(
+        "file-upload", help="Upload a local file and attach it to a product's downloadable content"
+    )
+    file_upload.add_argument("product_id")
+    file_upload.add_argument("local_path")
+
+    thumbnail_set = sub.add_parser(
+        "thumbnail-set", help="Upload a local image and set it as a product's thumbnail"
+    )
+    thumbnail_set.add_argument("product_id")
+    thumbnail_set.add_argument("local_path")
+
     sales = sub.add_parser("sales", help="List sales")
     sales.add_argument("--after")
     sales.add_argument("--before")
@@ -225,6 +342,31 @@ def main(argv: list[str] | None = None) -> int:
                 _print(client.enable_product(args.product_id))
             elif args.action == "disable":
                 _print(client.disable_product(args.product_id))
+        elif args.command == "product-create":
+            _print(
+                client.create_product(
+                    args.name, args.price_cents, description=args.description,
+                    published=args.publish,
+                )
+            )
+        elif args.command == "product-update":
+            fields: dict[str, Any] = {}
+            if args.name is not None:
+                fields["name"] = args.name
+            if args.description is not None:
+                fields["description"] = args.description
+            if args.price_cents is not None:
+                fields["price"] = args.price_cents
+            if args.tags:
+                fields["tags"] = args.tags
+            _print(client.update_product(args.product_id, **fields))
+        elif args.command == "product-delete":
+            _print(client.delete_product(args.product_id))
+        elif args.command == "file-upload":
+            file_url = client.upload_file(args.local_path)
+            _print(client.update_product(args.product_id, files=[{"url": file_url}]))
+        elif args.command == "thumbnail-set":
+            _print(client.set_thumbnail(args.product_id, args.local_path))
         elif args.command == "sales":
             _print(
                 client.list_sales(
