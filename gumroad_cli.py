@@ -132,9 +132,9 @@ class GumroadClient:
         """Remove a custom page and restore the default product page."""
         return self._request("PUT", f"/products/{product_id}", data={"custom_html": ""})
 
-    def set_thumbnail(self, product_id: str, local_path: str, filename: str | None = None) -> dict:
-        """Upload a local image and set it as a product's cover thumbnail via
-        Gumroad's direct-upload (ActiveStorage) flow."""
+    def _direct_upload_blob(self, local_path: str, filename: str | None = None) -> str:
+        """Upload a local image via Gumroad's direct-upload (ActiveStorage) flow
+        and return its signed_blob_id, for use with the thumbnail/covers endpoints."""
         filename = filename or os.path.basename(local_path)
         with open(local_path, "rb") as fh:
             content = fh.read()
@@ -157,13 +157,26 @@ class GumroadClient:
         upload = direct_upload["direct_upload"]
         put_resp = self.session.put(upload["url"], data=content, headers=upload["headers"])
         put_resp.raise_for_status()
+        return direct_upload["signed_id"]
 
+    def set_thumbnail(self, product_id: str, local_path: str, filename: str | None = None) -> dict:
+        """Upload a local image and set it as a product's cover thumbnail."""
+        signed_blob_id = self._direct_upload_blob(local_path, filename)
         result = self._request(
-            "POST",
-            f"/products/{product_id}/thumbnail",
-            data={"signed_blob_id": direct_upload["signed_id"]},
+            "POST", f"/products/{product_id}/thumbnail", data={"signed_blob_id": signed_blob_id}
         )
         return result["thumbnail"]
+
+    def add_cover(self, product_id: str, local_path: str, filename: str | None = None) -> dict:
+        """Upload a local image and append it to a product's cover/gallery images
+        (the carousel shown on the product page, distinct from the thumbnail)."""
+        signed_blob_id = self._direct_upload_blob(local_path, filename)
+        return self._request(
+            "POST", f"/products/{product_id}/covers", data={"signed_blob_id": signed_blob_id}
+        )
+
+    def delete_cover(self, product_id: str, cover_id: str) -> dict:
+        return self._request("DELETE", f"/products/{product_id}/covers/{cover_id}")
 
     # -- Sales ------------------------------------------------------------
     def list_sales(self, after: str | None = None, before: str | None = None,
@@ -301,6 +314,16 @@ def build_parser() -> argparse.ArgumentParser:
         "product_id"
     )
 
+    cover_add = sub.add_parser(
+        "cover-add", help="Upload a local image and append it to a product's cover gallery"
+    )
+    cover_add.add_argument("product_id")
+    cover_add.add_argument("local_path")
+
+    cover_delete = sub.add_parser("cover-delete", help="Remove one image from a product's cover gallery")
+    cover_delete.add_argument("product_id")
+    cover_delete.add_argument("cover_id")
+
     sales = sub.add_parser("sales", help="List sales")
     sales.add_argument("--after")
     sales.add_argument("--before")
@@ -393,6 +416,10 @@ def main(argv: list[str] | None = None) -> int:
             _print(client.set_custom_page(args.product_id, html))
         elif args.command == "page-clear":
             _print(client.clear_custom_page(args.product_id))
+        elif args.command == "cover-add":
+            _print(client.add_cover(args.product_id, args.local_path))
+        elif args.command == "cover-delete":
+            _print(client.delete_cover(args.product_id, args.cover_id))
         elif args.command == "sales":
             _print(
                 client.list_sales(
