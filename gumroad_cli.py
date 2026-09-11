@@ -132,6 +132,21 @@ class GumroadClient:
         """Remove a custom page and restore the default product page."""
         return self._request("PUT", f"/products/{product_id}", data={"custom_html": ""})
 
+    def get_profile_page(self) -> dict:
+        """Fetch the seller's profile page: custom_html (None if unset), the
+        currently rendered_html (useful to see the default product-grid page
+        before writing a custom one), has_landing_page, and profile_url."""
+        return self._request("GET", "/user/custom_html")
+
+    def set_profile_page(self, html: str) -> dict:
+        """Replace the entire seller profile page with custom HTML. Same
+        sanitization_report/warning shape as set_custom_page."""
+        return self._request("PUT", "/user/custom_html", data={"custom_html": html})
+
+    def clear_profile_page(self) -> dict:
+        """Remove the custom profile page and restore the default one."""
+        return self._request("PUT", "/user/custom_html", data={"custom_html": ""})
+
     def _direct_upload_blob(self, local_path: str, filename: str | None = None) -> str:
         """Upload a local image via Gumroad's direct-upload (ActiveStorage) flow
         and return its signed_blob_id, for use with the thumbnail/covers endpoints."""
@@ -314,6 +329,15 @@ def build_parser() -> argparse.ArgumentParser:
         "product_id"
     )
 
+    sub.add_parser("profile-page-get", help="Show the seller profile's custom_html and rendered_html")
+
+    profile_page_set = sub.add_parser(
+        "profile-page-set", help="Replace the entire seller profile page with custom HTML"
+    )
+    profile_page_set.add_argument("html_path")
+
+    sub.add_parser("profile-page-clear", help="Remove the custom profile page, restoring the default one")
+
     cover_add = sub.add_parser(
         "cover-add", help="Upload a local image and append it to a product's cover gallery"
     )
@@ -416,6 +440,14 @@ def main(argv: list[str] | None = None) -> int:
             _print(client.set_custom_page(args.product_id, html))
         elif args.command == "page-clear":
             _print(client.clear_custom_page(args.product_id))
+        elif args.command == "profile-page-get":
+            _print(client.get_profile_page())
+        elif args.command == "profile-page-set":
+            with open(args.html_path) as fh:
+                html = fh.read()
+            _print(client.set_profile_page(html))
+        elif args.command == "profile-page-clear":
+            _print(client.clear_profile_page())
         elif args.command == "cover-add":
             _print(client.add_cover(args.product_id, args.local_path))
         elif args.command == "cover-delete":

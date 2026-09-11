@@ -28,6 +28,9 @@ python3 gumroad_cli.py page-set <product_id> <html_path>           # replace the
 python3 gumroad_cli.py page-clear <product_id>                     # remove the custom page (restore default)
 python3 gumroad_cli.py cover-add <product_id> <local_path>         # append an image to the cover/gallery carousel
 python3 gumroad_cli.py cover-delete <product_id> <cover_id>        # remove one image from the cover gallery
+python3 gumroad_cli.py profile-page-get                            # show the seller profile's custom_html / rendered_html
+python3 gumroad_cli.py profile-page-set <html_path>                # replace the entire seller profile page
+python3 gumroad_cli.py profile-page-clear                          # remove the custom profile page (restore default)
 python3 gumroad_cli.py sales [--after DATE] [--before DATE] [--email EMAIL] [--product-id ID]
 python3 gumroad_cli.py sale <sale_id>
 python3 gumroad_cli.py subscribers <product_id> [--email EMAIL]
@@ -65,3 +68,14 @@ found by probing the API's own error messages against a live account:
   `background-image: url(data:...)`) intermittently fails server-side review —
   use the product's own hosted asset URLs (`public-files.gumroad.com`, from
   `product get`) or inline SVG instead.
+- The seller profile page works exactly the same way, one level up: `GET/PUT
+  /user/custom_html` instead of `/products/:id`. `GET` also returns
+  `rendered_html` — the current default page (profile photo, bio, full product
+  grid) — handy as a content reference before writing a custom one, and
+  `has_landing_page` to check whether a custom page is currently active. A
+  profile page has no `warning` for a missing buy element (it isn't expected
+  to have one); link to product pages instead. `<form data-gumroad-follow>`
+  plus an element carrying `data-gumroad-follow-message` wires up an email
+  signup automatically — sanitizes cleanly, but note the `novalidate`
+  attribute on `<form>` gets stripped (native browser validation still runs
+  fine as a fallback).

@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Management AI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          accent: { 50:'#f5f3ff',100:'#ede9fe',200:'#ddd6fe',300:'#c4b5fd',400:'#a78bfa',
+                     500:'#8b5cf6',600:'#7c3aed',700:'#2c0977',800:'#230a5e',900:'#1a0847' },
+          gold: { 400:'#e9c987',500:'#c9a869',600:'#b3934f' },
+          ink: { 50:'#f7f7fb',100:'#eeeef5',200:'#dadae8',300:'#b6b6cc',400:'#8b8ba8',
+                 500:'#6b6b8a',600:'#53536e',700:'#3f3f57',800:'#262638',900:'#15151f',950:'#0a0a12' }
+        },
+        fontFamily: { serif: ['Georgia','Cambria','"Times New Roman"','serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  :root { color-scheme: light dark; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { background:#fff; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  html.dark body { background:#0a0a12; }
+
+  @keyframes floaty { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } }
+  @keyframes pulseGlow { 0%,100%{ opacity:.5 } 50%{ opacity:1 } }
+  .float-slow { animation: floaty 7s ease-in-out infinite; }
+  .glow-pulse { animation: pulseGlow 4s ease-in-out infinite; }
+
+  .reveal { opacity:0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in { opacity:1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-slow, .glow-pulse { animation: none !important; }
+    .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, currentColor 1px, transparent 1px),
+      linear-gradient(to bottom, currentColor 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+  .accent-gradient { background-image: linear-gradient(135deg, #6f3dbd, #2c0977); }
+  .accent-text-gradient {
+    background-image: linear-gradient(135deg, #8b5cf6, #2c0977);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+  [role="tab"][aria-selected="true"] {
+    background-image: linear-gradient(135deg, #6f3dbd, #2c0977);
+    color:#fff; border-color: transparent;
+  }
+  .cat-item[hidden] { display:none; }
+
+  .skip-link:focus { transform: translateY(0); }
+</style>
+</head>
+<body class="text-ink-900 dark:text-ink-100 selection:bg-accent-300 selection:text-ink-900">
+
+<a href="#main" class="skip-link fixed -translate-y-20 focus:translate-y-0 top-2 left-2 z-[100] bg-accent-700 text-white px-4 py-2 rounded-md transition-transform">Skip to content</a>
+
+<!-- Header -->
+<header class="sticky top-0 z-50 backdrop-blur bg-white/85 dark:bg-ink-950/85 border-b border-ink-200/70 dark:border-ink-800/70">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <a href="#main" class="flex items-center gap-2 min-w-0">
+      <img src="https://public-files.gumroad.com/rg8lniy526kt9v3uwkvqp8ghumhc" alt="" class="h-8 w-8 rounded-full border border-ink-200 dark:border-ink-700 object-cover shrink-0">
+      <span class="font-semibold tracking-tight truncate text-sm sm:text-base">Project Management AI</span>
+    </a>
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <button id="theme-toggle" type="button" aria-label="Toggle dark mode"
+        class="h-9 w-9 rounded-full border border-ink-200 dark:border-ink-700 flex items-center justify-center hover:bg-ink-100 dark:hover:bg-ink-800 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a href="#products" class="hidden sm:inline-flex items-center gap-2 accent-gradient text-white text-sm font-semibold px-4 py-2 rounded-full shadow hover:brightness-110 active:brightness-95 transition">
+        Browse resources
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 text-accent-200 dark:text-accent-900/30 bg-grid opacity-[0.35] dark:opacity-[0.15]" aria-hidden="true"></div>
+  <div class="absolute -top-28 -right-24 h-96 w-96 rounded-full accent-gradient opacity-20 blur-3xl float-slow -z-10" aria-hidden="true"></div>
+  <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-gold-500 opacity-10 blur-3xl float-slow -z-10" style="animation-delay:-3s" aria-hidden="true"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-16 sm:pt-20 sm:pb-20">
+    <div class="reveal max-w-3xl">
+      <div class="flex items-center gap-4">
+        <img src="https://public-files.gumroad.com/rg8lniy526kt9v3uwkvqp8ghumhc" alt="Project Management AI profile photo" class="h-16 w-16 sm:h-20 sm:w-20 rounded-full border-2 border-gold-500 object-cover shrink-0">
+        <div>
+          <p class="text-xs font-bold tracking-widest uppercase text-accent-700 dark:text-gold-400">Project Management AI</p>
+          <h1 class="mt-1 text-2xl sm:text-3xl lg:text-4xl font-serif font-bold tracking-tight leading-tight">
+            Your first charter, status report, or BRD &mdash; <span class="accent-text-gradient">done in minutes.</span>
+          </h1>
+        </div>
+      </div>
+
+      <p class="mt-6 text-base sm:text-lg text-ink-600 dark:text-ink-300 max-w-2xl">
+        I'm a PMP&reg;/CSM&reg; with 25+ years running enterprise projects &mdash; a decade of it in healthcare. I build two things: PMP&reg; exam prep guides mapped directly to PMI's current Examination Content Outline, and ready-to-use AI prompt kits for project managers and business analysts, aligned to PMBOK&reg; and BABOK&reg;.
+      </p>
+
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <span class="font-semibold">21 resources</span>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">2 product lines</span>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">30-day, no-questions refund</span>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a href="#products" class="inline-flex items-center gap-2 accent-gradient text-white font-semibold px-6 py-3.5 rounded-full shadow-lg shadow-accent-700/25 hover:brightness-110 active:scale-[0.98] transition">
+          Browse everything
+        </a>
+        <a href="#signup" class="inline-flex items-center gap-1.5 font-semibold text-ink-700 dark:text-ink-200 hover:text-accent-700 dark:hover:text-gold-400 transition">
+          Get new guides by email
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="border-y border-ink-200 dark:border-ink-800 bg-ink-50/70 dark:bg-ink-900/40">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+    <div class="reveal">
+      <p class="text-2xl sm:text-3xl font-serif font-bold accent-text-gradient">11</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">PMP&reg; exam prep guides</p>
+    </div>
+    <div class="reveal" style="transition-delay:.05s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold accent-text-gradient">10</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">AI prompt kits &amp; toolkits</p>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold accent-text-gradient">25+</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Years in project management</p>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold accent-text-gradient">2026</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">ECO-aligned, current cycle</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="max-w-2xl reveal">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Browse everything</h2>
+    <p class="mt-3 text-ink-600 dark:text-ink-300">PMP&reg; exam prep guides built from PMI's current ECO, and AI prompt kits &amp; toolkits for running real projects.</p>
+  </div>
+
+  <div role="tablist" aria-label="Filter resources" class="mt-8 flex flex-wrap gap-2 reveal">
+    <button role="tab" id="tab-all" aria-selected="true" aria-controls="panel-all" data-filter="all"
+      class="filter-tab px-4 py-2 rounded-full text-sm font-semibold border border-ink-200 dark:border-ink-700 transition-colors">
+      All (21)
+    </button>
+    <button role="tab" id="tab-pmp" aria-selected="false" aria-controls="panel-all" data-filter="pmp" tabindex="-1"
+      class="filter-tab px-4 py-2 rounded-full text-sm font-semibold border border-ink-200 dark:border-ink-700 transition-colors">
+      PMP&reg; Exam Prep (11)
+    </button>
+    <button role="tab" id="tab-ai" aria-selected="false" aria-controls="panel-all" data-filter="ai" tabindex="-1"
+      class="filter-tab px-4 py-2 rounded-full text-sm font-semibold border border-ink-200 dark:border-ink-700 transition-colors">
+      AI Prompt Kits &amp; Toolkits (10)
+    </button>
+  </div>
+
+  <div id="panel-all" role="tabpanel" aria-labelledby="tab-all" class="mt-8 grid sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <a href="https://projmgmtai.gumroad.com/l/bxnlcg" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/df5somd3pr9cru4bmjl4pk88mq5e" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Study Guide — Domain I: People (85 Practice Questions, July 2026 ECO)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$19.99+</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/arieo" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.04s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/kkkpvft5xwal032mrwru8fv2o80s" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Study Guide — Domain II: Process, Task 1: Develop an Integrated Project Management Plan (59 Questions)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$19.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/lblcor" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.08s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/6kg7sicuc2sqyloia3oo0wxjpljg" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Study Guide — Domain II: Process, Task 3: Help Ensure Value-Based Delivery (51 Questions)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$17.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/ryuuki" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.12s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/ek4ohz952ovx54ysqc39m6qg8bxz" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Study Guide — Domain II: Process, Task 4 + Task 10: Resources / Project Closure (49 Questions)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$16.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/tvfcc" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.16s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/f1nbz3bkvci7mo1ype86favq2v9i" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Study Guide — Domain II: Process, Task 7: Plan and Optimize Quality (52 Questions)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$17.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/mcrrh" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.20s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/6ny2t33aq525xqgb4u7833wchc3u" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Schedule Management Study Guide — Domain II Task 8 (60 Questions)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$0+</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/aeolqe" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/a7nf88td1zlg6it5tywtjvfcurj5" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Study Guide — Domain II: Process, Task 9: Evaluate Project Status (55 Questions)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$17.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/zomhzn" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.04s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/y8ai8xeh1aqzqkh20fjaq041uqeg" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Exam Prep: Remove Impediments &amp; Manage Issues (Domain III Task 4)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$17.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/qikqwg" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.08s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/qm7jrm5dkrvyy17a3pyb7e0rl88f" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Exam Prep: Plan and Manage Risk (Domain III Task 5)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$17.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/znllyl" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.12s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/edvcuvuwuv8du3twe8izfz21ieuw" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Exam Prep: Governance and Change Control (Domain III Tasks 1 &amp; 3)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$17.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/yzlgt" data-cat="pmp" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.16s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/ifwuwcfmygd54yngnbi4g5bx3w30" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">PMP Exam Prep: Continuous Improvement, Organizational Change &amp; External Environment (Domain III Tasks 6, 7 &amp; 8)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$17.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/mlwlfe" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.20s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/2o890mu2vqznd4vpiia4q9kpxcd3" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">Agentic PM — 8 Ready-to-Deploy AI Agents for Project Managers</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$29</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/lihzg" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/0ej3epv7az5uzwifo5i2xgifz7ni" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">50 AI Prompts Every Project Manager Should Know</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$0+</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/vsvjpj" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.04s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/w7vaxhqytlxnhi4z8q7nhb4sqxfx" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">The Complete BA Toolkit: All 50 BABOK Techniques + Ready-to-Use AI Prompts</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$29</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/yfkakm" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.08s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/5yllg3ck7dtzq0b56st4tl1js6ue" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">AI for Business Analysts — 80 Prompts &amp; Fill-In Templates (BABOK-Aligned)</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$39</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/smvxrn" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.12s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/ujsoqevl2uuhk2p9mgfhddq99tkk" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">The Construction PM Toolkit — 30 PMBOK-Aligned Templates + AI Prompts</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$27.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/kvyfcw" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.16s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/p2ld8rt0znfd85wp4fhc7wc6k91e" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">The AI Prompting Kit for PMBOK Deliverables</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$5.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/ehsrjv" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.20s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/9n04lckl42dmczwya44shqjbzala" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">The AI-Powered Project Scope Definition Kit</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$4.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/yqasnx" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/8v3wx91jhyojtlrnre5yjpsrn53w" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">AI Prompt Playbook for Project Managers — 25 Ready-to-Use Prompts</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$4.99</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/woaqo" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.04s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/t40kpeqosh6yfd586kflbn4y0man" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">ChatGPT for Project Managers</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$19</p>
+        </div>
+      </a>
+      <a href="https://projmgmtai.gumroad.com/l/afmms" data-cat="ai" class="cat-item reveal group block rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 overflow-hidden hover:shadow-xl hover:shadow-ink-900/10 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300" style="transition-delay:0.08s">
+        <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
+          <img src="https://public-files.gumroad.com/svrlv1poqvcfm5zi4n4mutfpdv0h" alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="600" height="600">
+        </div>
+        <div class="p-4">
+          <p class="text-sm font-semibold leading-snug line-clamp-2 min-h-[2.6em]">AI Powered Status Reporting Kit — A Field Kit for New Project Managers</p>
+          <p class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-accent-700 dark:text-gold-400">$7.99</p>
+        </div>
+      </a>
+  </div>
+</section>
+
+<!-- EMAIL SIGNUP -->
+<section id="signup" class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
+    <div class="reveal">
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Get new guides &amp; prompt kits by email</h2>
+      <p class="mt-3 text-ink-600 dark:text-ink-300 max-w-xl mx-auto">No spam, unsubscribe anytime. I'll only email when there's a new guide, a major ECO update, or a kit worth your time.</p>
+
+      <form data-gumroad-follow class="mt-7 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <label for="signup-email" class="sr-only">Email address</label>
+        <input id="signup-email" type="email" name="email" required placeholder="you@example.com" autocomplete="email"
+          class="flex-1 min-w-0 rounded-full border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-900 px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
+        <button type="submit"
+          class="accent-gradient text-white font-semibold px-6 py-3 rounded-full shadow hover:brightness-110 active:scale-[0.98] transition shrink-0">
+          Subscribe
+        </button>
+      </form>
+      <p data-gumroad-follow-message class="mt-3 text-sm text-ink-500 dark:text-ink-400">You're in &mdash; check your inbox to confirm.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / TRUST -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="reveal grid sm:grid-cols-[auto_1fr] gap-6 items-center max-w-3xl mx-auto text-center sm:text-left">
+    <div class="mx-auto sm:mx-0 shrink-0">
+      <img src="https://public-files.gumroad.com/rg8lniy526kt9v3uwkvqp8ghumhc" alt="" class="h-16 w-16 rounded-full border-2 border-gold-500 object-cover">
+    </div>
+    <div>
+      <p class="font-semibold">Thomas J. Dickie, PMP&reg;, CSM&reg;</p>
+      <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">25+ years of project management experience, including over a decade managing projects in healthcare. Every PMP&reg; guide is built directly from PMI's current Examination Content Outline &mdash; not adapted from retired material &mdash; and every guide ships with a 30-day, no-questions refund.</p>
+      <p class="mt-3">
+        <a href="https://twitter.com/ProjectmangrAI" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-700 dark:text-gold-400 hover:underline">
+          @ProjectmangrAI on X
+          <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M12.9 3h2.4l-5.2 6 6.1 8h-4.8l-3.8-5-4.3 5H1L6.6 10 .7 3h4.9l3.4 4.5L12.9 3Zm-.8 12.6h1.3L6 4.3H4.6l7.5 11.3Z"/></svg>
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 text-xs text-ink-500 dark:text-ink-400 space-y-3">
+    <p>All guides are independent study materials and are not sponsored, endorsed by, or affiliated with the Project Management Institute (PMI). &quot;PMI,&quot; &quot;PMP,&quot; &quot;PMBOK,&quot; and other referenced marks are marks of Project Management Institute, Inc.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var toggle = document.getElementById('theme-toggle');
+  var stored = null;
+  try { stored = localStorage.getItem('gr-theme'); } catch (e) {}
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(mode) {
+    if (mode === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+  }
+  apply(stored ? stored : (prefersDark ? 'dark' : 'light'));
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      var isDark = root.classList.contains('dark');
+      var next = isDark ? 'light' : 'dark';
+      apply(next);
+      try { localStorage.setItem('gr-theme', next); } catch (e) {}
+    });
+  }
+
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Accessible tab filter
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.cat-item'));
+
+  function selectTab(tab) {
+    tabs.forEach(function (t) {
+      var selected = t === tab;
+      t.setAttribute('aria-selected', selected ? 'true' : 'false');
+      t.tabIndex = selected ? 0 : -1;
+    });
+    var filter = tab.getAttribute('data-filter');
+    cards.forEach(function (c) {
+      var show = filter === 'all' || c.getAttribute('data-cat') === filter;
+      c.hidden = !show;
+    });
+    tab.focus();
+  }
+
+  tabs.forEach(function (tab, idx) {
+    tab.addEventListener('click', function () { selectTab(tab); });
+    tab.addEventListener('keydown', function (e) {
+      var newIdx = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') newIdx = (idx + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') newIdx = (idx - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') newIdx = 0;
+      else if (e.key === 'End') newIdx = tabs.length - 1;
+      if (newIdx !== null) { e.preventDefault(); selectTab(tabs[newIdx]); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
