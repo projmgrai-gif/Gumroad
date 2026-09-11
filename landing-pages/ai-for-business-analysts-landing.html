@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI for Business Analysts</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          accent: { 50:'#fff7ed',100:'#ffedd5',200:'#fed7aa',300:'#fdba74',400:'#fb923c',
+                     500:'#f97316',600:'#ea580c',700:'#c2410c',800:'#9a3412',900:'#7c2d12' },
+          ink: { 50:'#faf8f6',100:'#f0ece7',200:'#dcd3ca',300:'#b8a89b',400:'#8c7a6c',
+                 500:'#6b5c50',600:'#52463c',700:'#3f362e',800:'#28221d',900:'#171310',950:'#0c0a08' }
+        },
+        fontFamily: { serif: ['"Source Serif 4"','Georgia','Cambria','serif'], mono: ['"JetBrains Mono"','ui-monospace','SFMono-Regular','Menlo','monospace'] }
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700;8..60,800&display=swap">
+<style>
+  :root { color-scheme: light dark; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { background:#fff; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  html.dark body { background:#0c0a08; }
+
+  @keyframes floaty { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } }
+  @keyframes pulseGlow { 0%,100%{ opacity:.5 } 50%{ opacity:1 } }
+  .float-slow { animation: floaty 6.5s ease-in-out infinite; }
+  .glow-pulse { animation: pulseGlow 4s ease-in-out infinite; }
+
+  .reveal { opacity:0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in { opacity:1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-slow, .glow-pulse { animation: none !important; }
+    .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, currentColor 1px, transparent 1px),
+      linear-gradient(to bottom, currentColor 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+  .accent-gradient { background-image: linear-gradient(135deg, #f97316, #c2410c); }
+  .accent-text-gradient {
+    background-image: linear-gradient(135deg, #fb923c, #c2410c);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  details.faq > summary { cursor:pointer; list-style:none; }
+  details.faq > summary::-webkit-details-marker { display:none; }
+  details.faq[open] .chev { transform: rotate(180deg); }
+
+  .skip-link:focus { transform: translateY(0); }
+
+  .gallery { display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
+  .gallery img { scroll-snap-align:start; flex:0 0 auto; }
+  .gallery::-webkit-scrollbar { height:6px; }
+  .gallery::-webkit-scrollbar-thumb { background: rgba(249,115,22,0.35); border-radius:99px; }
+
+  .stage-track { position:relative; }
+  .stage-track::before {
+    content:''; position:absolute; left:0; right:0; top:19px; height:2px;
+    background: linear-gradient(90deg, rgba(249,115,22,0.5), rgba(194,65,12,0.5));
+  }
+</style>
+</head>
+<body class="text-ink-900 dark:text-ink-100 selection:bg-accent-300 selection:text-ink-900">
+
+<a href="#main" class="skip-link fixed -translate-y-20 focus:translate-y-0 top-2 left-2 z-[100] bg-accent-700 text-white px-4 py-2 rounded-md transition-transform">Skip to content</a>
+
+<!-- Header -->
+<header class="sticky top-0 z-50 backdrop-blur bg-white/85 dark:bg-ink-950/85 border-b border-ink-200/70 dark:border-ink-800/70">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2 min-w-0">
+      <div class="h-8 w-8 rounded-lg accent-gradient flex items-center justify-center text-white font-bold text-sm shrink-0" aria-hidden="true">BA</div>
+      <span class="font-semibold tracking-tight truncate text-sm sm:text-base">BABOK&reg;-Aligned AI Toolkit</span>
+    </div>
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <button id="theme-toggle" type="button" aria-label="Toggle dark mode"
+        class="h-9 w-9 rounded-full border border-ink-200 dark:border-ink-700 flex items-center justify-center hover:bg-ink-100 dark:hover:bg-ink-800 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a data-gumroad-action="buy" href="#buy"
+         class="hidden sm:inline-flex items-center gap-2 accent-gradient text-white text-sm font-semibold px-4 py-2 rounded-full shadow hover:brightness-110 active:brightness-95 transition">
+        <span data-gumroad-field="price">$39</span><span>&middot; Get the toolkit</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 text-accent-200 dark:text-accent-900/30 bg-grid opacity-[0.35] dark:opacity-[0.15]" aria-hidden="true"></div>
+  <div class="absolute -top-28 -right-24 h-96 w-96 rounded-full accent-gradient opacity-20 blur-3xl float-slow -z-10" aria-hidden="true"></div>
+  <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full accent-gradient opacity-10 blur-3xl float-slow -z-10" style="animation-delay:-3s" aria-hidden="true"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-16 sm:pt-20 sm:pb-24 grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+    <div class="reveal">
+      <p class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-accent-700 dark:text-accent-300 bg-accent-50 dark:bg-accent-900/30 border border-accent-200 dark:border-accent-800 px-3 py-1.5 rounded-full">
+        <span class="h-1.5 w-1.5 rounded-full accent-gradient"></span>
+        Prompts &amp; Templates &middot; Full Requirements Life Cycle
+      </p>
+
+      <h1 class="mt-5 text-3xl sm:text-4xl lg:text-[2.7rem] leading-[1.12] font-serif font-bold tracking-tight">
+        Stop starting from a <span class="accent-text-gradient">blank elicitation page.</span>
+      </h1>
+
+      <p class="mt-5 text-base sm:text-lg text-ink-600 dark:text-ink-300 max-w-xl">
+        <span data-gumroad-field="name">AI for Business Analysts</span> pairs 80 AI prompts with 80 matching fill-in templates, covering everything from your first stakeholder interview to post-launch solution evaluation &mdash; every one cross-referenced back to its BABOK&reg; knowledge area.
+      </p>
+
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <div class="flex items-center gap-1.5" data-gumroad-field="rating" aria-label="Rating">
+          <span class="flex text-accent-500" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+          </span>
+          <span class="text-ink-500 dark:text-ink-400" data-gumroad-field="review-count">Be the first to review</span>
+        </div>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">80 prompts + 80 templates</span>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">66 pages</span>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a data-gumroad-action="buy" href="#buy"
+           class="inline-flex items-center gap-2 accent-gradient text-white font-semibold px-6 py-3.5 rounded-full shadow-lg shadow-accent-600/20 hover:brightness-110 active:scale-[0.98] transition">
+          Get the toolkit &mdash; <span data-gumroad-field="price">$39</span>
+        </a>
+        <a href="#stages" class="inline-flex items-center gap-1.5 font-semibold text-ink-700 dark:text-ink-200 hover:text-accent-700 dark:hover:text-accent-300 transition">
+          See the 6 life cycle stages
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd"/></svg>
+        </a>
+      </div>
+
+      <p class="mt-6 text-xs text-ink-500 dark:text-ink-400 flex items-center gap-1.5">
+        <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/></svg>
+        PDF + editable Word (.docx) &middot; No app, no login, no subscription &middot; Secure checkout via Gumroad
+      </p>
+    </div>
+
+    <div class="reveal relative" style="transition-delay:.1s">
+      <div class="absolute inset-0 accent-gradient rounded-[2rem] blur-2xl opacity-25 glow-pulse -z-10" aria-hidden="true"></div>
+      <div class="float-slow mx-auto max-w-sm rounded-[1.75rem] border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 shadow-2xl shadow-ink-900/10 dark:shadow-black/40 p-3">
+        <img src="https://public-files.gumroad.com/5yllg3ck7dtzq0b56st4tl1js6ue" alt="AI for Business Analysts cover" class="w-full aspect-square object-cover rounded-2xl" width="600" height="600" loading="eager">
+        <div class="mt-3 flex items-center justify-between px-1 pb-1">
+          <div class="text-sm">
+            <p class="font-semibold" data-gumroad-field="name">AI for Business Analysts</p>
+            <p class="text-ink-500 dark:text-ink-400">PDF + DOCX &middot; 66 pages</p>
+          </div>
+          <p class="text-lg font-bold text-accent-700 dark:text-accent-300" data-gumroad-field="price">$39</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="border-y border-ink-200 dark:border-ink-800 bg-ink-50/70 dark:bg-ink-900/40">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+    <div class="reveal">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">80</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">AI prompts</p>
+    </div>
+    <div class="reveal" style="transition-delay:.05s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">80</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Matching fill-in templates</p>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">6</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Life cycle stages</p>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">6</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">IIBA&reg; knowledge areas mapped</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+  <div class="gallery reveal" role="list" aria-label="Product preview images">
+    <img src="https://public-files.gumroad.com/hhlbnmvl3dhvwzc76jvz8ijcv0ex" alt="AI for Business Analysts — preview 1" class="w-56 sm:w-64 aspect-square object-cover rounded-2xl border border-ink-200 dark:border-ink-800" width="600" height="600" loading="lazy" role="listitem">
+    <img src="https://public-files.gumroad.com/uqofn9e4j1k7i8w1j5fenjgepc36" alt="AI for Business Analysts — preview 2" class="w-56 sm:w-64 aspect-square object-cover rounded-2xl border border-ink-200 dark:border-ink-800" width="600" height="600" loading="lazy" role="listitem">
+    <img src="https://public-files.gumroad.com/qvpkg43hpx9vz6rm3iqwasq6d4m9" alt="AI for Business Analysts — preview 3" class="w-56 sm:w-64 aspect-square object-cover rounded-2xl border border-ink-200 dark:border-ink-800" width="600" height="600" loading="lazy" role="listitem">
+    <img src="https://public-files.gumroad.com/soodqrxczstov284gkz2gskhgh4w" alt="AI for Business Analysts — preview 4" class="w-56 sm:w-64 aspect-square object-cover rounded-2xl border border-ink-200 dark:border-ink-800" width="600" height="600" loading="lazy" role="listitem">
+    <img src="https://public-files.gumroad.com/tlk5u7ry1hrjwndd6ce92lx7ieqp" alt="AI for Business Analysts — preview 5" class="w-56 sm:w-64 aspect-square object-cover rounded-2xl border border-ink-200 dark:border-ink-800" width="600" height="600" loading="lazy" role="listitem">
+  </div>
+</section>
+
+<!-- LIFE CYCLE STAGES -->
+<section id="stages" class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <div class="max-w-2xl reveal">
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Every stage of the requirements life cycle</h2>
+      <p class="mt-3 text-ink-600 dark:text-ink-300">80 prompts organized into 6 stages, so you always know exactly where to look.</p>
+    </div>
+
+    <div class="stage-track mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div class="reveal relative flex flex-col items-center text-center">
+        <span class="h-10 w-10 rounded-full accent-gradient text-white font-serif font-bold flex items-center justify-center relative z-10 ring-4 ring-ink-50 dark:ring-ink-900">1</span>
+        <p class="mt-2 font-semibold text-sm">Plan</p>
+      </div>
+      <div class="reveal relative flex flex-col items-center text-center" style="transition-delay:.03s">
+        <span class="h-10 w-10 rounded-full accent-gradient text-white font-serif font-bold flex items-center justify-center relative z-10 ring-4 ring-ink-50 dark:ring-ink-900">2</span>
+        <p class="mt-2 font-semibold text-sm">Elicit</p>
+      </div>
+      <div class="reveal relative flex flex-col items-center text-center" style="transition-delay:.06s">
+        <span class="h-10 w-10 rounded-full accent-gradient text-white font-serif font-bold flex items-center justify-center relative z-10 ring-4 ring-ink-50 dark:ring-ink-900">3</span>
+        <p class="mt-2 font-semibold text-sm">Analyze</p>
+      </div>
+      <div class="reveal relative flex flex-col items-center text-center" style="transition-delay:.09s">
+        <span class="h-10 w-10 rounded-full accent-gradient text-white font-serif font-bold flex items-center justify-center relative z-10 ring-4 ring-ink-50 dark:ring-ink-900">4</span>
+        <p class="mt-2 font-semibold text-sm">Validate</p>
+      </div>
+      <div class="reveal relative flex flex-col items-center text-center" style="transition-delay:.12s">
+        <span class="h-10 w-10 rounded-full accent-gradient text-white font-serif font-bold flex items-center justify-center relative z-10 ring-4 ring-ink-50 dark:ring-ink-900">5</span>
+        <p class="mt-2 font-semibold text-sm">Manage</p>
+      </div>
+      <div class="reveal relative flex flex-col items-center text-center" style="transition-delay:.15s">
+        <span class="h-10 w-10 rounded-full accent-gradient text-white font-serif font-bold flex items-center justify-center relative z-10 ring-4 ring-ink-50 dark:ring-ink-900">6</span>
+        <p class="mt-2 font-semibold text-sm">Trace</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="max-w-2xl reveal">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">A prompt and a template for everything</h2>
+    <p class="mt-3 text-ink-600 dark:text-ink-300">Every prompt follows the same 5-part formula &mdash; Role, Context, Task, Format, Constraints &mdash; and comes with a matching fill-in template you can complete by hand or hand to your AI assistant.</p>
+  </div>
+
+  <ul class="mt-10 grid sm:grid-cols-2 gap-4">
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg></span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">80 AI prompts &mdash; consistent formula, works in ChatGPT, Claude, Gemini, or any AI assistant</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg></span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">80 matching fill-in templates &mdash; Field/Description tables, complete by hand or with AI</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg></span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">A BABOK&reg; Foundations primer &mdash; the six IIBA&reg; knowledge areas, explained in plain language</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg></span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">A full BABOK&reg; Knowledge Area Cross-Reference &mdash; every prompt traced to its task</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg></span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">Master Prompt Index, glossary, and a note on AI tool choice &amp; data privacy</span>
+    </li>
+    <li class="reveal flex items-start gap-3 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 p-4">
+      <span class="mt-0.5 h-6 w-6 shrink-0 rounded-full accent-gradient flex items-center justify-center text-white" aria-hidden="true"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.9 3.9 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/></svg></span>
+      <span class="text-sm sm:text-[15px] text-ink-800 dark:text-ink-100">66 pages, fully designed and organized for daily reference &mdash; PDF + editable Word</span>
+    </li>
+  </ul>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
+    <div class="reveal">
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Who it's for</h2>
+      <p class="mt-4 text-ink-600 dark:text-ink-300 max-w-2xl mx-auto">Business analysts, requirements engineers, product owners doing BA-style work, and anyone translating stakeholder conversations into documents &mdash; in traditional, Agile, or hybrid delivery environments.</p>
+    </div>
+    <div class="mt-8 flex flex-wrap justify-center gap-3 reveal">
+      <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Business Analysts</span>
+      <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Requirements Engineers</span>
+      <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Product Owners</span>
+      <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Agile &amp; Hybrid Teams</span>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="reveal rounded-3xl accent-gradient p-[1.5px]">
+    <div class="rounded-3xl bg-white dark:bg-ink-950 p-8 sm:p-10 grid lg:grid-cols-[auto_1fr] gap-6 items-start">
+      <div class="h-12 w-12 rounded-xl accent-gradient flex items-center justify-center text-white shrink-0" aria-hidden="true">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-accent-700 dark:text-accent-300">Guarantee</p>
+        <p class="mt-2 text-lg sm:text-xl font-serif font-semibold leading-snug">If this doesn't save you real time in your first week of use, email me for a full refund &mdash; no questions asked.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="reveal flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+    <div class="h-14 w-14 rounded-full accent-gradient flex items-center justify-center text-white font-serif font-bold text-lg shrink-0">TD</div>
+    <div>
+      <p class="font-semibold">Thomas J. Dickie, PMP&reg;, CSM&reg;</p>
+      <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">25+ years in project management, including over a decade leading healthcare projects. Builds AI-assisted study materials and prompt toolkits mapped directly to the standards practitioners actually use.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-center reveal">Questions, answered</h2>
+    <div class="mt-10 space-y-3 reveal">
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          Is this official BABOK&reg; content?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">No &mdash; this is an independent work, not published, endorsed, or affiliated with IIBA&reg;, and no BABOK&reg; Guide content is reproduced. Its structure is informed by the general life cycle of business analysis work, and every prompt is cross-referenced back to a knowledge area for transparency.</p>
+      </details>
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          What file formats do I get?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">Both a designed PDF for reading and reference, and an editable Word (.docx) version so you can copy prompts and templates straight into your own documents.</p>
+      </details>
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          Which AI tool do I need?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">None specifically &mdash; the 5-part prompt formula works in ChatGPT, Claude, Gemini, or any capable AI assistant. No app, login, or subscription required.</p>
+      </details>
+
+      <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold">
+          I work in Agile, not traditional BA — is this still for me?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">Yes &mdash; it's built for traditional, Agile, and hybrid delivery environments alike, for anyone translating stakeholder conversations into documents.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="buy" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+  <div class="reveal relative overflow-hidden rounded-[2rem] accent-gradient px-6 sm:px-14 py-14 sm:py-16 text-center text-white">
+    <div class="absolute inset-0 bg-grid opacity-[0.12]" aria-hidden="true"></div>
+    <p class="relative text-xs font-bold tracking-widest uppercase text-white/80">80 Prompts &middot; 80 Templates &middot; 6 Life Cycle Stages</p>
+    <h2 class="relative mt-4 text-2xl sm:text-4xl font-serif font-bold leading-tight max-w-2xl mx-auto">
+      Your next requirements document is one prompt away.
+    </h2>
+    <p class="relative mt-4 text-white/85 max-w-xl mx-auto">From stakeholder interview to post-launch evaluation, backed by a full BABOK&reg; knowledge-area cross-reference and a no-questions-asked guarantee.</p>
+    <div class="relative mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a data-gumroad-action="buy" href="#"
+         class="inline-flex items-center gap-2 bg-white text-ink-900 font-bold px-7 py-4 rounded-full shadow-xl hover:bg-ink-50 active:scale-[0.98] transition text-base">
+        Get the toolkit &mdash; <span data-gumroad-field="price">$39</span>
+      </a>
+      <p class="text-xs text-white/75">Secure checkout via Gumroad &middot; Instant download</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 text-xs text-ink-500 dark:text-ink-400 space-y-3">
+    <p><a href="https://projmgmtai.gumroad.com" class="font-semibold text-ink-700 dark:text-ink-200 hover:text-accent-700 dark:hover:text-accent-300">More guides &amp; prompt kits from Project Management AI &rarr;</a></p>
+    <p>This guide's structure is informed by the general life cycle of business analysis work reflected in IIBA&reg;'s BABOK&reg; Guide. It is an independent work &mdash; not published, endorsed, or affiliated with IIBA &mdash; and no BABOK&reg; Guide content is reproduced.</p>
+  </div>
+</footer>
+
+<!-- Mobile sticky buy bar -->
+<div class="fixed bottom-0 inset-x-0 z-50 sm:hidden bg-white/95 dark:bg-ink-950/95 backdrop-blur border-t border-ink-200 dark:border-ink-800 px-4 py-3 flex items-center justify-between gap-3">
+  <div class="text-sm">
+    <p class="text-ink-500 dark:text-ink-400 leading-none">Price</p>
+    <p class="font-bold text-base leading-tight" data-gumroad-field="price">$39</p>
+  </div>
+  <a data-gumroad-action="buy" href="#buy"
+     class="flex-1 text-center accent-gradient text-white font-semibold px-4 py-2.5 rounded-full">
+    Get the toolkit
+  </a>
+</div>
+<div class="h-16 sm:hidden" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var toggle = document.getElementById('theme-toggle');
+  var stored = null;
+  try { stored = localStorage.getItem('gr-theme'); } catch (e) {}
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(mode) {
+    if (mode === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+  }
+  apply(stored ? stored : (prefersDark ? 'dark' : 'light'));
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      var isDark = root.classList.contains('dark');
+      var next = isDark ? 'light' : 'dark';
+      apply(next);
+      try { localStorage.setItem('gr-theme', next); } catch (e) {}
+    });
+  }
+
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add('in'); });
+  }
+})();
+</script>
+
+</body>
+</html>
