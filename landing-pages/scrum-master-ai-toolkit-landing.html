@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrum Master AI Toolkit</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          accent: { 50:'#f0f9ff',100:'#e0f2fe',200:'#bae6fd',300:'#7dd3fc',400:'#38bdf8',
+                     500:'#0ea5e9',600:'#0284c7',700:'#0369a1',800:'#075985',900:'#0c4a6e' },
+          ink: { 50:'#f5f8fa',100:'#eaeff3',200:'#d2dde4',300:'#adc0cc',400:'#82989e',
+                 500:'#5f747c',600:'#485c64',700:'#37464e',800:'#222b31',900:'#121719',950:'#080b0c' }
+        },
+        fontFamily: { serif: ['Georgia','Cambria','"Times New Roman"','serif'], mono: ['"JetBrains Mono"','ui-monospace','SFMono-Regular','Menlo','monospace'] }
+      }
+    }
+  }
+</script>
+<style>
+  :root { color-scheme: light dark; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { background:#fff; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  html.dark body { background:#080b0c; }
+
+  @keyframes floaty { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } }
+  @keyframes pulseGlow { 0%,100%{ opacity:.5 } 50%{ opacity:1 } }
+  .float-slow { animation: floaty 6.5s ease-in-out infinite; }
+  .glow-pulse { animation: pulseGlow 4s ease-in-out infinite; }
+
+  .reveal { opacity:0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in { opacity:1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-slow, .glow-pulse { animation: none !important; }
+    .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, currentColor 1px, transparent 1px),
+      linear-gradient(to bottom, currentColor 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+  .accent-gradient { background-image: linear-gradient(135deg, #0ea5e9, #0369a1); }
+  .accent-text-gradient {
+    background-image: linear-gradient(135deg, #38bdf8, #0369a1);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  details.faq > summary { cursor:pointer; list-style:none; }
+  details.faq > summary::-webkit-details-marker { display:none; }
+  details.faq[open] .chev { transform: rotate(180deg); }
+
+  .skip-link:focus { transform: translateY(0); }
+
+  .req { color:#0284c7; }
+  html.dark .req { color:#38bdf8; }
+  .opt { color:#84898f; }
+</style>
+</head>
+<body class="text-ink-900 dark:text-ink-100 selection:bg-accent-300 selection:text-ink-900">
+
+<a href="#main" class="skip-link fixed -translate-y-20 focus:translate-y-0 top-2 left-2 z-[100] bg-accent-700 text-white px-4 py-2 rounded-md transition-transform">Skip to content</a>
+
+<!-- Header -->
+<header class="sticky top-0 z-50 backdrop-blur bg-white/85 dark:bg-ink-950/85 border-b border-ink-200/70 dark:border-ink-800/70">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2 min-w-0">
+      <div class="h-8 w-8 rounded-lg accent-gradient flex items-center justify-center text-white font-bold text-sm shrink-0" aria-hidden="true">S</div>
+      <span class="font-semibold tracking-tight truncate text-sm sm:text-base">AI Toolkit For Scrum Masters</span>
+    </div>
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <button id="theme-toggle" type="button" aria-label="Toggle dark mode"
+        class="h-9 w-9 rounded-full border border-ink-200 dark:border-ink-700 flex items-center justify-center hover:bg-ink-100 dark:hover:bg-ink-800 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a data-gumroad-action="buy" href="#buy"
+         class="hidden sm:inline-flex items-center gap-2 accent-gradient text-white text-sm font-semibold px-4 py-2 rounded-full shadow hover:brightness-110 active:brightness-95 transition">
+        <span data-gumroad-field="price">$21</span><span>&middot; Get the toolkit</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 text-accent-200 dark:text-accent-900/30 bg-grid opacity-[0.35] dark:opacity-[0.15]" aria-hidden="true"></div>
+  <div class="absolute -top-28 -right-24 h-96 w-96 rounded-full accent-gradient opacity-20 blur-3xl float-slow -z-10" aria-hidden="true"></div>
+  <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full accent-gradient opacity-10 blur-3xl float-slow -z-10" style="animation-delay:-3s" aria-hidden="true"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-16 sm:pt-20 sm:pb-24 grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+    <div class="reveal">
+      <p class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-accent-700 dark:text-accent-300 bg-accent-50 dark:bg-accent-900/30 border border-accent-200 dark:border-accent-800 px-3 py-1.5 rounded-full">
+        <span class="h-1.5 w-1.5 rounded-full accent-gradient"></span>
+        Facilitation &middot; Coaching &middot; Continuous Improvement
+      </p>
+
+      <h1 class="mt-5 text-3xl sm:text-4xl lg:text-[2.7rem] leading-[1.12] font-serif font-bold tracking-tight">
+        Every event, every conversation, <span class="accent-text-gradient">one prompt away.</span>
+      </h1>
+
+      <p class="mt-5 text-base sm:text-lg text-ink-600 dark:text-ink-300 max-w-xl">
+        <span data-gumroad-field="name">The Scrum Master AI Toolkit</span> distills 18 of the most common situations a working Scrum Master faces &mdash; the events, the artifacts, and the servant-leadership work in between &mdash; into ready-to-adapt AI prompts.
+      </p>
+
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <div class="flex items-center gap-1.5" data-gumroad-field="rating" aria-label="Rating">
+          <span class="flex text-accent-500" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.5 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L1.4 7.7l6-.7Z"/></svg>
+          </span>
+          <span class="text-ink-500 dark:text-ink-400" data-gumroad-field="review-count">Be the first to review</span>
+        </div>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">18 AI prompts</span>
+        <span class="text-ink-300 dark:text-ink-700">&bull;</span>
+        <span class="font-semibold">4 parts of the role</span>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a data-gumroad-action="buy" href="#buy"
+           class="inline-flex items-center gap-2 accent-gradient text-white font-semibold px-6 py-3.5 rounded-full shadow-lg shadow-accent-600/20 hover:brightness-110 active:scale-[0.98] transition">
+          Get the toolkit &mdash; <span data-gumroad-field="price">$21</span>
+        </a>
+        <a href="#coverage" class="inline-flex items-center gap-1.5 font-semibold text-ink-700 dark:text-ink-200 hover:text-accent-700 dark:hover:text-accent-300 transition">
+          See all 18 prompts
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd"/></svg>
+        </a>
+      </div>
+
+      <p class="mt-6 text-xs text-ink-500 dark:text-ink-400 flex items-center gap-1.5">
+        <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/></svg>
+        Instant PDF download &middot; Works with Claude, ChatGPT, Copilot, or any AI &middot; Secure checkout via Gumroad
+      </p>
+    </div>
+
+    <div class="reveal relative" style="transition-delay:.1s">
+      <div class="absolute inset-0 accent-gradient rounded-[2rem] blur-2xl opacity-25 glow-pulse -z-10" aria-hidden="true"></div>
+      <div class="float-slow mx-auto max-w-sm rounded-[1.75rem] border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 shadow-2xl shadow-ink-900/10 dark:shadow-black/40 p-3">
+        <img src="https://public-files.gumroad.com/x2wa7v7nsa7pky3enopwz3fkrp1p" alt="Scrum Master AI Toolkit cover" class="w-full aspect-square object-cover rounded-2xl" width="600" height="600" loading="eager">
+        <div class="mt-3 flex items-center justify-between px-1 pb-1">
+          <div class="text-sm">
+            <p class="font-semibold" data-gumroad-field="name">Scrum Master AI Toolkit</p>
+            <p class="text-ink-500 dark:text-ink-400">PDF &middot; 18 prompts &middot; 24 pages</p>
+          </div>
+          <p class="text-lg font-bold text-accent-700 dark:text-accent-300" data-gumroad-field="price">$21</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="border-y border-ink-200 dark:border-ink-800 bg-ink-50/70 dark:bg-ink-900/40">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+    <div class="reveal">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">18</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Copy-and-adapt AI prompts</p>
+    </div>
+    <div class="reveal" style="transition-delay:.05s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">4</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Parts of the SM role</p>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">18</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Worked examples included</p>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <p class="text-2xl sm:text-3xl font-serif font-bold text-accent-700 dark:text-accent-300">24</p>
+      <p class="text-xs sm:text-sm text-ink-600 dark:text-ink-400 mt-1">Pages, fully organized</p>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE (with product's own gallery image) -->
+<section id="coverage" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 grid lg:grid-cols-[0.55fr_0.45fr] gap-10 items-center">
+  <div>
+    <div class="reveal max-w-xl">
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Every part of the role, covered</h2>
+      <p class="mt-3 text-ink-600 dark:text-ink-300">18 prompts organized around the situations a working Scrum Master actually faces &mdash; not generic agile filler.</p>
+    </div>
+
+    <ol class="mt-8 relative border-s-2 border-accent-200 dark:border-accent-900 ms-3 space-y-6">
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">1</span>
+        <p class="font-semibold">The Scrum Events <span class="text-ink-400 font-normal text-sm">&middot; 5 prompts</span></p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective, Backlog Refinement.</p>
+      </li>
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">2</span>
+        <p class="font-semibold">Artifacts &amp; Commitments <span class="text-ink-400 font-normal text-sm">&middot; 3 prompts</span></p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Product Backlog Management, Sprint Backlog &amp; Sprint Goal, Definition of Done.</p>
+      </li>
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">3</span>
+        <p class="font-semibold">Servant Leadership &amp; Facilitation <span class="text-ink-400 font-normal text-sm">&middot; 6 prompts</span></p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Impediment removal, working agreements, conflict coaching, coaching the PO, self-management, stakeholder communication.</p>
+      </li>
+      <li class="reveal relative ps-8">
+        <span class="absolute -start-[15px] top-0.5 h-7 w-7 rounded-full accent-gradient text-white text-xs font-bold flex items-center justify-center ring-4 ring-white dark:ring-ink-950">4</span>
+        <p class="font-semibold">Metrics &amp; Continuous Improvement <span class="text-ink-400 font-normal text-sm">&middot; 4 prompts</span></p>
+        <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Velocity &amp; capacity planning, burndown/burnup analysis, 5 Whys root cause, onboarding new members.</p>
+      </li>
+    </ol>
+  </div>
+
+  <div class="reveal" style="transition-delay:.1s">
+    <img src="https://public-files.gumroad.com/hmgwh03i8es5yinnqoy42bo8txs4" alt="18 prompts organized across 4 parts of the Scrum Master role" class="w-full max-w-sm mx-auto rounded-2xl border border-ink-200 dark:border-ink-800 shadow-xl shadow-ink-900/10 dark:shadow-black/40" width="600" height="600" loading="lazy">
+  </div>
+</section>
+
+<!-- FRAMEWORK (with product's own gallery image) -->
+<section class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 grid lg:grid-cols-[0.45fr_0.55fr] gap-10 items-center">
+    <div class="reveal order-2 lg:order-1">
+      <img src="https://public-files.gumroad.com/ezjxt2eboo3a4d3lomu2raiibg17" alt="The 5-part prompt framework: Role, Context, Task, Format, Constraints" class="w-full max-w-sm mx-auto rounded-2xl border border-ink-200 dark:border-ink-800 shadow-xl shadow-ink-900/10 dark:shadow-black/40" width="600" height="600" loading="lazy">
+    </div>
+    <div class="order-1 lg:order-2">
+      <div class="reveal max-w-xl">
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Every prompt, the same reliable pattern</h2>
+        <p class="mt-3 text-ink-600 dark:text-ink-300">The same context you'd give a human coach before asking for help &mdash; consistently sharper than an open-ended question.</p>
+      </div>
+      <div class="mt-6 grid sm:grid-cols-2 gap-2.5 text-sm">
+        <div class="rounded-lg border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-3.5 py-2.5"><b class="text-accent-700 dark:text-accent-300">Role</b> &mdash; the expertise you want applied</div>
+        <div class="rounded-lg border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-3.5 py-2.5"><b class="text-accent-700 dark:text-accent-300">Context</b> &mdash; your specific situation</div>
+        <div class="rounded-lg border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-3.5 py-2.5"><b class="text-accent-700 dark:text-accent-300">Task</b> &mdash; the deliverable you want back</div>
+        <div class="rounded-lg border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-3.5 py-2.5"><b class="text-accent-700 dark:text-accent-300">Format</b> &mdash; list, table, checklist, length</div>
+        <div class="rounded-lg border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-3.5 py-2.5 sm:col-span-2"><b class="text-accent-700 dark:text-accent-300">Constraints</b> &mdash; the guardrails that keep output usable and honest</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT SCRUM PRESCRIBES -->
+<section class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="max-w-2xl reveal">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">What Scrum prescribes &mdash; and what teams adapt</h2>
+    <p class="mt-3 text-ink-600 dark:text-ink-300">Scrum itself is a small, fixed framework. This toolkit is explicit about which practices are required and which are optional &mdash; so you can defend your choices with confidence.</p>
+  </div>
+
+  <div class="mt-8 reveal overflow-x-auto rounded-2xl border border-ink-200 dark:border-ink-800">
+    <table class="w-full text-sm min-w-[480px]">
+      <thead class="bg-ink-50 dark:bg-ink-900 text-ink-500 dark:text-ink-400 text-xs uppercase tracking-wide">
+        <tr>
+          <th class="text-left font-semibold px-4 py-3">Element</th>
+          <th class="text-left font-semibold px-4 py-3">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-ink-200 dark:divide-ink-800">
+        <tr><td class="px-4 py-2.5">Sprint + the four formal events</td><td class="px-4 py-2.5 req font-semibold">Required</td></tr>
+        <tr><td class="px-4 py-2.5">Backlog refinement</td><td class="px-4 py-2.5 opt">Helpful practice, not a formal event</td></tr>
+        <tr><td class="px-4 py-2.5">Definition of Ready, story points, velocity</td><td class="px-4 py-2.5 opt">Optional team practices</td></tr>
+        <tr><td class="px-4 py-2.5">Burndown/burnup charts, DEEP, 5 Whys</td><td class="px-4 py-2.5 opt">Optional techniques &mdash; interpret with context</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- GUARDRAILS (with product's own gallery image) -->
+<section class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 grid lg:grid-cols-[0.55fr_0.45fr] gap-10 items-center">
+    <div>
+      <div class="reveal max-w-xl">
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Built for judgment, not autopilot</h2>
+        <p class="mt-3 text-ink-600 dark:text-ink-300">These prompts are starting points, not finished deliverables &mdash; especially anything involving specific people, sensitive conflicts, or organizational politics.</p>
+      </div>
+      <ul class="mt-6 space-y-2.5 text-sm">
+        <li class="reveal flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 rounded-full accent-gradient shrink-0"></span><span class="text-ink-700 dark:text-ink-200">Don't paste confidential, personal, or regulated information into an unapproved AI system</span></li>
+        <li class="reveal flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 rounded-full accent-gradient shrink-0"></span><span class="text-ink-700 dark:text-ink-200">Validate facts and stakeholder-facing language before using AI output</span></li>
+        <li class="reveal flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 rounded-full accent-gradient shrink-0"></span><span class="text-ink-700 dark:text-ink-200">State known facts separately from assumptions</span></li>
+        <li class="reveal flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 rounded-full accent-gradient shrink-0"></span><span class="text-ink-700 dark:text-ink-200">You, the Product Owner, and the Developers remain accountable &mdash; not the AI</span></li>
+      </ul>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <img src="https://public-files.gumroad.com/4jls9mwhudgte3pq7a5watlxyua2" alt="Use AI responsibly: the guardrails built into every prompt" class="w-full max-w-sm mx-auto rounded-2xl border border-ink-200 dark:border-ink-800 shadow-xl shadow-ink-900/10 dark:shadow-black/40" width="600" height="600" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
+  <div class="reveal">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight">Who it's for</h2>
+    <p class="mt-4 text-ink-600 dark:text-ink-300 max-w-2xl mx-auto">Practicing Scrum Masters, Agile coaches, and project or delivery professionals transitioning into Scrum, along with Product Owners who want structured help preparing facilitation materials and team-improvement activities. Most useful when you already have real team context and can apply professional judgment to the output.</p>
+  </div>
+  <div class="mt-8 flex flex-wrap justify-center gap-3 reveal">
+    <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Scrum Masters</span>
+    <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Agile Coaches</span>
+    <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Product Owners</span>
+    <span class="rounded-full border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-4 py-2 text-sm font-semibold">Delivery Professionals</span>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="bg-ink-50/70 dark:bg-ink-900/40 border-y border-ink-200 dark:border-ink-800">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <div class="reveal flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+      <div class="h-14 w-14 rounded-full accent-gradient flex items-center justify-center text-white font-serif font-bold text-lg shrink-0">TD</div>
+      <div>
+        <p class="font-semibold">Thomas Dickie, PMP&reg;, CSM&reg;</p>
+        <p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">25+ years leading enterprise delivery teams, including over a decade in healthcare-related project management. Builds AI-powered toolkits that help project managers, Scrum Masters, and business analysts spend less time on documentation and more time on the work that actually moves projects forward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-center reveal">Questions, answered</h2>
+  <div class="mt-10 space-y-3 reveal">
+
+    <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+      <summary class="flex items-center justify-between gap-4 font-semibold">
+        Is this official Scrum.org or Scrum Alliance material?
+        <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+      </summary>
+      <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">No &mdash; this is an independent educational resource, not affiliated with, endorsed by, or sponsored by Scrum.org, Scrum Alliance, Scrum Inc., or the authors of the Scrum Guide. It references Scrum Guide concepts with attribution under CC BY-SA 4.0. It is not Scrum certification training.</p>
+    </details>
+
+    <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+      <summary class="flex items-center justify-between gap-4 font-semibold">
+        Which AI tool do I need?
+        <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+      </summary>
+      <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">None specifically &mdash; the prompts are platform-neutral and work with Claude, ChatGPT, Copilot, or any AI assistant your organization has approved. Output quality varies by model and the context you supply.</p>
+    </details>
+
+    <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+      <summary class="flex items-center justify-between gap-4 font-semibold">
+        I'm new to Scrum Mastery &mdash; is this still useful?
+        <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+      </summary>
+      <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">Yes, though it's most useful once you have real team context to apply professional judgment to the output &mdash; it's a practical toolkit, not certification training, legal, HR, or compliance advice.</p>
+    </details>
+
+    <details class="faq group rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 px-5 py-4">
+      <summary class="flex items-center justify-between gap-4 font-semibold">
+        What format is the toolkit delivered in?
+        <svg class="chev h-4 w-4 shrink-0 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+      </summary>
+      <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">A single downloadable PDF, organized into the 4 parts above with a full table of contents for quick reference.</p>
+    </details>
+
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="buy" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+  <div class="reveal relative overflow-hidden rounded-[2rem] accent-gradient px-6 sm:px-14 py-14 sm:py-16 text-center text-white">
+    <div class="absolute inset-0 bg-grid opacity-[0.12]" aria-hidden="true"></div>
+    <p class="relative text-xs font-bold tracking-widest uppercase text-white/80">Facilitation &middot; Coaching &middot; Continuous Improvement</p>
+    <h2 class="relative mt-4 text-2xl sm:text-4xl font-serif font-bold leading-tight max-w-2xl mx-auto">
+      Walk into your next Sprint event already prepared.
+    </h2>
+    <p class="relative mt-4 text-white/85 max-w-xl mx-auto">18 prompts, worked examples, and the guardrails to keep AI output honest &mdash; for every part of the Scrum Master role.</p>
+    <div class="relative mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a data-gumroad-action="buy" href="#"
+         class="inline-flex items-center gap-2 bg-white text-ink-900 font-bold px-7 py-4 rounded-full shadow-xl hover:bg-ink-50 active:scale-[0.98] transition text-base">
+        Get the toolkit &mdash; <span data-gumroad-field="price">$21</span>
+      </a>
+      <p class="text-xs text-white/75">Secure checkout via Gumroad &middot; Instant download</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-ink-200 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 text-xs text-ink-500 dark:text-ink-400 space-y-3">
+    <p><a href="https://projmgmtai.gumroad.com" class="font-semibold text-ink-700 dark:text-ink-200 hover:text-accent-700 dark:hover:text-accent-300">More AI toolkits for PMs, Scrum Masters &amp; Business Analysts &rarr;</a></p>
+    <p>This publication is an independent educational resource. It references concepts described in The Scrum Guide by Ken Schwaber and Jeff Sutherland (November 2020), used with attribution under the Creative Commons Attribution-ShareAlike 4.0 International License. It is not affiliated with, endorsed by, or sponsored by Scrum.org, Scrum Alliance, Scrum Inc., or the authors of the Scrum Guide. &quot;Scrum,&quot; &quot;Certified ScrumMaster,&quot; and &quot;CSM&quot; are the property of their respective owners.</p>
+  </div>
+</footer>
+
+<!-- Mobile sticky buy bar -->
+<div class="fixed bottom-0 inset-x-0 z-50 sm:hidden bg-white/95 dark:bg-ink-950/95 backdrop-blur border-t border-ink-200 dark:border-ink-800 px-4 py-3 flex items-center justify-between gap-3">
+  <div class="text-sm">
+    <p class="text-ink-500 dark:text-ink-400 leading-none">Price</p>
+    <p class="font-bold text-base leading-tight" data-gumroad-field="price">$21</p>
+  </div>
+  <a data-gumroad-action="buy" href="#buy"
+     class="flex-1 text-center accent-gradient text-white font-semibold px-4 py-2.5 rounded-full">
+    Get the toolkit
+  </a>
+</div>
+<div class="h-16 sm:hidden" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var toggle = document.getElementById('theme-toggle');
+  var stored = null;
+  try { stored = localStorage.getItem('gr-theme'); } catch (e) {}
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(mode) {
+    if (mode === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+  }
+  apply(stored ? stored : (prefersDark ? 'dark' : 'light'));
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      var isDark = root.classList.contains('dark');
+      var next = isDark ? 'light' : 'dark';
+      apply(next);
+      try { localStorage.setItem('gr-theme', next); } catch (e) {}
+    });
+  }
+
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add('in'); });
+  }
+})();
+</script>
+
+</body>
+</html>
