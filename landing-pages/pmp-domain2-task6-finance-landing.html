@@ -1,0 +1,460 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PMP Study Guide — Domain II, Task 6: Plan and Manage Finance</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Libre Franklin"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          serif: ['Merriweather', 'ui-serif', 'Georgia', 'serif'],
+        },
+        colors: {
+          ink: {
+            50: '#f5f7fa', 100: '#e9edf3', 200: '#cbd5e1', 300: '#aebbca', 400: '#8296ab',
+            500: '#5c7089', 600: '#44586e', 700: '#2f3f52', 800: '#1c2733', 900: '#131c26', 950: '#0a1420',
+          },
+          gold: {
+            50: '#fdf9ec', 100: '#f9f0cf', 200: '#f0e2b6', 300: '#e8c98a', 400: '#dcb45c',
+            500: '#c9a227', 600: '#a9861f', 700: '#8a6c19', 800: '#6b5314', 900: '#4a3a0e',
+          },
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root { color-scheme: light dark; }
+  html { scroll-behavior: smooth; }
+  body { background: #f7f5ef; }
+  .dark body { background: #0a1420; }
+
+  .accent-gradient { background: linear-gradient(135deg, #c9a227 0%, #dcb45c 100%); }
+  .accent-text-gradient { background: linear-gradient(135deg, #a9861f 0%, #c9a227 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .dark .accent-text-gradient { background: linear-gradient(135deg, #e8c98a 0%, #f0e2b6 100%); -webkit-background-clip: text; background-clip: text; }
+
+  .hero-bg {
+    background:
+      radial-gradient(circle at 12% 8%, rgba(201,162,39,0.10) 0%, transparent 45%),
+      radial-gradient(circle at 88% 92%, rgba(201,162,39,0.08) 0%, transparent 45%);
+  }
+  .dark .hero-bg {
+    background:
+      radial-gradient(circle at 12% 8%, rgba(201,162,39,0.16) 0%, transparent 45%),
+      radial-gradient(circle at 88% 92%, rgba(201,162,39,0.10) 0%, transparent 45%),
+      #0a1420;
+  }
+
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  .cover-frame { box-shadow: 0 20px 50px -20px rgba(10,20,32,0.45); }
+  .dark .cover-frame { box-shadow: 0 20px 60px -18px rgba(0,0,0,0.7); }
+
+  .pulse-ring { animation: pulseRing 2.4s ease-out infinite; }
+  @keyframes pulseRing {
+    0% { box-shadow: 0 0 0 0 rgba(201,162,39,0.45); }
+    70% { box-shadow: 0 0 0 14px rgba(201,162,39,0); }
+    100% { box-shadow: 0 0 0 0 rgba(201,162,39,0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .pulse-ring { animation: none; } }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); }
+
+  .skip-link:focus { transform: translateY(0); }
+
+  .formula { font-variant-numeric: tabular-nums; }
+</style>
+
+<body class="font-sans antialiased text-ink-800 dark:text-ink-100 selection:bg-gold-200 selection:text-ink-900">
+
+<a href="#main" class="skip-link fixed -translate-y-16 focus:translate-y-0 top-2 left-2 z-[100] bg-ink-900 text-white dark:bg-gold-500 dark:text-ink-950 px-4 py-2 rounded-lg text-sm font-semibold transition-transform">Skip to content</a>
+
+<!-- THEME TOGGLE -->
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode"
+  class="fixed z-50 bottom-5 right-5 h-11 w-11 rounded-full bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 shadow-lg flex items-center justify-center text-ink-600 dark:text-gold-300 hover:scale-105 transition-transform">
+  <svg id="icon-sun" class="h-5 w-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg id="icon-moon" class="h-5 w-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+</button>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 backdrop-blur bg-white/80 dark:bg-ink-950/80 border-b border-ink-100 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    <a href="https://projmgmtai.gumroad.com" class="flex items-center gap-2 font-extrabold tracking-tight text-ink-900 dark:text-white shrink-0">
+      <span class="h-7 w-7 rounded-md accent-gradient flex items-center justify-center text-ink-950 text-xs font-black">PM</span>
+      <span class="hidden sm:inline">PROJECT<span class="text-gold-600 dark:text-gold-400">MGMT</span>AI</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-ink-600 dark:text-ink-300">
+      <a href="#inside" class="hover:text-ink-900 dark:hover:text-white transition-colors">Inside the Guide</a>
+      <a href="#sample" class="hover:text-ink-900 dark:hover:text-white transition-colors">Sample Question</a>
+      <a href="#faq" class="hover:text-ink-900 dark:hover:text-white transition-colors">FAQ</a>
+    </nav>
+    <a data-gumroad-action="buy" href="#buy"
+      class="inline-flex items-center gap-1.5 rounded-full accent-gradient text-ink-950 text-sm font-bold px-4 py-2 hover:brightness-105 active:brightness-95 transition shrink-0">
+      Get the Guide
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero-bg">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-16 sm:pb-24 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
+    <div>
+      <div class="reveal inline-flex items-center gap-2 rounded-full border border-gold-500/40 bg-gold-50 dark:bg-gold-500/10 px-3.5 py-1.5 text-xs font-bold tracking-wide uppercase text-gold-700 dark:text-gold-300">
+        <span class="h-1.5 w-1.5 rounded-full bg-gold-500"></span>
+        PMP&reg; Exam Prep Series &middot; July 2026 ECO Aligned
+      </div>
+
+      <h1 class="reveal mt-5 font-serif font-black text-4xl sm:text-5xl leading-[1.08] tracking-tight text-ink-900 dark:text-white" style="transition-delay:.05s" data-gumroad-field="name">
+        Master Domain II, Task 6:<br class="hidden sm:block"> <span class="accent-text-gradient">Plan and Manage Finance</span>
+      </h1>
+
+      <p class="reveal mt-5 text-lg text-ink-600 dark:text-ink-300 max-w-xl" style="transition-delay:.1s">
+        53 original, scenario-based practice questions covering all seven of Task 6's ECO enablers &mdash;
+        financial needs, contingency and reserves, reporting and governance, and anticipating what's coming
+        &mdash; in both earned-value and agile-funding terms.
+      </p>
+
+      <div class="reveal mt-7 flex flex-wrap items-center gap-3" style="transition-delay:.15s">
+        <a data-gumroad-action="buy" href="#buy" id="hero-buy"
+          class="pulse-ring inline-flex items-center gap-2 rounded-xl accent-gradient text-ink-950 font-bold px-6 py-3.5 text-base hover:brightness-105 active:brightness-95 transition">
+          Get the Guide &mdash;
+          <span data-gumroad-field="price">$17.99</span>
+        </a>
+        <div class="flex items-center gap-1.5 text-sm text-ink-500 dark:text-ink-400">
+          <svg class="h-4 w-4 text-gold-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.958a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.368 2.447a1 1 0 00-.363 1.118l1.286 3.957c.3.922-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.196-1.538-1.118l1.285-3.957a1 1 0 00-.362-1.118L2.05 9.385c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.951-.69l1.286-3.958z"/></svg>
+          <span data-gumroad-field="rating,review-count">Be the first to review</span>
+        </div>
+      </div>
+
+      <ul class="reveal mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm" style="transition-delay:.2s">
+        <li class="rounded-xl border border-ink-200 dark:border-ink-700 bg-white/70 dark:bg-ink-900/50 px-3 py-2.5 text-center">
+          <div class="font-serif font-black text-xl text-ink-900 dark:text-white">53</div>
+          <div class="text-ink-500 dark:text-ink-400 text-xs mt-0.5">Practice Qs</div>
+        </li>
+        <li class="rounded-xl border border-ink-200 dark:border-ink-700 bg-white/70 dark:bg-ink-900/50 px-3 py-2.5 text-center">
+          <div class="font-serif font-black text-xl text-ink-900 dark:text-white">7</div>
+          <div class="text-ink-500 dark:text-ink-400 text-xs mt-0.5">ECO Enablers</div>
+        </li>
+        <li class="rounded-xl border border-ink-200 dark:border-ink-700 bg-white/70 dark:bg-ink-900/50 px-3 py-2.5 text-center">
+          <div class="font-serif font-black text-xl text-ink-900 dark:text-white">29</div>
+          <div class="text-ink-500 dark:text-ink-400 text-xs mt-0.5">Page PDF</div>
+        </li>
+        <li class="rounded-xl border border-ink-200 dark:border-ink-700 bg-white/70 dark:bg-ink-900/50 px-3 py-2.5 text-center">
+          <div class="font-serif font-black text-xl text-ink-900 dark:text-white">100%</div>
+          <div class="text-ink-500 dark:text-ink-400 text-xs mt-0.5">Rationale Covered</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="reveal" style="transition-delay:.1s">
+      <img src="https://public-files.gumroad.com/opbskuunkmcab2fu0rb9ncj64edf" alt="PMP Study Guide cover: Domain II, Process, Task 6 — Plan and Manage Finance" class="cover-frame w-full max-w-md mx-auto rounded-2xl" width="600" height="600" loading="eager">
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINT -->
+<section class="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-16 text-center">
+  <p class="reveal font-serif font-bold text-2xl sm:text-3xl text-ink-900 dark:text-white leading-snug">
+    Financial questions on the PMP exam aren't just "calculate the CPI."
+  </p>
+  <p class="reveal mt-4 text-ink-600 dark:text-ink-300 max-w-2xl mx-auto" style="transition-delay:.05s">
+    They're about judgment: which reserve applies, when a variance needs to go through governance, how to
+    anticipate a cost problem before it hits. This guide drills all seven of Task 6's enablers as decisions a PM
+    actually has to make &mdash; not just formulas to memorize.
+  </p>
+</section>
+
+<!-- INSIDE THE GUIDE -->
+<section id="inside" class="bg-white dark:bg-ink-900/40 border-y border-ink-100 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 grid lg:grid-cols-[0.55fr_0.45fr] gap-10 items-center">
+    <div class="order-2 lg:order-1">
+      <h2 class="reveal text-2xl sm:text-3xl font-serif font-bold tracking-tight text-ink-900 dark:text-white">6 sections, fully mapped to the ECO</h2>
+      <p class="reveal mt-3 text-ink-600 dark:text-ink-300" style="transition-delay:.05s">
+        Every question is tagged to a named ECO enabler, so you always know exactly what you're being tested on
+        and why &mdash; not a generic question bank.
+      </p>
+      <ol class="mt-8 space-y-5">
+        <li class="reveal relative ps-9" style="transition-delay:.06s">
+          <span class="absolute -start-0.5 top-0 h-7 w-7 rounded-full accent-gradient text-ink-950 text-xs font-black flex items-center justify-center">1</span>
+          <p class="font-semibold text-ink-900 dark:text-white">Analyzing Financial Needs &amp; Spend Tracking <span class="text-ink-400 dark:text-ink-500 font-normal text-sm">&middot; 10 questions</span></p>
+          <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Grounding the budget in real cost drivers, then tracking spend against it.</p>
+        </li>
+        <li class="reveal relative ps-9" style="transition-delay:.08s">
+          <span class="absolute -start-0.5 top-0 h-7 w-7 rounded-full accent-gradient text-ink-950 text-xs font-black flex items-center justify-center">2</span>
+          <p class="font-semibold text-ink-900 dark:text-white">Quantifying Risk, Contingency &amp; Reserves <span class="text-ink-400 dark:text-ink-500 font-normal text-sm">&middot; 10 questions</span></p>
+          <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Contingency vs. management reserve &mdash; and knowing which one to reach for.</p>
+        </li>
+        <li class="reveal relative ps-9" style="transition-delay:.1s">
+          <span class="absolute -start-0.5 top-0 h-7 w-7 rounded-full accent-gradient text-ink-950 text-xs font-black flex items-center justify-center">3</span>
+          <p class="font-semibold text-ink-900 dark:text-white">Financial Reporting &amp; Governance Monitoring <span class="text-ink-400 dark:text-ink-500 font-normal text-sm">&middot; 10 questions</span></p>
+          <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Planning reporting cadence, and working variance through governance &mdash; not around it.</p>
+        </li>
+        <li class="reveal relative ps-9" style="transition-delay:.12s">
+          <span class="absolute -start-0.5 top-0 h-7 w-7 rounded-full accent-gradient text-ink-950 text-xs font-black flex items-center justify-center">4</span>
+          <p class="font-semibold text-ink-900 dark:text-white">Anticipating Future Finance Challenges <span class="text-ink-400 dark:text-ink-500 font-normal text-sm">&middot; 10 questions</span></p>
+          <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Including agile-specific concepts: cost of delay and release-based funding constraints.</p>
+        </li>
+        <li class="reveal relative ps-9" style="transition-delay:.14s">
+          <span class="absolute -start-0.5 top-0 h-7 w-7 rounded-full accent-gradient text-ink-950 text-xs font-black flex items-center justify-center">5</span>
+          <p class="font-semibold text-ink-900 dark:text-white">Integrated Case Study <span class="text-ink-400 dark:text-ink-500 font-normal text-sm">&middot; 3 linked questions</span></p>
+          <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">One scenario blending finance, procurement, and project status &mdash; the way real projects mix domains.</p>
+        </li>
+        <li class="reveal relative ps-9" style="transition-delay:.16s">
+          <span class="absolute -start-0.5 top-0 h-7 w-7 rounded-full border-2 border-gold-500 text-gold-600 dark:text-gold-300 text-xs font-black flex items-center justify-center">A</span>
+          <p class="font-semibold text-ink-900 dark:text-white">Appendix: Supporting Financial Techniques <span class="text-ink-400 dark:text-ink-500 font-normal text-sm">&middot; 10 questions</span></p>
+          <p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Cost baseline, EVM formulas, forecasting, and a quick-reference glossary.</p>
+        </li>
+      </ol>
+    </div>
+    <div class="reveal order-1 lg:order-2" style="transition-delay:.1s">
+      <img src="https://public-files.gumroad.com/eu9erxnueae6bezz4phv8g761z3e" alt="Guide contents: 6 sections mapped to the ECO, from Analyzing Financial Needs through the Appendix" class="w-full max-w-sm mx-auto rounded-2xl border border-ink-200 dark:border-ink-800 shadow-xl shadow-ink-900/10 dark:shadow-black/40" width="600" height="600" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- EVM FORMULAS -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 grid lg:grid-cols-[0.45fr_0.55fr] gap-10 items-center">
+  <div class="reveal">
+    <img src="https://public-files.gumroad.com/6linhponbz9g84zg62mbdv1i89ez" alt="From analysis to governance, covered: 7 ECO enablers, 53 practice questions" class="w-full max-w-sm mx-auto rounded-2xl border border-ink-200 dark:border-ink-800 shadow-xl shadow-ink-900/10 dark:shadow-black/40" width="600" height="600" loading="lazy">
+  </div>
+  <div>
+    <h2 class="reveal text-2xl sm:text-3xl font-serif font-bold tracking-tight text-ink-900 dark:text-white">Every EVM formula, explained &mdash; not just listed</h2>
+    <p class="reveal mt-3 text-ink-600 dark:text-ink-300" style="transition-delay:.05s">
+      CPI and SPI show up in every PMP prep resource. This guide goes further: what CV and CPI actually tell
+      you, how EAC/ETC/VAC build into a forward-looking forecast, and what replaces detailed earned value
+      tracking in an adaptive environment &mdash; velocity and cost per iteration against a stable team run rate.
+    </p>
+    <div class="mt-6 overflow-x-auto rounded-xl border border-ink-200 dark:border-ink-800">
+      <table class="w-full text-sm min-w-[420px] bg-white dark:bg-ink-900 formula">
+        <thead class="bg-ink-100 dark:bg-ink-800 text-ink-500 dark:text-ink-400 text-xs uppercase tracking-wide">
+          <tr><th class="text-left font-semibold px-3.5 py-2.5">Metric</th><th class="text-left font-semibold px-3.5 py-2.5">What it tells you</th></tr>
+        </thead>
+        <tbody class="divide-y divide-ink-200 dark:divide-ink-800">
+          <tr><td class="px-3.5 py-2 font-medium">CV / CPI</td><td class="px-3.5 py-2 text-ink-600 dark:text-ink-300">Cost variance and efficiency</td></tr>
+          <tr><td class="px-3.5 py-2 font-medium">SV / SPI</td><td class="px-3.5 py-2 text-ink-600 dark:text-ink-300">Schedule performance, in EV terms</td></tr>
+          <tr><td class="px-3.5 py-2 font-medium">EAC / ETC / VAC</td><td class="px-3.5 py-2 text-ink-600 dark:text-ink-300">Forecast to completion</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORTING TECHNIQUES -->
+<section class="bg-white dark:bg-ink-900/40 border-y border-ink-100 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <div class="reveal max-w-2xl">
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-ink-900 dark:text-white">Tools you'll practice using, not just define</h2>
+      <p class="mt-3 text-ink-600 dark:text-ink-300">The appendix builds the supporting techniques behind Task 6's enablers &mdash; useful even though the ECO doesn't name them directly.</p>
+    </div>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 p-5"><p class="font-semibold text-ink-900 dark:text-white">Cost Baseline</p><p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">The approved, time-phased budget.</p></div>
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 p-5" style="transition-delay:.04s"><p class="font-semibold text-ink-900 dark:text-white">CV / CPI &amp; SV / SPI</p><p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">Cost and schedule performance, in EV terms.</p></div>
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 p-5" style="transition-delay:.08s"><p class="font-semibold text-ink-900 dark:text-white">EAC / ETC / VAC / TCPI</p><p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">A full forecasting family, not just EAC.</p></div>
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 p-5" style="transition-delay:.12s"><p class="font-semibold text-ink-900 dark:text-white">Contingency vs. Management Reserve</p><p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">Identified risk vs. unidentified risk &mdash; and whose approval each needs.</p></div>
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 p-5" style="transition-delay:.16s"><p class="font-semibold text-ink-900 dark:text-white">Governance vs. Change Control</p><p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">Related, but not the same thing &mdash; a distinction this guide makes explicit.</p></div>
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 p-5" style="transition-delay:.2s"><p class="font-semibold text-ink-900 dark:text-white">Velocity &amp; Cost per Iteration</p><p class="mt-1.5 text-sm text-ink-600 dark:text-ink-300">The adaptive-context equivalent of detailed EVM.</p></div>
+    </div>
+    <div class="mt-8 flex justify-center">
+      <img src="https://public-files.gumroad.com/upqzdk8tu8qsnkum6dp4r2hu1mrt" alt="Supporting techniques grid: cost baseline, CV/CPI, EAC/ETC/VAC, contingency vs management reserve, velocity and cost per iteration" class="w-full max-w-md rounded-2xl border border-ink-200 dark:border-ink-800 shadow-xl shadow-ink-900/10 dark:shadow-black/40 reveal" width="600" height="600" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE QUESTION -->
+<section id="sample" class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="reveal text-center max-w-2xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-ink-900 dark:text-white">See exactly what you're getting</h2>
+    <p class="mt-3 text-ink-600 dark:text-ink-300">Every question comes with full rationale &mdash; including why each wrong answer is wrong, not just why the right one is right. Here's an actual question from Section 4 of the guide.</p>
+  </div>
+
+  <div class="reveal mt-8 rounded-2xl border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900 shadow-xl shadow-ink-900/10 dark:shadow-black/40 overflow-hidden">
+    <div class="px-5 sm:px-7 py-3 bg-ink-50 dark:bg-ink-800/60 border-b border-ink-200 dark:border-ink-800 flex items-center justify-between">
+      <span class="text-xs font-bold uppercase tracking-wide text-gold-700 dark:text-gold-300">Section 4 &middot; Q9</span>
+      <span class="text-xs text-ink-400 dark:text-ink-500">Domain II, Task 6</span>
+    </div>
+    <div class="px-5 sm:px-7 py-6">
+      <p class="text-ink-800 dark:text-ink-100">
+        A product owner is deciding whether to pull a high-value feature forward in the backlog. The feature has
+        been delayed twice already, and each additional sprint of delay has a real, estimable cost to the business
+        in lost value. What financial concept does this situation illustrate, and why might it matter to
+        anticipating finance challenges?
+      </p>
+      <div class="mt-5 space-y-2.5 text-sm">
+        <div class="flex gap-2.5 items-start text-ink-600 dark:text-ink-400"><span class="font-bold w-5 shrink-0">A</span><span>Sunk cost &mdash; the money already spent on the feature, which should be the deciding factor</span></div>
+        <div class="flex gap-2.5 items-start rounded-lg bg-gold-50 dark:bg-gold-500/10 border border-gold-300 dark:border-gold-500/40 px-3 py-2.5 text-ink-900 dark:text-gold-100 font-medium"><span class="font-bold w-5 shrink-0 text-gold-700 dark:text-gold-300">B</span><span>Cost of delay &mdash; the ongoing cost of NOT delivering a feature, which grows the longer a valuable item sits unaddressed; anticipating that a delay carries a real, growing cost is itself a finance challenge worth factoring into prioritization</span></div>
+        <div class="flex gap-2.5 items-start text-ink-600 dark:text-ink-400"><span class="font-bold w-5 shrink-0">C</span><span>Cost of delay applies only to predictive projects, never to backlog-based work</span></div>
+        <div class="flex gap-2.5 items-start text-ink-600 dark:text-ink-400"><span class="font-bold w-5 shrink-0">D</span><span>The feature's cost of delay is irrelevant to financial planning, since it hasn't been built yet</span></div>
+      </div>
+      <details class="mt-5 group">
+        <summary class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-700 dark:text-gold-300 hover:text-gold-800 dark:hover:text-gold-200">
+          Show full rationale
+          <svg class="chev h-4 w-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300 leading-relaxed border-t border-ink-100 dark:border-ink-800 pt-3">
+          <strong class="text-ink-800 dark:text-ink-100">Answer: B</strong> &mdash; Cost of delay captures the real, growing cost of NOT delivering a valuable item, which makes delay itself a financial consideration worth anticipating rather than only a scheduling one &mdash; sunk cost looks backward at money already spent and isn't the deciding factor for what to do next (contradicting A), cost of delay is a general prioritization concept, not limited to predictive projects (contradicting C), and a feature not yet built can still carry a real, estimable cost of delay (contradicting D).
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / GROUNDED -->
+<section class="bg-white dark:bg-ink-900/40 border-y border-ink-100 dark:border-ink-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <div class="reveal">
+      <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-ink-900 dark:text-white">Built directly from the July 2026 ECO</h2>
+      <p class="mt-3 text-ink-600 dark:text-ink-300">This isn't a generic question bank recycled with new labels. Every question maps to one of Task 6's seven named enablers &mdash; and the guide is explicit throughout about what's PMI's own wording versus the author's instructional interpretation, including a dedicated content-labeling table and source citation.</p>
+    </div>
+    <div class="mt-8 grid sm:grid-cols-3 gap-4">
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 p-5"><p class="font-serif font-black text-2xl text-gold-600 dark:text-gold-400">7</p><p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Official ECO enablers, all covered</p></div>
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 p-5" style="transition-delay:.05s"><p class="font-serif font-black text-2xl text-gold-600 dark:text-gold-400">41%</p><p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Domain II's weight on the July 2026 exam</p></div>
+      <div class="reveal rounded-xl border border-ink-200 dark:border-ink-800 p-5" style="transition-delay:.1s"><p class="font-serif font-black text-2xl text-gold-600 dark:text-gold-400">1</p><p class="mt-1 text-sm text-ink-600 dark:text-ink-300">Integrated case study, PMI's Case/Scenario style</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+  <div class="reveal rounded-2xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start">
+    <div class="h-14 w-14 shrink-0 rounded-full accent-gradient flex items-center justify-center text-ink-950 font-serif font-black text-xl">TD</div>
+    <div>
+      <p class="font-semibold text-ink-900 dark:text-white">About the Author</p>
+      <p class="mt-2 text-sm text-ink-600 dark:text-ink-300 leading-relaxed">
+        Thomas J. Dickie is a certified Project Management Professional (PMP)&reg; and Certified ScrumMaster
+        (CSM)&reg; with more than 25 years of project management experience, including over a decade managing
+        projects in the healthcare industry. This guide is part of a series built from the ground up against
+        PMI's actual July 2026 Examination Content Outline &mdash; not lightly edited from older material.
+      </p>
+      <p class="mt-3 text-xs text-ink-400 dark:text-ink-500">
+        Independent study guide. Not sponsored, endorsed by, or affiliated with the Project Management
+        Institute (PMI). "PMI" and "PMP" are marks of Project Management Institute, Inc.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="bg-white dark:bg-ink-900/40 border-y border-ink-100 dark:border-ink-800">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+    <h2 class="reveal text-2xl sm:text-3xl font-serif font-bold tracking-tight text-ink-900 dark:text-white text-center">Questions, answered</h2>
+    <div class="mt-8 space-y-3">
+      <details class="reveal group rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 px-5 py-4">
+        <summary class="flex items-center justify-between gap-4 font-semibold text-ink-900 dark:text-white">
+          Does this cover the whole PMP exam?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform text-ink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">No &mdash; this guide focuses on one task, Domain II Task 6, inside a larger series covering the full July 2026 ECO across all three domains. Treat it as one focused component of a broader study plan, not standalone exam prep.</p>
+      </details>
+      <details class="reveal group rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 px-5 py-4" style="transition-delay:.04s">
+        <summary class="flex items-center justify-between gap-4 font-semibold text-ink-900 dark:text-white">
+          Is this official PMI material?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform text-ink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">No. This is an independent study guide built directly from PMI's published July 2026 Examination Content Outline. It's not sponsored, endorsed by, or affiliated with PMI. Official ECO wording is quoted and cited where used; everything else is the author's own instructional interpretation, clearly labeled as such throughout.</p>
+      </details>
+      <details class="reveal group rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 px-5 py-4" style="transition-delay:.08s">
+        <summary class="flex items-center justify-between gap-4 font-semibold text-ink-900 dark:text-white">
+          Do I need to be strong in finance or accounting to use this?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform text-ink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">No. Every formula and term is explained from the ground up, including a quick-reference glossary in the appendix (BAC, EV, PV, AC, CV, CPI, SV, SPI, EAC, ETC, VAC, reserves, and governance). No prior accounting background is assumed.</p>
+      </details>
+      <details class="reveal group rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 px-5 py-4" style="transition-delay:.12s">
+        <summary class="flex items-center justify-between gap-4 font-semibold text-ink-900 dark:text-white">
+          What format is the download?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform text-ink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">A 29-page PDF, instant download after purchase &mdash; readable on any device, printable, and easy to drop into your own study folder.</p>
+      </details>
+      <details class="reveal group rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/60 dark:bg-ink-900 px-5 py-4" style="transition-delay:.16s">
+        <summary class="flex items-center justify-between gap-4 font-semibold text-ink-900 dark:text-white">
+          Do the questions match PMI's exact scoring or item style?
+          <svg class="chev h-4 w-4 shrink-0 transition-transform text-ink-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-300">These are original practice questions written by the author, mapped to named ECO enablers &mdash; they aren't PMI exam questions and don't represent PMI's scoring or item construction. The integrated case study uses an original multi-question scenario; it isn't a reconstruction of PMI's Case/Scenario item format, length, or scoring.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA / BUY -->
+<section id="buy" class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+  <div class="reveal rounded-3xl accent-gradient p-8 sm:p-12 text-center text-ink-950 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background-image:radial-gradient(circle,#0a1420 1px,transparent 1px);background-size:16px 16px;" aria-hidden="true"></div>
+    <div class="relative">
+      <h2 class="font-serif font-black text-3xl sm:text-4xl">Get exam-ready on Task 6</h2>
+      <p class="mt-3 text-ink-900/80 max-w-xl mx-auto">53 practice questions, full rationale on every answer, and a case study blending finance, procurement, and project status &mdash; instant PDF download.</p>
+      <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a data-gumroad-action="buy"
+          class="inline-flex items-center gap-2 rounded-xl bg-ink-950 text-white font-bold px-7 py-4 text-base hover:bg-ink-800 active:bg-ink-900 transition">
+          Get the Guide &mdash; <span data-gumroad-field="price">$17.99</span>
+        </a>
+      </div>
+      <p class="mt-4 text-xs text-ink-900/70">Instant download &middot; PDF &middot; Refunds per Gumroad policy</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-ink-100 dark:border-ink-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ink-500 dark:text-ink-400">
+    <a href="https://projmgmtai.gumroad.com" class="font-bold text-ink-700 dark:text-ink-200">PROJECT<span class="text-gold-600 dark:text-gold-400">MGMT</span>AI</a>
+    <p class="text-center">Independent study guide &middot; not affiliated with or endorsed by PMI.</p>
+    <a href="https://projmgmtai.gumroad.com" class="hover:text-ink-800 dark:hover:text-white transition-colors">More guides &rarr;</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem('gr-theme'); } catch (e) {}
+    function apply(mode) {
+      if (mode === 'dark') { root.classList.add('dark'); }
+      else if (mode === 'light') { root.classList.remove('dark'); }
+      else {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
+        else root.classList.remove('dark');
+      }
+      var isDark = root.classList.contains('dark');
+      var sun = document.getElementById('icon-sun'), moon = document.getElementById('icon-moon');
+      if (sun && moon) { sun.classList.toggle('hidden', !isDark); moon.classList.toggle('hidden', isDark); }
+    }
+    apply(stored);
+    var btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var next = root.classList.contains('dark') ? 'light' : 'dark';
+        apply(next);
+        try { localStorage.setItem('gr-theme', next); } catch (e) {}
+      });
+    }
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+      var els = document.querySelectorAll('.reveal');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
+</script>
+</body>
